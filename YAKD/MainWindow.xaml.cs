@@ -27,6 +27,7 @@ namespace YAKD
             InitializeMainWindow(settings);
             InitializeKeyDisplayerForm(settings);
             keyDisplayerForm.Show();
+            Focus();
         }
 
         #region Control handlers
