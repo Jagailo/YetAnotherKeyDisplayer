@@ -7,6 +7,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using YAKD.Utils;
+using MessageBox = System.Windows.Forms.MessageBox;
+using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
+using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
+using MessageBoxResult = System.Windows.Forms.DialogResult;
 
 namespace YAKD
 {
@@ -24,6 +28,7 @@ namespace YAKD
             comboBoxFill = false;
             InitializeComponent();
             comboBoxFill = true;
+            System.Windows.Forms.Application.EnableVisualStyles();
             InitializeMainWindow(settings);
             InitializeKeyDisplayerForm(settings);
             keyDisplayerForm.Show();
