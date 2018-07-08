@@ -1,0 +1,16 @@
+﻿<Window x:Class="YAKD.KeyDisplayerForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YAKD"
+        mc:Ignorable="d"
+        Title="Key Displayer"
+        AllowsTransparency="True" WindowStyle="None"
+        MouseLeftButtonDown="WindowMouseLeftButtonDown"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        Topmost="True">
+    <Grid Margin="10">
+        <TextBlock x:Name="keysTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
+</Window>

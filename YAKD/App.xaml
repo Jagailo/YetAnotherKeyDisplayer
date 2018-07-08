@@ -1,0 +1,12 @@
+﻿<Application x:Class="YAKD.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:YAKD"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <FontFamily x:Key="RobotoLight">pack://application:,,,/Fonts/#Roboto Light</FontFamily>
+        <FontFamily x:Key="RobotoMedium">pack://application:,,,/Fonts/#Roboto Medium</FontFamily>
+        <FontFamily x:Key="RobotoRegular">pack://application:,,,/Fonts/#Roboto</FontFamily>
+        <FontFamily x:Key="RobotoThin">pack://application:,,,/Fonts/#Roboto Thin</FontFamily>
+    </Application.Resources>
+</Application>
