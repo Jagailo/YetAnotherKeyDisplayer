@@ -163,7 +163,7 @@ namespace YAKD
             SaveSettingsToFile(Properties.Settings.Default);
         }
 
-        private void KeyDisplayerForm_Closing(object sender, CancelEventArgs e)
+        private void KeyDisplayerForm_Closed(object sender, EventArgs e)
         {
             ShowHideWindowButton.Content = "Show";
         }
@@ -186,7 +186,7 @@ namespace YAKD
             keyDisplayerForm = new KeyDisplayerForm(settings);
             keyDisplayerForm.LocationChanged += KeyDisplayerForm_LocationChanged;
             keyDisplayerForm.SizeChanged += KeyDisplayerForm_SizeChanged;
-            keyDisplayerForm.Closing += KeyDisplayerForm_Closing;
+            keyDisplayerForm.Closed += KeyDisplayerForm_Closed;
         }
 
         private void UpdateKeyDisplayerForm()
