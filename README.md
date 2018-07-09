@@ -5,4 +5,4 @@ The program for displaying the pressed keys of the keyboard.
 
 # Download
 
-[The latest release](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
+[YAKD v.1.0 [0.8 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
