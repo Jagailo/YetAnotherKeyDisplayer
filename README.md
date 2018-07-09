@@ -1,3 +1,5 @@
+![YAKD](https://i.imgur.com/iaQGSmC.png)
+
 # YAKD - Yet Another Key Displayer
 The program for displaying the pressed keys of the keyboard.
 
