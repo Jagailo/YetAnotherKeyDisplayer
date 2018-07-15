@@ -169,6 +169,7 @@ namespace YAKD
         {
             keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
+            RTSSHandler.KillRTSS();
         }
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)

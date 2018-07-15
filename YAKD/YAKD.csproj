@@ -107,7 +107,7 @@
     <Compile Include="Utils\KeyboardHook.cs" />
     <Compile Include="Utils\KeyDisplayerSettings.cs" />
     <Compile Include="Utils\KeyList.cs" />
-    <Compile Include="Utils\RivaTuner.cs" />
+    <Compile Include="Utils\RTSSHandler.cs" />
     <Compile Include="Utils\Transfer.cs" />
     <Page Include="ColorPicker.xaml">
       <SubType>Designer</SubType>
