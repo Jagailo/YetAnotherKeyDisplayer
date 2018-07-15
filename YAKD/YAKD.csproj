@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon48.ico</ApplicationIcon>
@@ -104,6 +107,7 @@
     <Compile Include="Utils\KeyboardHook.cs" />
     <Compile Include="Utils\KeyDisplayerSettings.cs" />
     <Compile Include="Utils\KeyList.cs" />
+    <Compile Include="Utils\RivaTuner.cs" />
     <Compile Include="Utils\Transfer.cs" />
     <Page Include="ColorPicker.xaml">
       <SubType>Designer</SubType>
@@ -179,6 +183,11 @@
   <ItemGroup>
     <Resource Include="Images\ColorSwatchSquare.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RTSSCustomOSD\RTSS.vcxproj">
+      <Project>{53939d64-d853-4b4c-a4f9-2fce48502725}</Project>
+      <Name>RTSS</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
