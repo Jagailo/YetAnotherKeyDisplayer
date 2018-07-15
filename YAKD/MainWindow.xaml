@@ -158,10 +158,12 @@
                 </Grid>
                 <CheckBox x:Name="DemoKeysCheckBox" Grid.Column="1" Grid.Row="0"
                           Content="Show demo keys" VerticalAlignment="Center" Margin="9,5,0,5"
-                          VerticalContentAlignment="Center" Click="DemoKeysCheckBox_Click" />
+                          VerticalContentAlignment="Center" Click="DemoKeysCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
                 <CheckBox x:Name="ResizeCheckBox" Grid.Column="1" Grid.Row="1"
                           Content="Changing the size" VerticalAlignment="Center" Margin="9,5,0,5"
-                          VerticalContentAlignment="Center" Click="ResizeCheckBox_Click" />
+                          VerticalContentAlignment="Center" Click="ResizeCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
 
@@ -260,7 +262,7 @@
         </Grid>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,0">
-            <TextBlock HorizontalAlignment="Left" Text="YAKD v.1.0 by Jagailo - " VerticalAlignment="Top" FontSize="11" />
+            <TextBlock HorizontalAlignment="Left" Text="YAKD v.1.1 by Jagailo - " VerticalAlignment="Top" FontSize="11" />
             <TextBlock HorizontalAlignment="Left" Text="about" VerticalAlignment="Top" FontSize="11"
                        Cursor="Hand" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
                        Style="{StaticResource HoverUnderlineStyle}" />

@@ -67,6 +67,14 @@ namespace YAKD
             }
         }
 
+        private void CheckBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void DemoKeysCheckBox_Click(object sender, RoutedEventArgs e)
         {
             settings.EnableDemoKeys(DemoKeysCheckBox.IsChecked);
