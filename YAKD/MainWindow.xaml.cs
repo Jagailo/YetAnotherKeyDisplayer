@@ -37,6 +37,28 @@ namespace YAKD
 
         #region Control handlers
 
+        private void RTSSRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            EnableDisableControls(false);
+
+
+            //try
+            //{
+            //    RTSSHandler.Print(" " + keysTextBlock.Text + " ");
+            //}
+            //catch (Exception exc)
+            //{
+            //    MessageBox.Show(exc.Message);
+            //}
+
+
+        }
+
+        private void WindowRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            EnableDisableControls(true);
+        }
+
         private void BackgroundColorRectangle_Click(object sender, RoutedEventArgs e)
         {
             ColorPickerWindow colorPickerWindow = new ColorPickerWindow(settings.BackgroundColor);
@@ -169,7 +191,7 @@ namespace YAKD
         {
             keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
-            RTSSHandler.KillRTSS();
+            //RTSSHandler.KillRTSS();
         }
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)
@@ -271,6 +293,31 @@ namespace YAKD
             }
             catch { }
             fileSettings.Save();
+        }
+
+        private void EnableDisableControls(bool state)
+        {
+            BackgroundColorRectangle.IsEnabled =
+                OpacitySlider.IsEnabled =
+                OpacityTextBox.IsEnabled =
+                DemoKeysCheckBox.IsEnabled =
+                ResizeCheckBox.IsEnabled =
+                FontComboBox.IsEnabled =
+                FontSizeTextBox.IsEnabled =
+                FontColorRectangle.IsEnabled =
+                ShowHideWindowButton.IsEnabled =
+                DefaultSettingsButton.IsEnabled = state;
+
+            if (state && !keyDisplayerForm.IsVisible)
+            {
+                InitializeKeyDisplayerForm(settings);
+                keyDisplayerForm.Show();
+                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+            }
+            else if (!state && keyDisplayerForm.IsVisible)
+            {
+                keyDisplayerForm.Close();
+            }
         }
     }
 }

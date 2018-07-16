@@ -178,5 +178,29 @@ namespace YAKD.Properties {
                 this["StartupPoint"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTSSEnabled {
+            get {
+                return ((bool)(this["RTSSEnabled"]));
+            }
+            set {
+                this["RTSSEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RTSSPath {
+            get {
+                return ((string)(this["RTSSPath"]));
+            }
+            set {
+                this["RTSSPath"] = value;
+            }
+        }
     }
 }

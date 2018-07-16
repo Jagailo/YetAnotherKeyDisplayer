@@ -9,7 +9,7 @@ namespace YAKD.Utils
     public static class RTSSHandler
     {
         public static string RTSSPath { get; set; }
-        public static Process RTSSInstance;
+        private static Process RTSSInstance;
         static OSD osd;        
 
         static RTSSHandler()
@@ -19,8 +19,6 @@ namespace YAKD.Utils
 
             osd = new OSD("YAKDOSD");
             osd.Update("");
-
-            AppDomain.CurrentDomain.ProcessExit += RTSSHandler_Dtor;
         }
 
         public static void Print(string text)
@@ -68,11 +66,6 @@ namespace YAKD.Utils
                 proc[0].Kill();
             }
             catch (Exception) { }
-        }
-
-        static void RTSSHandler_Dtor(object sender, EventArgs e)
-        {
-            KillRTSS();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -29,7 +28,6 @@ namespace YAKD
             keyboardHook.KeyUp += new KeyboardHook.HookEventHandler(OnHookKeyUp);
 
             keys = new List<string>();
-
         }
 
         public void InitializeSettings(KeyDisplayerSettings settings)
@@ -97,15 +95,6 @@ namespace YAKD
                     {
                         keysTextBlock.Text += " + ";
                     }
-                }
-
-                try
-                {
-                    RTSSHandler.Print(" " + keysTextBlock.Text + " ");
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
                 }
             }
         }
