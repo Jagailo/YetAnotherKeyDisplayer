@@ -9,7 +9,7 @@
         Height="500" Width="400" MinWidth="381" MinHeight="410"
         WindowStartupLocation="CenterScreen" Closing="Window_Closing"
         Background="#F5F5F5" Foreground="#1E1E1E"
-        FontFamily="{StaticResource RobotoRegular}" FontSize="14">
+        FontFamily="{StaticResource RobotoRegular}" FontSize="14" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="ColorPickerButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />

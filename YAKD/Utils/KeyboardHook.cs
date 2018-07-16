@@ -109,6 +109,8 @@ namespace YAKD.Utils
             {
                 UnhookWindowsHookEx(_hookHandle);
                 _hookHandle = IntPtr.Zero;
+
+                KeyDown = KeyUp = null;
             }
         }
     }

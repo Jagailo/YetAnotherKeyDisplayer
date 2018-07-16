@@ -3,6 +3,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using MessageBox = System.Windows.Forms.MessageBox;
+using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
+using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
 
 namespace YAKD.Utils
 {
@@ -14,35 +17,45 @@ namespace YAKD.Utils
 
         static RTSSHandler()
         {
-            RTSSPath = @"C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe";
-            RunRTSS();
-
-            osd = new OSD("YAKDOSD");
-            osd.Update("");
+            RTSSPath = @"C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe";            
         }
 
         public static void Print(string text)
         {
-            RunRTSS(); // Just in case
-            osd.Update(text);
+            if (IsRTSSRunning() && osd != null)
+            {
+                osd.Update(text);
+            }
         }
 
         public static void RunRTSS()
         {
-            if (!IsRTSSRunning())
+            if (RTSSInstance == null && !IsRTSSRunning() && File.Exists(RTSSPath))
             {
-                FileInfo rtssFile = new FileInfo(RTSSPath);
-                if (File.Exists(RTSSPath))
+                try
                 {
-                    try
-                    {
-                        RTSSInstance = Process.Start(rtssFile.FullName);
-                        Thread.Sleep(2000); // For what? Idk
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    RTSSInstance = Process.Start(RTSSPath);
+                    Thread.Sleep(2000); // For what? Idk. If it works, don't touch it
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                RunOSD();
+            }
+        }
+
+        public static void RunOSD()
+        {
+            if (osd == null)
+            {
+                try
+                {
+                    osd = new OSD("YAKDOSD");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message, "Could not start the OSD", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -54,18 +67,20 @@ namespace YAKD.Utils
 
         public static void KillRTSS()
         {
-            if (RTSSInstance == null)
+            if (RTSSInstance != null)
             {
-                return;
+                try
+                {
+                    RTSSInstance.Kill();
+                    RTSSInstance = null;
+                    Process[] proc = Process.GetProcessesByName("RTSSHooksLoader64");
+                    proc[0].Kill();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message, "Failed to close RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            try
-            {
-                RTSSInstance.Kill();
-                RTSSInstance = null;
-                Process[] proc = Process.GetProcessesByName("RTSSHooksLoader64");
-                proc[0].Kill();
-            }
-            catch (Exception) { }
         }
     }
 }

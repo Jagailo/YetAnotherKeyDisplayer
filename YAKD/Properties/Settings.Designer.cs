@@ -61,7 +61,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Arial")]
         public string FontFamily {
             get {
                 return ((string)(this["FontFamily"]));
@@ -193,7 +193,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\RivaTuner Statistics Server\\RTSS.exe")]
         public string RTSSPath {
             get {
                 return ((string)(this["RTSSPath"]));
