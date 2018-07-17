@@ -11,12 +11,12 @@ using namespace System::Security::Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("RTSS")];
+[assembly:AssemblyTitleAttribute("RTSSSharedMemoryNET")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("")];
-[assembly:AssemblyProductAttribute("RTSS")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c)")];
+[assembly:AssemblyProductAttribute("RTSSSharedMemoryNET")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) Spencer Hakim 2014")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 

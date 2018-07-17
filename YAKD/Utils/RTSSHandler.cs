@@ -1,4 +1,4 @@
-﻿using RTSS;
+﻿using RTSSSharedMemoryNET;
 using System;
 using System.Diagnostics;
 using System.IO;

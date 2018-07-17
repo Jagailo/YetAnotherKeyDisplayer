@@ -4,7 +4,7 @@ using namespace System;
 using namespace System::Drawing;
 using namespace System::Diagnostics;
 
-namespace RTSS {
+namespace RTSSSharedMemoryNET {
     [Flags]
     public enum class AppFlags
     {
@@ -44,6 +44,7 @@ namespace RTSS {
         RequestCaptureProgress = VIDEOCAPTUREFLAG_REQUEST_CAPTURE_PROGRESS,
         RequestCaptureStop     = VIDEOCAPTUREFLAG_REQUEST_CAPTURE_STOP,
         RequestCaptureOSD      = VIDEOCAPTUREFLAG_REQUEST_CAPTURE_OSD,
+
         INTERNAL_RESIZE = VIDEOCAPTUREFLAG_INTERNAL_RESIZE,
         MASK = (VIDEOCAPTUREFLAG_REQUEST_CAPTURE_START | VIDEOCAPTUREFLAG_REQUEST_CAPTURE_PROGRESS | VIDEOCAPTUREFLAG_REQUEST_CAPTURE_STOP),
     };
@@ -125,6 +126,4 @@ namespace RTSS {
         Int64 AudioCapturePTTEventPush2; //2.6+
         Int64 AudioCapturePTTEventRelease2; //2.6+
     };
-	
-
 }

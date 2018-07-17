@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAKD", "YAKD\YAKD.csproj", "{76F40033-6E9A-4CE1-94E6-BC2C348C2BA2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RTSS", "RTSSCustomOSD\RTSS.vcxproj", "{53939D64-D853-4B4C-A4F9-2FCE48502725}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RTSSSharedMemoryNET", "RTSSCustomOSD\RTSSSharedMemoryNET.vcxproj", "{53939D64-D853-4B4C-A4F9-2FCE48502725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

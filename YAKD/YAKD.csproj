@@ -193,9 +193,9 @@
     <Resource Include="Images\ColorSwatchSquare.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RTSSCustomOSD\RTSS.vcxproj">
+    <ProjectReference Include="..\RTSSCustomOSD\RTSSSharedMemoryNET.vcxproj">
       <Project>{53939d64-d853-4b4c-a4f9-2fce48502725}</Project>
-      <Name>RTSS</Name>
+      <Name>RTSSSharedMemoryNET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,6 @@
 #pragma once
+
+//http://stackoverflow.com/a/673336/489071
 template <typename T>
 public ref class using_auto_ptr
 {

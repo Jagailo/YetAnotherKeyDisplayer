@@ -1,3 +1,4 @@
+// OSD.h
 
 #pragma once
 
@@ -7,7 +8,7 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 
-namespace RTSS {
+namespace RTSSSharedMemoryNET {
 
     public ref class OSD
     {
@@ -26,11 +27,7 @@ namespace RTSS {
             System::Version^ get();
         }
 
-		DWORD EmbedGraphArray(DWORD dwOffset, FLOAT lpBuffer, DWORD dwBufferPos, DWORD dwBufferSize, LONG dwWidth, LONG dwHeight, LONG dwMargin, FLOAT fltMin, FLOAT fltMax, DWORD dwFlags);
-
-		DWORD EmbedGraph(DWORD dwOffset, FLOAT * lpBuffer, DWORD dwBufferPos, DWORD dwBufferSize, LONG dwWidth, LONG dwHeight, LONG dwMargin, FLOAT fltMin, FLOAT fltMax, DWORD dwFlags);
-
-		void Update(String^ text);
+        void Update(String^ text);
         static array<OSDEntry^>^ GetOSDEntries();
         static array<AppEntry^>^ GetAppEntries();
 
