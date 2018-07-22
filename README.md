@@ -6,4 +6,7 @@ The program for displaying the pressed keys of the keyboard. RTSS Rivatuner Stat
 ## Screenshot
 ![Yet Another Key Displayer](https://i.imgur.com/76MvqfA.png)
 
+## Как использовать (russian tutorial)
+[![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
+
 ###### [This ODS](https://github.com/spencerhakim/RTSSSharedMemoryNET) for RTSS was used.
