@@ -128,9 +128,15 @@ namespace YAKD.Utils
                 case MouseMessages.WM_MOUSEWHEEL:
                 {
                     if (lParam.hwnd.Equals((IntPtr)(-7864320)))
+                    {
                         KeyDown?.Invoke(this, new HookEventArgs("Wheel Down"));
+                        KeyUp?.Invoke(this, new HookEventArgs("Wheel Up"));
+                    }
                     else if (lParam.hwnd.Equals((IntPtr)0x00780000))
+                    {
                         KeyDown?.Invoke(this, new HookEventArgs("Wheel Up"));
+                        KeyUp?.Invoke(this, new HookEventArgs("Wheel Down"));
+                    }
 
                     WheelStopped();
                     break;
