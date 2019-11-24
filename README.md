@@ -1,10 +1,12 @@
-![YAKD](https://i.imgur.com/iaQGSmC.png)
+![YAKD](https://i.imgur.com/urXDS4X.png)
+### YAKD - Yet Another Key Displayer
+The program for displaying the pressed keys of the keyboard. RTSS Rivatuner Statistics Server is supported.
+#### Download installer: [YAKD v.1.1 [0.47 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
 
-# YAKD - Yet Another Key Displayer
-The program for displaying the pressed keys of the keyboard.
-
+## Screenshot
 ![Yet Another Key Displayer](https://i.imgur.com/76MvqfA.png)
 
-# Download
+## Как использовать (russian tutorial)
+[![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
 
-[YAKD v.1.0 [0.8 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
+###### [This ODS](https://github.com/spencerhakim/RTSSSharedMemoryNET) for RTSS was used.

@@ -10,6 +10,7 @@ namespace YAKD
     public partial class KeyDisplayerForm : Window
     {
         private KeyboardHook keyboardHook;
+        private MouseHook mouseHook;
         private bool isKeyboardHookEnable;
         private List<string> keys;
 
@@ -26,6 +27,10 @@ namespace YAKD
             keyboardHook = new KeyboardHook();
             keyboardHook.KeyDown += new KeyboardHook.HookEventHandler(OnHookKeyDown);
             keyboardHook.KeyUp += new KeyboardHook.HookEventHandler(OnHookKeyUp);
+
+            mouseHook = new MouseHook();
+            mouseHook.KeyDown += new MouseHook.HookEventHandler(OnHookMouseKeyDown);
+            mouseHook.KeyUp += new MouseHook.HookEventHandler(OnHookMouseKeyUp);
 
             keys = new List<string>();
         }
@@ -97,6 +102,19 @@ namespace YAKD
                     }
                 }
             }
+        }
+
+        private void OnHookMouseKeyUp(object sender, MouseHook.HookEventArgs e)
+        {
+            keys.RemoveAll(x => x == e.Key);
+            ShowKeys();
+        }
+
+        private void OnHookMouseKeyDown(object sender, MouseHook.HookEventArgs e)
+        {
+            if (keys.Exists(x => x == e.Key)) return;
+            keys.Add(e.Key);
+            ShowKeys();
         }
 
         private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
