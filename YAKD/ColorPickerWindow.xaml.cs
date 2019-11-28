@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using YAKD.Utils;
+using YAKD.Models;
 
 namespace YAKD
 {
@@ -10,13 +10,13 @@ namespace YAKD
         {
             InitializeComponent();
             ColorPickerControl.SetColor(color);
-            Transfer.SelectedColor = color;
+            TransferModel.SelectedColor = color;
             OKButton.Focus();
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            Transfer.SelectedColor = ColorPickerControl.SelectedColor;
+            TransferModel.SelectedColor = ColorPickerControl.SelectedColor;
             Close();
         }
 

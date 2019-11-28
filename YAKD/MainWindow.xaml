@@ -286,7 +286,7 @@
         </Grid>
 
         <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,1,2">
-            <TextBlock HorizontalAlignment="Left" Text="YAKD v.1.1 by Jagailo - " VerticalAlignment="Top" FontSize="11" />
+            <TextBlock HorizontalAlignment="Left" Text="YAKD v.1.2 by Jagailo - " VerticalAlignment="Top" FontSize="11" />
             <TextBlock HorizontalAlignment="Left" Text="about" VerticalAlignment="Top" FontSize="11"
                        Cursor="Hand" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
                        Style="{StaticResource HoverUnderlineStyle}" />

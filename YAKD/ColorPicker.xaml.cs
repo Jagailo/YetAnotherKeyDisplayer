@@ -31,7 +31,8 @@ namespace YAKD
 
         private void UpdateTextBox()
         {
-            string hexColor = "#";
+            // TODO: alpha check
+            var hexColor = "#";
             hexColor += Convert.ToString(SelectedColor.R, 16).Length == 1 ? "0" + Convert.ToString(SelectedColor.R, 16) : Convert.ToString(SelectedColor.R, 16);
             hexColor += Convert.ToString(SelectedColor.G, 16).Length == 1 ? "0" + Convert.ToString(SelectedColor.G, 16) : Convert.ToString(SelectedColor.G, 16);
             hexColor += Convert.ToString(SelectedColor.B, 16).Length == 1 ? "0" + Convert.ToString(SelectedColor.B, 16) : Convert.ToString(SelectedColor.B, 16);
@@ -61,12 +62,12 @@ namespace YAKD
             else if (Mouse.GetPosition(CanvImage).X < CanvImage.Width && Mouse.GetPosition(CanvImage).X >= 0 &&
                      Mouse.GetPosition(CanvImage).Y < CanvImage.Height && Mouse.GetPosition(CanvImage).Y >= 0)
             {
-                CroppedBitmap cb = new CroppedBitmap(ColorImage.Source as BitmapSource,
+                var croppedBitmap = new CroppedBitmap(ColorImage.Source as BitmapSource,
                     new Int32Rect((int)Mouse.GetPosition(CanvImage).X,
                     (int)Mouse.GetPosition(CanvImage).Y, 1, 1));
 
-                byte[] pixels = new byte[4];
-                cb.CopyPixels(pixels, 4, 0);
+                var pixels = new byte[4];
+                croppedBitmap.CopyPixels(pixels, 4, 0);
                 MoveEllipse(Mouse.GetPosition(CanvImage).X, Mouse.GetPosition(CanvImage).Y, Color.FromArgb(255, pixels[2], pixels[1], pixels[0]));
                 CanvImage.InvalidateVisual();
 

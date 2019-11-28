@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using YAKD.Utils;
+using YAKD.Helpers;
+using YAKD.Hooks.Keyboard;
+using YAKD.Hooks.Mouse;
 
 namespace YAKD
 {
@@ -25,12 +29,12 @@ namespace YAKD
             InitializeSettings(settings);
 
             keyboardHook = new KeyboardHook();
-            keyboardHook.KeyDown += new KeyboardHook.HookEventHandler(OnHookKeyDown);
-            keyboardHook.KeyUp += new KeyboardHook.HookEventHandler(OnHookKeyUp);
+            keyboardHook.KeyDown += OnHookKeyDown;
+            keyboardHook.KeyUp += OnHookKeyUp;
 
             mouseHook = new MouseHook();
-            mouseHook.KeyDown += new MouseHook.HookEventHandler(OnHookMouseKeyDown);
-            mouseHook.KeyUp += new MouseHook.HookEventHandler(OnHookMouseKeyUp);
+            mouseHook.KeyDown += OnHookMouseKeyDown;
+            mouseHook.KeyUp += OnHookMouseKeyUp;
 
             keys = new List<string>();
         }
@@ -40,7 +44,7 @@ namespace YAKD
             keysTextBlock.FontFamily = settings.FontFamily;
             keysTextBlock.FontSize = settings.FontSize;
             keysTextBlock.Foreground = new SolidColorBrush(settings.Color);
-            SolidColorBrush solidColor = new SolidColorBrush(settings.BackgroundColor)
+            var solidColor = new SolidColorBrush(settings.BackgroundColor)
             {
                 Opacity = settings.BackgroundColorOpacity
             };
@@ -62,23 +66,16 @@ namespace YAKD
             }
             Height = settings.Height;
             Width = settings.Width;
-            if (settings.CanResize)
-            {
-                ResizeMode = ResizeMode.CanResizeWithGrip;
-            }
-            else
-            {
-                ResizeMode = ResizeMode.NoResize;
-            }
+            ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
         }
 
-        private void OnHookKeyUp(object sender, HookEventArgs e)
+        private void OnHookKeyUp(object sender, KeyboardHookEventArgs e)
         {
             keys.RemoveAll(x => x == e.Key);
             ShowKeys();
         }
 
-        private void OnHookKeyDown(object sender, HookEventArgs e)
+        private void OnHookKeyDown(object sender, KeyboardHookEventArgs e)
         {
             if (!keys.Exists(x => x == e.Key))
             {
@@ -89,11 +86,12 @@ namespace YAKD
 
         private void ShowKeys()
         {
-            if (isKeyboardHookEnable)
+            if (isKeyboardHookEnable) // TODO: mouse 
             {
+                // TODO: string join
                 keys.Sort((a, b) => b.Length.CompareTo(a.Length));
                 keysTextBlock.Text = "";
-                for (int i = 0; i < keys.Count; i++)
+                for (var i = 0; i < keys.Count; i++)
                 {
                     keysTextBlock.Text += keys.ElementAt(i);
                     if (i != keys.Count - 1)
@@ -104,13 +102,13 @@ namespace YAKD
             }
         }
 
-        private void OnHookMouseKeyUp(object sender, MouseHook.HookEventArgs e)
+        private void OnHookMouseKeyUp(object sender, MouseHookEventArgs e)
         {
             keys.RemoveAll(x => x == e.Key);
             ShowKeys();
         }
 
-        private void OnHookMouseKeyDown(object sender, MouseHook.HookEventArgs e)
+        private void OnHookMouseKeyDown(object sender, MouseHookEventArgs e)
         {
             if (keys.Exists(x => x == e.Key)) return;
             keys.Add(e.Key);

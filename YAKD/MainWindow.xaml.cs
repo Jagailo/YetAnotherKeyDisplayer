@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using YAKD.Utils;
+using YAKD.Helpers;
+using YAKD.Hooks.Keyboard;
+using YAKD.Models;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
@@ -56,23 +59,23 @@ namespace YAKD
             }
             else
             {
-                RTSSWindow rtssWindow = new RTSSWindow(RTSSHandler.RTSSPath);
+                var rtssWindow = new RTSSWindow(RTSSHandler.RTSSPath);
                 rtssWindow.ShowDialog();
-                if (Transfer.RTSSPath != null)
+                if (TransferModel.RTSSPath != null)
                 {
-                    RTSSHandler.RTSSPath = Transfer.RTSSPath;
+                    RTSSHandler.RTSSPath = TransferModel.RTSSPath;
                 }
                 WindowRadioButton.IsChecked = true;
             }            
         }
 
-        private void OnHookKeyUp(object sender, HookEventArgs e)
+        private void OnHookKeyUp(object sender, KeyboardHookEventArgs e)
         {
             keys.RemoveAll(x => x == e.Key);
             SendKeysToRTSS();
         }
 
-        private void OnHookKeyDown(object sender, HookEventArgs e)
+        private void OnHookKeyDown(object sender, KeyboardHookEventArgs e)
         {
             if (!keys.Exists(x => x == e.Key))
             {
@@ -94,10 +97,10 @@ namespace YAKD
 
         private void BackgroundColorRectangle_Click(object sender, RoutedEventArgs e)
         {
-            ColorPickerWindow colorPickerWindow = new ColorPickerWindow(settings.BackgroundColor);
+            var colorPickerWindow = new ColorPickerWindow(settings.BackgroundColor);
             colorPickerWindow.ShowDialog();
-            settings.AddBackgroundColor(Transfer.SelectedColor);
-            BackgroundColorRectangle.Background = new SolidColorBrush(Transfer.SelectedColor);
+            settings.AddBackgroundColor(TransferModel.SelectedColor);
+            BackgroundColorRectangle.Background = new SolidColorBrush(TransferModel.SelectedColor);
             UpdateKeyDisplayerForm();
         }
 
@@ -105,14 +108,14 @@ namespace YAKD
         {
             if (OpacityTextBox != null && isSliderEnabled)
             {
-                OpacityTextBox.Text = OpacitySlider.Value.ToString();
+                OpacityTextBox.Text = OpacitySlider.Value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
         private void OpacityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string value = OpacityTextBox.Text.Replace('.', ',');
-            if (double.TryParse(value, out double number) && (number >= 0.01 && number <= 1))
+            var value = OpacityTextBox.Text.Replace('.', ',');
+            if (double.TryParse(value, out var number) && number >= 0.01 && number <= 1)
             {
                 settings.AddBackgroundColorOpacity(number);
                 isSliderEnabled = false;
@@ -162,7 +165,7 @@ namespace YAKD
 
         private void FontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(FontSizeTextBox.Text, out int number) && number > 0)
+            if (int.TryParse(FontSizeTextBox.Text, out var number) && number > 0)
             {
                 settings.AddFontSize(number);
             }
@@ -170,17 +173,17 @@ namespace YAKD
             {
                 var fontSizeDefault = new KeyDisplayerSettings().FontSize;
                 settings.AddFontSize(fontSizeDefault);
-                FontSizeTextBox.Text = fontSizeDefault.ToString();
+                FontSizeTextBox.Text = fontSizeDefault.ToString(CultureInfo.InvariantCulture);
             }
             UpdateKeyDisplayerForm();
         }
 
         private void FontColorRectangle_Click(object sender, RoutedEventArgs e)
         {
-            ColorPickerWindow colorPickerWindow = new ColorPickerWindow(settings.Color);
+            var colorPickerWindow = new ColorPickerWindow(settings.Color);
             colorPickerWindow.ShowDialog();
-            settings.AddColor(Transfer.SelectedColor);
-            FontColorRectangle.Background = new SolidColorBrush(Transfer.SelectedColor);
+            settings.AddColor(TransferModel.SelectedColor);
+            FontColorRectangle.Background = new SolidColorBrush(TransferModel.SelectedColor);
             UpdateKeyDisplayerForm();
         }
 
@@ -246,7 +249,7 @@ namespace YAKD
 
         private void KeyDisplayerForm_LocationChanged(object sender, EventArgs e)
         {
-            settings.AddStartupPoint(new StartupLocation(keyDisplayerForm.Left, keyDisplayerForm.Top));
+            settings.AddStartupPoint(new StartupLocationModel(keyDisplayerForm.Left, keyDisplayerForm.Top));
         }
 
         private void KeyDisplayerForm_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -259,9 +262,9 @@ namespace YAKD
 
         #region Initialization logic
 
-        private void InitializeKeyDisplayerForm(KeyDisplayerSettings settings)
+        private void InitializeKeyDisplayerForm(KeyDisplayerSettings keyDisplayerSettings)
         {
-            keyDisplayerForm = new KeyDisplayerForm(settings);
+            keyDisplayerForm = new KeyDisplayerForm(keyDisplayerSettings);
             keyDisplayerForm.LocationChanged += KeyDisplayerForm_LocationChanged;
             keyDisplayerForm.SizeChanged += KeyDisplayerForm_SizeChanged;
             keyDisplayerForm.Closed += KeyDisplayerForm_Closed;
@@ -275,16 +278,16 @@ namespace YAKD
             }
         }
 
-        private void InitializeMainWindow(KeyDisplayerSettings settings)
+        private void InitializeMainWindow(KeyDisplayerSettings keyDisplayerSettings)
         {
-            BackgroundColorRectangle.Background = new SolidColorBrush(settings.BackgroundColor);
-            OpacityTextBox.Text = settings.BackgroundColorOpacity.ToString();
-            DemoKeysCheckBox.IsChecked = settings.DemoKeys == "" ? false : true;
-            ResizeCheckBox.IsChecked = settings.CanResize;
-            FontFamily font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == settings.FontFamily.Source);
+            BackgroundColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.BackgroundColor);
+            OpacityTextBox.Text = keyDisplayerSettings.BackgroundColorOpacity.ToString(CultureInfo.InvariantCulture);
+            DemoKeysCheckBox.IsChecked = keyDisplayerSettings.DemoKeys != "";
+            ResizeCheckBox.IsChecked = keyDisplayerSettings.CanResize;
+            var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == keyDisplayerSettings.FontFamily.Source);
             FontComboBox.SelectedIndex = FontComboBox.Items.IndexOf(font);
-            FontSizeTextBox.Text = settings.FontSize.ToString();
-            FontColorRectangle.Background = new SolidColorBrush(settings.Color);
+            FontSizeTextBox.Text = keyDisplayerSettings.FontSize.ToString(CultureInfo.InvariantCulture);
+            FontColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.Color);
         }
 
         private void InitializeKeyboardHook()
@@ -311,7 +314,7 @@ namespace YAKD
                     settings.EnableDemoKeys(fileSettings.DemoKeys);
                     if (fileSettings.StartupPoint)
                     {
-                        settings.AddStartupPoint(new StartupLocation(fileSettings.x, fileSettings.y));
+                        settings.AddStartupPoint(new StartupLocationModel(fileSettings.x, fileSettings.y));
                     }
                     settings.AddWidth(fileSettings.Width);
                     settings.AddHeight(fileSettings.Height);
@@ -319,7 +322,10 @@ namespace YAKD
                     RTSSHandler.RTSSPath = fileSettings.RTSSPath;
                     isRTSSEnabled = fileSettings.RTSSEnabled;
                 }
-                catch { }
+                catch (Exception)
+                {
+                    // Ignored
+                }
             }
         }
 
@@ -332,7 +338,7 @@ namespace YAKD
                 fileSettings.Color = settings.Color;
                 fileSettings.BackgroundColor = settings.BackgroundColor;
                 fileSettings.BackgroundColorOpacity = settings.BackgroundColorOpacity;
-                fileSettings.DemoKeys = settings.DemoKeys == "" ? false : true;
+                fileSettings.DemoKeys = settings.DemoKeys != "";
                 if (settings.StartupPoint != null)
                 {
                     fileSettings.x = settings.StartupPoint.Left;
@@ -352,7 +358,10 @@ namespace YAKD
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
                 fileSettings.Created = true;
             }
-            catch { }
+            catch (Exception)
+            {
+                // Ignored
+            }
             fileSettings.Save();
         }
 
@@ -388,9 +397,9 @@ namespace YAKD
         private void SendKeysToRTSS()
         {
             keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-            string keysString = "";
-            for (int i = 0; i < keys.Count; i++)
-            {
+            var keysString = "";
+            for (var i = 0; i < keys.Count; i++)
+            { // TODO: check string method
                 if (i == 0)
                 {
                     keysString += " ";
@@ -410,9 +419,9 @@ namespace YAKD
             {
                 RTSSHandler.Print(keysString);
             }
-            catch (Exception exc)
+            catch (Exception exception)
             {
-                MessageBox.Show(exc.Message, exc.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, exception.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

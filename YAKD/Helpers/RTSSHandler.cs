@@ -7,51 +7,69 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
 
-namespace YAKD.Utils
+namespace YAKD.Helpers
 {
+    /// <summary>
+    /// A class that works with RTSS
+    /// </summary>
     public static class RTSSHandler
     {
+        private static Process _rtssInstance;
+        private static OSD _osd;
+
+        /// <summary>
+        /// Path to RTSS
+        /// </summary>
         public static string RTSSPath { get; set; }
-        private static Process RTSSInstance;
-        static OSD osd;        
 
         static RTSSHandler()
         {
-            RTSSPath = @"C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe";            
+            RTSSPath = @"C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe";
         }
 
+        /// <summary>
+        /// Send text to RTSS
+        /// </summary>
+        /// <param name="text">Text</param>
         public static void Print(string text)
         {
-            if (IsRTSSRunning() && osd != null)
+            if (IsRTSSRunning())
             {
-                osd.Update(text);
+                _osd?.Update(text);
             }
         }
 
+        /// <summary>
+        /// Launches RTSS
+        /// </summary>
         public static void RunRTSS()
         {
-            if (RTSSInstance == null && !IsRTSSRunning() && File.Exists(RTSSPath))
+            if (_rtssInstance == null && !IsRTSSRunning() && File.Exists(RTSSPath))
             {
                 try
                 {
-                    RTSSInstance = Process.Start(RTSSPath);
+                    _rtssInstance = Process.Start(RTSSPath);
                     Thread.Sleep(2000); // For what? Idk. If it works, don't touch it
                 }
                 catch (Exception exc)
                 {
                     MessageBox.Show(exc.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
                 RunOSD();
             }
         }
 
-        public static void RunOSD()
+        /// <summary>
+        /// Launches OSD
+        /// </summary>
+        private static void RunOSD()
         {
-            if (osd == null)
+            if (_osd == null)
             {
                 try
                 {
-                    osd = new OSD("YAKDOSD");
+                    _osd = new OSD("YAKDOSD");
                 }
                 catch (Exception exc)
                 {
@@ -60,25 +78,32 @@ namespace YAKD.Utils
             }
         }
 
+        /// <summary>
+        /// Returns true if RTSS is running
+        /// </summary>
+        /// <returns><see cref="bool"/></returns>
         public static bool IsRTSSRunning()
         {
-            return Process.GetProcessesByName("RTSS").Length == 0 ? false : true;
+            return Process.GetProcessesByName("RTSS").Length != 0;
         }
 
+        /// <summary>
+        /// Closes RTSS
+        /// </summary>
         public static void KillRTSS()
         {
-            if (RTSSInstance != null)
+            if (_rtssInstance != null)
             {
                 try
                 {
-                    RTSSInstance.Kill();
-                    RTSSInstance = null;
-                    Process[] proc = Process.GetProcessesByName("RTSSHooksLoader64");
+                    _rtssInstance.Kill();
+                    _rtssInstance = null;
+                    var proc = Process.GetProcessesByName("RTSSHooksLoader64");
                     proc[0].Kill();
                 }
-                catch (Exception exc)
+                catch (Exception)
                 {
-                    MessageBox.Show(exc.Message, "Failed to close RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Ignored
                 }
             }
         }

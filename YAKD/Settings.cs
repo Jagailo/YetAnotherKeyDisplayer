@@ -1,6 +1,12 @@
-﻿namespace YAKD.Properties {
+﻿namespace YAKD.Properties
+{
     internal sealed partial class Settings
-    {        
-        public Settings() {}
+    {
+        /// <summary>
+        /// Initializes a new instance of Settings class
+        /// </summary>
+        public Settings()
+        {
+        }
     }
 }

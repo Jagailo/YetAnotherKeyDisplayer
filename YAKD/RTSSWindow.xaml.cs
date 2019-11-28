@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using YAKD.Utils;
+using YAKD.Models;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
@@ -12,7 +12,7 @@ namespace YAKD
 {
     public partial class RTSSWindow : Window
     {
-        private FolderBrowserDialog dialog;
+        private readonly FolderBrowserDialog dialog;
 
         public RTSSWindow(string RTSSPath)
         {
@@ -36,10 +36,10 @@ namespace YAKD
         {
             if (dialog.ShowDialog() == MessageBoxResult.OK)
             {
-                string path = Path.Combine(dialog.SelectedPath, "RTSS.exe");
+                var path = Path.Combine(dialog.SelectedPath, "RTSS.exe");
                 if (File.Exists(path))
                 {
-                    Transfer.RTSSPath = path;
+                    TransferModel.RTSSPath = path;
                     Close();
                 }
                 else

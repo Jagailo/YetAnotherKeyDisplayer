@@ -1,14 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace YAKD.Utils
+namespace YAKD.Helpers
 {
-    public static class KeyList
+    /// <summary>
+    /// Converts key names to more understandable and simple ones
+    /// </summary>
+    public static class KeyboardListConverter
     {
-        private static readonly Dictionary<string, string> keys;
+        #region Fields
 
-        static KeyList()
+        /// <summary>
+        /// List of beautiful keys
+        /// </summary>
+        private static readonly Dictionary<string, string> Keys;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of KeyboardListConverter class with list of keys
+        /// </summary>
+        static KeyboardListConverter()
         {
-            keys = new Dictionary<string, string>
+            Keys = new Dictionary<string, string>
             {
                 { "Add", "Numpad +" },
                 { "Back", "Backspace" },
@@ -66,13 +81,20 @@ namespace YAKD.Utils
             };
         }
 
-        public static string GetKeyName(string WinAPIKeyName)
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns key name
+        /// </summary>
+        /// <param name="winApiKeyName">Name of key from WinApi hook</param>
+        /// <returns>Key name</returns>
+        public static string GetKeyName(string winApiKeyName)
         {
-            if (keys.TryGetValue(WinAPIKeyName, out string KeyName))
-            {
-                return KeyName;
-            }
-            return WinAPIKeyName;
+            return Keys.TryGetValue(winApiKeyName, out var keyName) ? keyName : winApiKeyName;
         }
+
+        #endregion
     }
 }
