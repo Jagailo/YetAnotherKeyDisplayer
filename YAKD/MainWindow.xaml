@@ -6,10 +6,19 @@
         xmlns:local="clr-namespace:YAKD"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="500" Width="400" MinWidth="381" MinHeight="410"
-        WindowStartupLocation="CenterScreen" Closing="Window_Closing"
-        Background="#F5F5F5" Foreground="#1E1E1E"
-        FontFamily="{StaticResource RobotoRegular}" FontSize="14" Loaded="Window_Loaded">
+        Height="500"
+        Width="400"
+        MinWidth="382"
+        MinHeight="430"
+        MaxWidth="480"
+        MaxHeight="550"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5"
+        Foreground="#1E1E1E"
+        FontFamily="{StaticResource RobotoRegular}"
+        FontSize="14"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="ColorPickerButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
@@ -48,8 +57,11 @@
                                 Padding="0,0,0,1"
                                 BorderBrush="#FFACACAC" 
                                 Background="#FFECECF0">
-                            <ContentPresenter Name="content" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              TextBlock.Foreground="#FF1E1E1E" TextBlock.FontSize="12" />
+                            <ContentPresenter Name="content"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextBlock.Foreground="#FF1E1E1E"
+                                              TextBlock.FontSize="12" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -68,6 +80,43 @@
                                 <Setter TargetName="border" Property="BorderBrush" Value="#FFCCCEDB" />
                                 <Setter TargetName="border" Property="Background" Value="#FFF5F5F5" />
                                 <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFA2A4A5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VisualStudioRepeatButtonStyle" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Name="border" 
+                                BorderThickness="1"
+                                Width="Auto"
+                                SnapsToDevicePixels="True"
+                                Height="23"
+                                Padding="0,0,0,1"
+                                BorderBrush="#FFACACAC" 
+                                Background="#FFECECF0">
+                            <ContentPresenter Name="content"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextBlock.Foreground="#FF1E1E1E"
+                                              TextBlock.FontSize="12" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFC9DEF5" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF007ACC" />
+                                <Setter TargetName="border" Property="Background" Value="#FF007ACC" />
+                                <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFFFFFFF" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -133,11 +182,19 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <RadioButton x:Name="RTSSRadioButton" Grid.Row="0" Content="RivaTuner Statistics Server (for fullscreen games)"
-                             GroupName="KeyDisplayerMode" Padding="3,-2,0,0" VerticalContentAlignment="Center"
+                <RadioButton x:Name="RTSSRadioButton"
+                             Grid.Row="0"
+                             Content="RivaTuner Statistics Server (for fullscreen games)"
+                             GroupName="KeyDisplayerMode"
+                             Padding="3,-2,0,0"
+                             VerticalContentAlignment="Center"
                              Checked="RTSSRadioButton_Checked" />
-                <RadioButton x:Name="WindowRadioButton" Grid.Row="1" Content="YAKD Window"
-                             GroupName="KeyDisplayerMode" Padding="3,-2,0,0" VerticalContentAlignment="Center"
+                <RadioButton x:Name="WindowRadioButton"
+                             Grid.Row="1"
+                             Content="YAKD Window"
+                             GroupName="KeyDisplayerMode"
+                             Padding="3,-2,0,0"
+                             VerticalContentAlignment="Center"
                              Checked="WindowRadioButton_Checked" />
             </Grid>
         </GroupBox>
@@ -157,9 +214,13 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Background color:" Margin="0,0,8,0" VerticalAlignment="Center" />
-                    <Button x:Name="BackgroundColorRectangle" Grid.Column="1"
-                            Click="BackgroundColorRectangle_Click" Margin="0"
-                            Height="19" Width="Auto" Background="#000000"
+                    <Button x:Name="BackgroundColorRectangle"
+                            Grid.Column="1"
+                            Click="BackgroundColorRectangle_Click"
+                            Margin="0"
+                            Height="19"
+                            Width="Auto"
+                            Background="#000000"
                             Style="{StaticResource ColorPickerButtonStyle}" />
                 </Grid>
                 <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,10,0">
@@ -169,24 +230,44 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Opacity:" VerticalAlignment="Center" />
-                    <Slider x:Name="OpacitySlider" Grid.Column="1"
-                            LargeChange="0.1" Maximum="1" Minimum="0.01" 
-                            IsSnapToTickEnabled="True" TickFrequency="0.01"
+                    <Slider x:Name="OpacitySlider"
+                            Grid.Column="1"
+                            LargeChange="0.1"
+                            Maximum="1"
+                            Minimum="0.01" 
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="0.01"
                             HorizontalContentAlignment="Stretch"
-                            ValueChanged="OpacitySlider_ValueChanged" SmallChange="0.01"
-                            VerticalAlignment="Center" Margin="2,2,2,0" />
-                    <TextBox x:Name="OpacityTextBox" Grid.Column="2" Width="35" Height="22"
+                            ValueChanged="OpacitySlider_ValueChanged"
+                            SmallChange="0.01"
+                            VerticalAlignment="Center"
+                            Margin="2,2,2,0" />
+                    <TextBox x:Name="OpacityTextBox"
+                             Grid.Column="2"
+                             Width="35"
+                             Height="22"
                              Style="{StaticResource VisualStudioTextBoxStyle}"
                              HorizontalContentAlignment="Center"
-                             MaxLength="4" TextChanged="OpacityTextBox_TextChanged" />
+                             MaxLength="4"
+                             TextChanged="OpacityTextBox_TextChanged" />
                 </Grid>
-                <CheckBox x:Name="DemoKeysCheckBox" Grid.Column="1" Grid.Row="0"
-                          Content="Show demo keys" VerticalAlignment="Center" Margin="9,5,0,5"
-                          VerticalContentAlignment="Center" Click="DemoKeysCheckBox_Click"
+                <CheckBox x:Name="DemoKeysCheckBox"
+                          Grid.Column="1"
+                          Grid.Row="0"
+                          Content="Show demo keys"
+                          VerticalAlignment="Center"
+                          Margin="9,5,0,5"
+                          VerticalContentAlignment="Center"
+                          Click="DemoKeysCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
-                <CheckBox x:Name="ResizeCheckBox" Grid.Column="1" Grid.Row="1"
-                          Content="Changing the size" VerticalAlignment="Center" Margin="9,5,0,5"
-                          VerticalContentAlignment="Center" Click="ResizeCheckBox_Click"
+                <CheckBox x:Name="ResizeCheckBox"
+                          Grid.Column="1"
+                          Grid.Row="1"
+                          Content="Changing the size"
+                          VerticalAlignment="Center"
+                          Margin="9,5,0,5"
+                          VerticalContentAlignment="Center"
+                          Click="ResizeCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
@@ -226,8 +307,7 @@
                             </Style>
                             <DataTemplate x:Key="FontTemplate">
                                 <StackPanel VirtualizingStackPanel.IsVirtualizing="True">
-                                    <TextBlock Style="{StaticResource FontStyle}" ToolTip="{Binding Source}"
-                                               Text="{Binding Source}" />
+                                    <TextBlock Style="{StaticResource FontStyle}" ToolTip="{Binding Source}" Text="{Binding Source}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.Resources>
@@ -249,13 +329,30 @@
                 <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="25"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Font size:" VerticalAlignment="Center" Margin="0,0,8,0" />
-                    <TextBox x:Name="FontSizeTextBox" Grid.Column="1" Width="Auto" Height="22"
+                    <RepeatButton x:Name="DecreaseFontSizeRepeatButton"
+                            Grid.Column="1"
+                            Content="-"
+                            Style="{StaticResource VisualStudioRepeatButtonStyle}"
+                            Click="DecreaseFontSizeRepeatButton_Click"
+                            Margin="0,0,2,0"/>
+                    <TextBox x:Name="FontSizeTextBox"
+                             Grid.Column="2"
+                             Width="Auto"
+                             Height="23"
                              Style="{StaticResource VisualStudioTextBoxStyle}"
                              HorizontalContentAlignment="Center"
                              TextChanged="FontSizeTextBox_TextChanged" />
+                    <RepeatButton x:Name="IncreaseFontSizeRepeatButton"
+                            Grid.Column="3"
+                            Content="+"
+                            Style="{StaticResource VisualStudioRepeatButtonStyle}"
+                            Click="IncreaseFontSizeRepeatButton_Click"
+                            Margin="2,0,0,0"/>
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -263,9 +360,14 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Font color:" Padding="0,0,8,0" />
-                    <Button x:Name="FontColorRectangle" Grid.Column="1"
-                            Height="19" Width="Auto" Margin="0"
-                            Background="#EEEEEE" Style="{StaticResource ColorPickerButtonStyle}" Click="FontColorRectangle_Click" />
+                    <Button x:Name="FontColorRectangle"
+                            Grid.Column="1"
+                            Height="19"
+                            Width="Auto"
+                            Margin="0"
+                            Background="#EEEEEE"
+                            Style="{StaticResource ColorPickerButtonStyle}"
+                            Click="FontColorRectangle_Click" />
                 </Grid>
             </Grid>
         </GroupBox>
@@ -277,18 +379,35 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ShowHideWindowButton" Grid.Column="0" Content="Hide (Alt + F4)"
+            <Button x:Name="ShowHideWindowButton"
+                    Grid.Column="0"
+                    Content="Hide (Alt + F4)"
                     Style="{StaticResource VisualStudioButtonStyle}"
-                    Click="ShowHideWindowButton_Click" Margin="1,5,10,5"/>
-            <Button x:Name="DefaultSettingsButton" Grid.Column="1" Content="Default settings"
+                    Click="ShowHideWindowButton_Click"
+                    Margin="1,5,10,5"/>
+            <Button x:Name="DefaultSettingsButton"
+                    Grid.Column="1"
+                    Content="Default settings"
                     Style="{StaticResource VisualStudioButtonStyle}"
-                    Click="DefaultSettingsButton_Click" Margin="10,5,1,5" />
+                    Click="DefaultSettingsButton_Click"
+                    Margin="10,5,1,5" />
         </Grid>
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,1,2">
-            <TextBlock HorizontalAlignment="Left" Text="YAKD v.1.2 by Jagailo - " VerticalAlignment="Top" FontSize="11" />
-            <TextBlock HorizontalAlignment="Left" Text="about" VerticalAlignment="Top" FontSize="11"
-                       Cursor="Hand" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,5,1,2">
+            <TextBlock HorizontalAlignment="Left"
+                       Text="YAKD v.1.2 by Jagailo - "
+                       VerticalAlignment="Top"
+                       FontSize="11" />
+            <TextBlock HorizontalAlignment="Left"
+                       Text="about"
+                       VerticalAlignment="Top"
+                       FontSize="11"
+                       Cursor="Hand"
+                       MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
                        Style="{StaticResource HoverUnderlineStyle}" />
         </StackPanel>
     </Grid>

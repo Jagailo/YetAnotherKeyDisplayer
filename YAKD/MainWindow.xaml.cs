@@ -18,14 +18,26 @@ using MessageBoxResult = System.Windows.Forms.DialogResult;
 
 namespace YAKD
 {
+    /// <summary>
+    /// Main window
+    /// </summary>
     public partial class MainWindow : Window
     {
+        #region Fields
+
         private KeyDisplayerForm keyDisplayerForm;
         private KeyDisplayerSettings settings;
         private bool isFirstRun, isSliderEnabled, isRTSSEnabled;
         private KeyboardHook keyboardHook;
         private List<string> keys;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of MainWindow class
+        /// </summary>
         public MainWindow()
         {
             settings = new KeyDisplayerSettings();
@@ -42,6 +54,8 @@ namespace YAKD
             keyDisplayerForm.Show();
             Focus();
         }
+
+        #endregion
 
         #region Control handlers
 
@@ -165,7 +179,7 @@ namespace YAKD
 
         private void FontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(FontSizeTextBox.Text, out var number) && number > 0)
+            if (int.TryParse(FontSizeTextBox.Text, out var number) && number >= 2 && number <= 1000)
             {
                 settings.AddFontSize(number);
             }
@@ -216,7 +230,29 @@ namespace YAKD
 
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://github.com/Jagailo/YetAnotherKeyDisplayer");
+            Process.Start("https://github.com/Jagailo/YetAnotherKeyDisplayer/releases");
+        }
+
+        private void DecreaseFontSizeRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newValue = settings.FontSize - 1;
+            if (newValue >= 2)
+            {
+                settings.AddFontSize(newValue);
+                FontSizeTextBox.Text = newValue.ToString(CultureInfo.InvariantCulture);
+                UpdateKeyDisplayerForm();
+            }
+        }
+
+        private void IncreaseFontSizeRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newValue = settings.FontSize + 1;
+            if (newValue <= 1000)
+            {
+                settings.AddFontSize(newValue);
+                FontSizeTextBox.Text = newValue.ToString(CultureInfo.InvariantCulture);
+                UpdateKeyDisplayerForm();
+            }
         }
 
         #endregion
@@ -295,8 +331,8 @@ namespace YAKD
             if (keyboardHook == null)
             {
                 keyboardHook = new KeyboardHook();
-                keyboardHook.KeyDown += new KeyboardHook.HookEventHandler(OnHookKeyDown);
-                keyboardHook.KeyUp += new KeyboardHook.HookEventHandler(OnHookKeyUp);
+                keyboardHook.KeyDown += OnHookKeyDown;
+                keyboardHook.KeyUp += OnHookKeyUp;
             }
         }
 
@@ -397,23 +433,7 @@ namespace YAKD
         private void SendKeysToRTSS()
         {
             keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-            var keysString = "";
-            for (var i = 0; i < keys.Count; i++)
-            { // TODO: check string method
-                if (i == 0)
-                {
-                    keysString += " ";
-                }
-                keysString += keys.ElementAt(i);
-                if (i != keys.Count - 1)
-                {
-                    keysString += " + ";
-                }
-                else
-                {
-                    keysString += " ";
-                }
-            }
+            var keysString = $" {string.Join(" + ", keys)} ";
 
             try
             {
