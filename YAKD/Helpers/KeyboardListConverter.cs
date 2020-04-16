@@ -10,7 +10,7 @@ namespace YAKD.Helpers
         #region Fields
 
         /// <summary>
-        /// List of beautiful keys
+        /// List of beautiful named keys
         /// </summary>
         private static readonly Dictionary<string, string> Keys;
 
@@ -25,59 +25,60 @@ namespace YAKD.Helpers
         {
             Keys = new Dictionary<string, string>
             {
-                { "Add", "Numpad +" },
-                { "Back", "Backspace" },
-                { "Capital", "Caps Lock" },
-                { "D0", "0" },
-                { "D1", "1" },
-                { "D2", "2" },
-                { "D3", "3" },
-                { "D4", "4" },
-                { "D5", "5" },
-                { "D6", "6" },
-                { "D7", "7" },
-                { "D8", "8" },
-                { "D9", "9" },
-                { "Decimal", "Numpad ." },
-                { "Divide", "Numpad /" },
-                { "Escape", "Esc" },
-                { "LControlKey", "L Ctrl" },
-                { "LMenu", "L Alt" },
-                { "LShiftKey", "L Shift" },
-                { "LWin", "L Win" },
-                { "Multiply", "Numpad *" },
-                { "Next", "Page Down" },
-                { "NumLock", "Num Lock" },
-                { "NumPad0", "Numpad 0" },
-                { "NumPad1", "Numpad 1" },
-                { "NumPad2", "Numpad 2" },
-                { "NumPad3", "Numpad 3" },
-                { "NumPad4", "Numpad 4" },
-                { "NumPad5", "Numpad 5" },
-                { "NumPad6", "Numpad 6" },
-                { "NumPad7", "Numpad 7" },
-                { "NumPad8", "Numpad 8" },
-                { "NumPad9", "Numpad 9" },
-                { "Oem1", ":" },
-                { "Oem5", "\\" },
-                { "Oem6", "}" },
-                { "Oem7", "\"" },
-                { "Oemcomma", "<" },
-                { "OemMinus", "-" },
-                { "OemOpenBrackets", "{" },
-                { "OemPeriod", ">" },
-                { "Oemplus", "+" },
-                { "OemQuestion", "?" },
-                { "Oemtilde", "~" },
-                { "PageUp", "Page Up" },
-                { "PrintScreen", "PtrScr" },
-                { "RControlKey", "R Ctrl" },
-                { "Return", "Enter" },
-                { "RMenu", "R Alt" },
-                { "RShiftKey", "R Shift" },
-                { "RWin", "R Win" },
-                { "Scroll", "Scroll Lock" },
-                { "Subtract", "Numpad -" }
+                { "add", "Numpad +" },
+                { "back", "Backspace" },
+                { "capital", "Caps Lock" },
+                { "d0", "0" },
+                { "d1", "1" },
+                { "d2", "2" },
+                { "d3", "3" },
+                { "d4", "4" },
+                { "d5", "5" },
+                { "d6", "6" },
+                { "d7", "7" },
+                { "d8", "8" },
+                { "d9", "9" },
+                { "decimal", "Numpad ." },
+                { "divide", "Numpad /" },
+                { "escape", "Esc" },
+                { "lcontrolkey", "L Ctrl" },
+                { "lmenu", "L Alt" },
+                { "lshiftkey", "L Shift" },
+                { "lwin", "L Win" },
+                { "multiply", "Numpad *" },
+                { "next", "Page Down" },
+                { "numlock", "Num Lock" },
+                { "numpad0", "Numpad 0" },
+                { "numpad1", "Numpad 1" },
+                { "numpad2", "Numpad 2" },
+                { "numpad3", "Numpad 3" },
+                { "numpad4", "Numpad 4" },
+                { "numpad5", "Numpad 5" },
+                { "numpad6", "Numpad 6" },
+                { "numpad7", "Numpad 7" },
+                { "numpad8", "Numpad 8" },
+                { "numpad9", "Numpad 9" },
+                { "oem1", ":" },
+                { "oem5", "\\" },
+                { "oem6", "]" },
+                { "oem7", "\"" },
+                { "oembackslash", "/" },
+                { "oemcomma", "<" },
+                { "oemminus", "-" },
+                { "oemopenbrackets", "[" },
+                { "oemperiod", ">" },
+                { "oemplus", "+" },
+                { "oemquestion", "?" },
+                { "oemtilde", "~" },
+                { "pageup", "Page Up" },
+                { "printscreen", "PtrScr" },
+                { "rcontrolkey", "R Ctrl" },
+                { "return", "Enter" },
+                { "rmenu", "R Alt" },
+                { "rshiftkey", "R Shift" },
+                { "rwin", "R Win" },
+                { "scroll", "Scroll Lock" },
+                { "subtract", "Numpad -" }
             };
         }
 
@@ -92,7 +93,7 @@ namespace YAKD.Helpers
         /// <returns>Key name</returns>
         public static string GetKeyName(string winApiKeyName)
         {
-            return Keys.TryGetValue(winApiKeyName, out var keyName) ? keyName : winApiKeyName;
+            return Keys.TryGetValue(winApiKeyName.ToLower(), out var keyName) ? keyName : winApiKeyName;
         }
 
         #endregion

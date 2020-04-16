@@ -14,18 +14,36 @@ namespace YAKD.Helpers
     /// </summary>
     public static class RTSSHandler
     {
+        #region Fields
+
         private static Process _rtssInstance;
+
         private static OSD _osd;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Path to RTSS
         /// </summary>
         public static string RTSSPath { get; set; }
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the RTSSHandler class
+        /// </summary>
         static RTSSHandler()
         {
             RTSSPath = @"C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe";
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Send text to RTSS
@@ -49,7 +67,7 @@ namespace YAKD.Helpers
                 try
                 {
                     _rtssInstance = Process.Start(RTSSPath);
-                    Thread.Sleep(2000); // For what? Idk. If it works, don't touch it
+                    Thread.Sleep(2000); // If it works, don't touch it
                 }
                 catch (Exception exc)
                 {
@@ -107,5 +125,7 @@ namespace YAKD.Helpers
                 }
             }
         }
+
+        #endregion
     }
 }

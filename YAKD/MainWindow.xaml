@@ -3,15 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:YAKD"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
         Height="500"
-        Width="400"
-        MinWidth="382"
-        MinHeight="430"
-        MaxWidth="480"
+        MinHeight="500"
         MaxHeight="550"
+        Width="440"
+        MinWidth="440"
+        MaxWidth="480"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E"
@@ -129,7 +128,7 @@
             <Setter Property="Background" Value="#FFF2F2F2" />
         </Style>
         <Style TargetType="TextBlock" x:Key="HoverUnderlineStyle">
-            <Setter Property="TextBlock.Foreground" Value="#FF0066CC" />
+            <Setter Property="Foreground" Value="#FF0066CC" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="TextBlock.TextDecorations" Value="Underline" />
@@ -168,19 +167,20 @@
     </Window.Resources>
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Header=" Key Displayer Mode " Margin="0,10">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <RadioButton x:Name="RTSSRadioButton"
                              Grid.Row="0"
@@ -196,22 +196,29 @@
                              Padding="3,-2,0,0"
                              VerticalContentAlignment="Center"
                              Checked="WindowRadioButton_Checked" />
+                <CheckBox x:Name="MouseHookCheckBox"
+                          Grid.Row="2"
+                          Content="Tracking mouse"
+                          Padding="3,-2,0,0"
+                          VerticalContentAlignment="Center"
+                          Checked="MouseHookCheckBox_Checked"
+                          Unchecked="MouseHookCheckBox_Unchecked" />
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1" Header=" Window " Margin="0,10,0,11">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Background color:" Margin="0,0,8,0" VerticalAlignment="Center" />
                     <Button x:Name="BackgroundColorRectangle"
@@ -225,9 +232,9 @@
                 </Grid>
                 <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Opacity:" VerticalAlignment="Center" />
                     <Slider x:Name="OpacitySlider"
@@ -275,30 +282,30 @@
         <GroupBox Grid.Row="2" Header=" Keys " Margin="0,10">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>                    
                     <TextBlock Grid.Column="0" Text="Font:" VerticalAlignment="Center" Padding="0,0,8,0" />
                     <ComboBox x:Name="FontComboBox" Grid.Column="1"
-                              xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                               ItemTemplate="{DynamicResource FontTemplate}"
                               IsSynchronizedWithCurrentItem="True"
                               VirtualizingPanel.IsVirtualizing="True"
                               VirtualizingPanel.VirtualizationMode="Recycling"
                               SelectionChanged="FontComboBox_SelectionChanged">
                         <ComboBox.Resources>
-                            <CollectionViewSource x:Key="myFonts" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
+                            <CollectionViewSource x:Key="MyFonts" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
                                 <CollectionViewSource.SortDescriptions>
-                                    <ComponentModel:SortDescription PropertyName="Source" />
+                                    <componentModel:SortDescription PropertyName="Source" />
                                 </CollectionViewSource.SortDescriptions>
                             </CollectionViewSource>
                             <Style x:Key="FontStyle">
@@ -307,7 +314,7 @@
                             </Style>
                             <DataTemplate x:Key="FontTemplate">
                                 <StackPanel VirtualizingStackPanel.IsVirtualizing="True">
-                                    <TextBlock Style="{StaticResource FontStyle}" ToolTip="{Binding Source}" Text="{Binding Source}" />
+                                    <TextBlock Style="{StaticResource FontStyle}" ToolTip="{Binding Source}" Text="{Binding Source}" d:DataContext="{d:DesignData }" />
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.Resources>
@@ -317,7 +324,7 @@
                             </ItemsPanelTemplate>
                         </ComboBox.ItemsPanel>
                         <ComboBox.ItemsSource>
-                            <Binding Source="{StaticResource myFonts}" />
+                            <Binding Source="{StaticResource MyFonts}" />
                         </ComboBox.ItemsSource>
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
@@ -328,10 +335,10 @@
                 </Grid>
                 <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="25" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Font size:" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <RepeatButton x:Name="DecreaseFontSizeRepeatButton"
@@ -339,7 +346,7 @@
                             Content="-"
                             Style="{StaticResource VisualStudioRepeatButtonStyle}"
                             Click="DecreaseFontSizeRepeatButton_Click"
-                            Margin="0,0,2,0"/>
+                            Margin="0,0,2,0" />
                     <TextBox x:Name="FontSizeTextBox"
                              Grid.Column="2"
                              Width="Auto"
@@ -352,12 +359,12 @@
                             Content="+"
                             Style="{StaticResource VisualStudioRepeatButtonStyle}"
                             Click="IncreaseFontSizeRepeatButton_Click"
-                            Margin="2,0,0,0"/>
+                            Margin="2,0,0,0" />
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Font color:" Padding="0,0,8,0" />
                     <Button x:Name="FontColorRectangle"
@@ -376,15 +383,15 @@
 
         <Grid Grid.Row="4" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button x:Name="ShowHideWindowButton"
                     Grid.Column="0"
                     Content="Hide (Alt + F4)"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="ShowHideWindowButton_Click"
-                    Margin="1,5,10,5"/>
+                    Margin="1,5,10,5" />
             <Button x:Name="DefaultSettingsButton"
                     Grid.Column="1"
                     Content="Default settings"

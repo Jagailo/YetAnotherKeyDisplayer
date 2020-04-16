@@ -10,6 +10,12 @@ namespace YAKD.Helpers
     {
         #region Fields
 
+        private double _fontSize, _backgroundColorOpacity, _height, _width;
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Font
         /// </summary>
@@ -19,22 +25,42 @@ namespace YAKD.Helpers
         /// Font size
         /// </summary>
         /// <remarks>From 2 to 1000</remarks>
-        public double FontSize { get; private set; }
+        public double FontSize
+        {
+            get => _fontSize;
+            set
+            {
+                if (value > 1 && value <= 1000)
+                {
+                    _fontSize = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Font color
         /// </summary>
-        public Color Color { get; private set; }
+        public Color Color { get; set; }
 
         /// <summary>
         /// Background color
         /// </summary>
-        public Color BackgroundColor { get; private set; }
+        public Color BackgroundColor { get; set; }
 
         /// <summary>
         /// Background color opacity
         /// </summary>
-        public double BackgroundColorOpacity { get; private set; }
+        public double BackgroundColorOpacity
+        {
+            get => _backgroundColorOpacity;
+            set
+            {
+                if (value >= 0.01 && value <= 1)
+                {
+                    _backgroundColorOpacity = value;
+                }
+            }
+        }
 
         /// <summary>
         /// List of demo keys
@@ -44,22 +70,47 @@ namespace YAKD.Helpers
         /// <summary>
         /// Startup position
         /// </summary>
-        public StartupLocationModel StartupPoint { get; private set; }
+        public StartupLocationModel StartupPoint { get; set; }
 
         /// <summary>
         /// Height
         /// </summary>
-        public double Height { get; private set; }
+        public double Height
+        {
+            get => _height;
+            set
+            {
+                if (value >= 20)
+                {
+                    _height = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Width
         /// </summary>
-        public double Width { get; private set; }
+        public double Width
+        {
+            get => _width;
+            set
+            {
+                if (value >= 20)
+                {
+                    _width = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Is resizable
         /// </summary>
         public bool CanResize { get; private set; }
+
+        /// <summary>
+        /// Is tracking mouse
+        /// </summary>
+        public bool MouseEnabled { get; set; }
 
         #endregion
 
@@ -80,6 +131,7 @@ namespace YAKD.Helpers
             Height = 70;
             Width = 300;
             CanResize = false;
+            MouseEnabled = false;
         }
 
         #endregion
@@ -96,59 +148,12 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Updates font size
+        /// Enables demo keys
         /// </summary>
-        /// <param name="fontSize">Font size</param>
-        /// <returns>True if font size was successfully updated; otherwise, False</returns>
-        public bool AddFontSize(double fontSize)
-        {
-            if (fontSize > 1 && fontSize <= 1000)
-            {
-                FontSize = fontSize;
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Updates font color
-        /// </summary>
-        /// <param name="color"><see cref="Color"/></param>
-        public void AddColor(Color color)
-        {
-            Color = color;
-        }
-
-        /// <summary>
-        /// Updates background color
-        /// </summary>
-        /// <param name="backgroundColor"><see cref="Color"/></param>
-        public void AddBackgroundColor(Color backgroundColor)
-        {
-            BackgroundColor = backgroundColor;
-        }
-
-        /// <summary>
-        /// Updates background color opacity
-        /// </summary>
-        /// <param name="backgroundColorOpacity">Color opacity</param>
-        /// <returns>True if color opacity was successfully updated; otherwise, False</returns>
-        public bool AddBackgroundColorOpacity(double backgroundColorOpacity)
-        {
-            if (backgroundColorOpacity >= 0.01 && backgroundColorOpacity <= 1)
-            {
-                BackgroundColorOpacity = backgroundColorOpacity;
-                return true;
-            }
-
-            return false;
-        }
-
-        // TODO: doc
+        /// <param name="value">Value</param>
         public void EnableDemoKeys(bool? value)
         {
-            if (value.Value)
+            if (value.HasValue && value.Value)
             {
                 DemoKeys = "L Shift + L Ctrl + Enter + C + V";
             }
@@ -159,50 +164,12 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Updates window startup point
+        /// Enables resize option
         /// </summary>
-        /// <param name="startupPoint"><see cref="StartupPoint"/></param>
-        public void AddStartupPoint(StartupLocationModel startupPoint)
-        {
-            StartupPoint = startupPoint;
-        }
-
-        /// <summary>
-        /// Updates window height
-        /// </summary>
-        /// <param name="height">Height</param>
-        /// <returns><returns>True if height was successfully updated; otherwise, False</returns></returns>
-        public bool AddHeight(double height)
-        {
-            if (height >= 20)
-            {
-                Height = height;
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Updates window width
-        /// </summary>
-        /// <param name="width">Width</param>
-        /// <returns><returns>True if width was successfully updated; otherwise, False</returns></returns>
-        public bool AddWidth(double width)
-        {
-            if (width >= 20)
-            {
-                Width = width;
-                return true;
-            }
-
-            return false;
-        }
-
-        // TODO: doc
+        /// <param name="value">Value</param>
         public void EnableResize(bool? value)
         {
-            if (value.Value)
+            if (value.HasValue && value.Value)
             {
                 CanResize = true;
             }

@@ -202,5 +202,20 @@ namespace YAKD.Properties {
                 this["RTSSPath"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MouseEnabled
+        {
+            get
+            {
+                return ((bool)(this["MouseEnabled"]));
+            }
+            set
+            {
+                this["MouseEnabled"] = value;
+            }
+        }
     }
 }

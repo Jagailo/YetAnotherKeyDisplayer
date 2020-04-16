@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+using YAKD.Controls.ColorPicker;
 
 namespace YAKD.Models
 {

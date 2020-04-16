@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -11,13 +9,32 @@ using YAKD.Hooks.Mouse;
 
 namespace YAKD
 {
+    /// <summary>
+    /// Key displayer window
+    /// </summary>
     public partial class KeyDisplayerForm : Window
     {
-        private KeyboardHook keyboardHook;
-        private MouseHook mouseHook;
-        private bool isKeyboardHookEnable;
-        private List<string> keys;
+        #region Fields
 
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly KeyboardHook _keyboardHook;
+
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private MouseHook _mouseHook;
+
+        // For demo keys only
+        private bool _isKeyboardHookEnabled;
+
+        private readonly List<string> _keys;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the KeyDisplayerForm class
+        /// </summary>
+        /// <param name="settings">Displaying settings</param>
         public KeyDisplayerForm(KeyDisplayerSettings settings)
         {
             if (settings == null)
@@ -27,23 +44,22 @@ namespace YAKD
 
             InitializeComponent();
             InitializeSettings(settings);
+            _keys = new List<string>();
 
-            keyboardHook = new KeyboardHook();
-            keyboardHook.KeyDown += OnHookKeyDown;
-            keyboardHook.KeyUp += OnHookKeyUp;
-
-            mouseHook = new MouseHook();
-            mouseHook.KeyDown += OnHookMouseKeyDown;
-            mouseHook.KeyUp += OnHookMouseKeyUp;
-
-            keys = new List<string>();
+            _keyboardHook = new KeyboardHook();
+            _keyboardHook.KeyDown += KeyboardHook_KeyDown;
+            _keyboardHook.KeyUp += KeyboardHook_KeyUp;
         }
+
+        #endregion
+
+        #region Methods
 
         public void InitializeSettings(KeyDisplayerSettings settings)
         {
-            keysTextBlock.FontFamily = settings.FontFamily;
-            keysTextBlock.FontSize = settings.FontSize;
-            keysTextBlock.Foreground = new SolidColorBrush(settings.Color);
+            KeysTextBlock.FontFamily = settings.FontFamily;
+            KeysTextBlock.FontSize = settings.FontSize;
+            KeysTextBlock.Foreground = new SolidColorBrush(settings.Color);
             var solidColor = new SolidColorBrush(settings.BackgroundColor)
             {
                 Opacity = settings.BackgroundColorOpacity
@@ -51,73 +67,95 @@ namespace YAKD
             Background = solidColor;
             if (settings.DemoKeys != "")
             {
-                keysTextBlock.Text = settings.DemoKeys;
-                isKeyboardHookEnable = false;
+                KeysTextBlock.Text = settings.DemoKeys;
+                _isKeyboardHookEnabled = false;
             }
             else
             {
-                keysTextBlock.Text = "";
-                isKeyboardHookEnable = true;
-            }            
+                KeysTextBlock.Text = "";
+                _isKeyboardHookEnabled = true;
+            }
+
             if (settings.StartupPoint != null)
             {
                 Top = settings.StartupPoint.Top;
                 Left = settings.StartupPoint.Left;
             }
+
             Height = settings.Height;
             Width = settings.Width;
             ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
+
+            InitializeMouseHook(settings.MouseEnabled);
         }
 
-        private void OnHookKeyUp(object sender, KeyboardHookEventArgs e)
-        {
-            keys.RemoveAll(x => x == e.Key);
-            ShowKeys();
-        }
+        #endregion
 
-        private void OnHookKeyDown(object sender, KeyboardHookEventArgs e)
+        #region Handlers
+
+        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
+
+        #endregion
+
+        #region Events
+
+        private void KeyboardHook_KeyDown(object sender, KeyboardHookEventArgs e) => AddKey(e.Key);
+
+        private void KeyboardHook_KeyUp(object sender, KeyboardHookEventArgs e) => RemoveKey(e.Key);
+
+        private void MouseHook_KeyDown(object sender, MouseHookEventArgs e) => AddKey(e.Key);
+
+        private void MouseHook_KeyUp(object sender, MouseHookEventArgs e) => RemoveKey(e.Key);
+
+        #endregion
+
+        #region Helpers
+
+        private void InitializeMouseHook(bool isMouseEnabled)
         {
-            if (!keys.Exists(x => x == e.Key))
+            if (isMouseEnabled)
             {
-                keys.Add(e.Key);
-                ShowKeys();
+                if (_mouseHook == null)
+                {
+                    _mouseHook = new MouseHook();
+                    _mouseHook.KeyDown += MouseHook_KeyDown;
+                    _mouseHook.KeyUp += MouseHook_KeyUp;
+                }
+            }
+            else
+            {
+                if (_mouseHook != null)
+                {
+                    _mouseHook.Dispose();
+                    _mouseHook = null;
+                }
             }
         }
 
         private void ShowKeys()
         {
-            if (isKeyboardHookEnable) // TODO: mouse 
+            if (_isKeyboardHookEnabled)
             {
-                // TODO: string join
-                keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-                keysTextBlock.Text = "";
-                for (var i = 0; i < keys.Count; i++)
-                {
-                    keysTextBlock.Text += keys.ElementAt(i);
-                    if (i != keys.Count - 1)
-                    {
-                        keysTextBlock.Text += " + ";
-                    }
-                }
+                _keys.Sort((a, b) => b.Length.CompareTo(a.Length));
+                KeysTextBlock.Text = string.Join(" + ", _keys);
             }
         }
 
-        private void OnHookMouseKeyUp(object sender, MouseHookEventArgs e)
+        private void AddKey(string key)
         {
-            keys.RemoveAll(x => x == e.Key);
+            if (!_keys.Contains(key))
+            {
+                _keys.Add(key);
+                ShowKeys();
+            }
+        }
+
+        private void RemoveKey(string key)
+        {
+            _keys.RemoveAll(x => x == key);
             ShowKeys();
         }
 
-        private void OnHookMouseKeyDown(object sender, MouseHookEventArgs e)
-        {
-            if (keys.Exists(x => x == e.Key)) return;
-            keys.Add(e.Key);
-            ShowKeys();
-        }
-
-        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
+        #endregion
     }
 }

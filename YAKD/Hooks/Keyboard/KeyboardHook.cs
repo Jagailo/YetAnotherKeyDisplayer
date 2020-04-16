@@ -26,8 +26,8 @@ namespace YAKD.Hooks.Keyboard
         private static extern int CallNextHookEx(IntPtr hook, int code, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
 
         private const HookType HookType = Enums.HookType.WH_KEYBOARD_LL;
-        private IntPtr hookHandle = IntPtr.Zero;
-        private readonly HookProc hookFunction;
+        private IntPtr _hookHandle = IntPtr.Zero;
+        private readonly HookProc _hookFunction;
 
         private delegate int HookProc(int code, IntPtr wParam, ref KBDLLHOOKSTRUCT lParam);
 
@@ -38,7 +38,7 @@ namespace YAKD.Hooks.Keyboard
 
         public KeyboardHook()
         {
-            hookFunction = HookCallback;
+            _hookFunction = HookCallback;
             Install();
         }
 
@@ -56,7 +56,7 @@ namespace YAKD.Hooks.Keyboard
         {
             if (code < 0)
             {
-                return CallNextHookEx(hookHandle, code, wParam, ref lParam);
+                return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
             }
 
             if ((lParam.flags & 0x80) != 0)
@@ -69,12 +69,12 @@ namespace YAKD.Hooks.Keyboard
                 KeyDown?.Invoke(this, new KeyboardHookEventArgs(lParam.vkCode));
             }
 
-            return CallNextHookEx(hookHandle, code, wParam, ref lParam);
+            return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
         }
 
         private void Install()
         {
-            if (hookHandle != IntPtr.Zero)
+            if (_hookHandle != IntPtr.Zero)
             {
                 return;
             }
@@ -82,15 +82,15 @@ namespace YAKD.Hooks.Keyboard
             var modules = Assembly.GetExecutingAssembly().GetModules();
             System.Diagnostics.Debug.Assert(modules != null && modules.Length > 0);
 
-            hookHandle = SetWindowsHookEx(HookType, hookFunction, Marshal.GetHINSTANCE(modules[0]), 0);
+            _hookHandle = SetWindowsHookEx(HookType, _hookFunction, Marshal.GetHINSTANCE(modules[0]), 0);
         }
 
         private void Uninstall()
         {
-            if (hookHandle != IntPtr.Zero)
+            if (_hookHandle != IntPtr.Zero)
             {
-                UnhookWindowsHookEx(hookHandle);
-                hookHandle = IntPtr.Zero;
+                UnhookWindowsHookEx(_hookHandle);
+                _hookHandle = IntPtr.Zero;
 
                 KeyDown = KeyUp = null;
             }

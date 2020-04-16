@@ -98,13 +98,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ColorPicker.xaml.cs">
+    <Compile Include="Controls\ColorPicker\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorPickerWindow.xaml.cs">
       <DependentUpon>ColorPickerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\HookType.cs" />
+    <Compile Include="Enums\MouseMessage.cs" />
+    <Compile Include="Helpers\MouseButtonsConverter.cs" />
     <Compile Include="Hooks\Keyboard\KeyboardHookEventArgs.cs" />
     <Compile Include="Hooks\Mouse\MouseHookEventArgs.cs" />
     <Compile Include="Models\StartupLocationModel.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="Hooks\Mouse\MouseHook.cs" />
     <Compile Include="Helpers\RTSSHandler.cs" />
     <Compile Include="Models\TransferModel.cs" />
-    <Page Include="ColorPicker.xaml">
+    <Page Include="Controls\ColorPicker\ColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,7 +198,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ColorSwatchSquare.png" />
+    <Resource Include="Images\Controls\ColorPicker\ColorSwatchSquare.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RTSSCustomOSD\RTSSSharedMemoryNET.vcxproj">
@@ -204,6 +206,8 @@
       <Name>RTSSSharedMemoryNET</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Images\Icons\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
