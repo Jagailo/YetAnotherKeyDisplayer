@@ -8,7 +8,7 @@ namespace YAKD.Models
     /// </summary>
     public static class TransferModel
     {
-        #region Fields
+        #region Properties
 
         /// <summary>
         /// Selected color

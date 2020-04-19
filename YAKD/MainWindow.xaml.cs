@@ -79,7 +79,7 @@ namespace YAKD
             _isRtssEnabled = true;
             RTSSHandler.RunRTSS();
 
-            if (RTSSHandler.IsRTSSRunning())
+            if (RTSSHandler.IsRunning)
             {
                 InitializeKeyboardHook();
                 if (_isMouseEnabled)
@@ -329,7 +329,7 @@ namespace YAKD
             Title += " [Saving ...]";
             _keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
-            if (RTSSHandler.IsRTSSRunning())
+            if (RTSSHandler.IsRunning)
             {
                 RTSSHandler.KillRTSS();
             }

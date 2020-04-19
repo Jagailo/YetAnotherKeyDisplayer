@@ -1,18 +1,15 @@
-// OSD.h
-
 #pragma once
 
 #include "Structs.h"
 
 using namespace System;
-using namespace System::Collections::Generic;
-using namespace System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Runtime::InteropServices;
 
-namespace RTSSSharedMemoryNET {
-
+namespace RTSSSharedMemoryNET
+{
     public ref class OSD
     {
-    private:
         LPCSTR m_entryName;
         DWORD m_osdSlot;
         bool m_disposed;
@@ -22,7 +19,7 @@ namespace RTSSSharedMemoryNET {
         ~OSD();
         !OSD();
 
-        static property System::Version^ Version
+        static property Version^ Version
         {
             System::Version^ get();
         }
@@ -34,7 +31,7 @@ namespace RTSSSharedMemoryNET {
     private:
         static void openSharedMemory(HANDLE* phMapFile, LPRTSS_SHARED_MEMORY* ppMem);
         static void closeSharedMemory(HANDLE hMapFile, LPRTSS_SHARED_MEMORY pMem);
-        static DateTime timeFromTickcount(DWORD ticks);
+        static DateTime timeFromTickCount(DWORD ticks);
     };
 
     LPCWSTR MBtoWC(const char* str);

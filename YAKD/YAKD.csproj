@@ -113,7 +113,7 @@
     <Compile Include="RTSSWindow.xaml.cs">
       <DependentUpon>RTSSWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Hooks\Keyboard\KeyboardHook.cs" />
     <Compile Include="Helpers\KeyDisplayerSettings.cs" />
     <Compile Include="Helpers\KeyboardListConverter.cs" />

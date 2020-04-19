@@ -29,6 +29,11 @@ namespace YAKD.Helpers
         /// </summary>
         public static string RTSSPath { get; set; }
 
+        /// <summary>
+        /// Returns true if RTSS is running
+        /// </summary>
+        public static bool IsRunning => Process.GetProcessesByName("RTSS").Length != 0;
+
         #endregion
 
         #region Constructor
@@ -51,7 +56,7 @@ namespace YAKD.Helpers
         /// <param name="text">Text</param>
         public static void Print(string text)
         {
-            if (IsRTSSRunning())
+            if (IsRunning)
             {
                 _osd?.Update(text);
             }
@@ -62,7 +67,7 @@ namespace YAKD.Helpers
         /// </summary>
         public static void RunRTSS()
         {
-            if (_rtssInstance == null && !IsRTSSRunning() && File.Exists(RTSSPath))
+            if (_rtssInstance == null && !IsRunning && File.Exists(RTSSPath))
             {
                 try
                 {
@@ -94,15 +99,6 @@ namespace YAKD.Helpers
                     MessageBox.Show(exc.Message, "Could not start the OSD", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-        }
-
-        /// <summary>
-        /// Returns true if RTSS is running
-        /// </summary>
-        /// <returns><see cref="bool"/></returns>
-        public static bool IsRTSSRunning()
-        {
-            return Process.GetProcessesByName("RTSS").Length != 0;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
     /// </summary>
     public class StartupLocationModel
     {
-        #region Fields
+        #region Properties
 
         /// <summary>
         /// Point from top of the screen
