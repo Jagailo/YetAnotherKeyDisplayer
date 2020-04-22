@@ -163,19 +163,19 @@ namespace YAKD
         {
             if (OpacityTextBox != null && _isSliderEnabled)
             {
-                OpacityTextBox.Text = OpacitySlider.Value.ToString(CultureInfo.InvariantCulture);
+                OpacityTextBox.Text = $"{OpacitySlider.Value.ToString(CultureInfo.InvariantCulture)}%";
             }
         }
 
         private void OpacityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var value = OpacityTextBox.Text.Replace('.', ',');
-            if (double.TryParse(value, out var number) && number >= 0.01 && number <= 1)
+            var value = OpacityTextBox.Text.Replace("%", "");
+            if (int.TryParse(value, out var number) && number > 0 && number <= 100)
             {
-                _settings.BackgroundColorOpacity = number;
                 _isSliderEnabled = false;
                 OpacitySlider.Value = number;
                 _isSliderEnabled = true;
+                _settings.BackgroundColorOpacity = number / 100.0;
                 UpdateKeyDisplayerForm();
             }
         }
@@ -386,7 +386,7 @@ namespace YAKD
         private void InitializeMainWindow(KeyDisplayerSettings keyDisplayerSettings)
         {
             BackgroundColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.BackgroundColor);
-            OpacityTextBox.Text = keyDisplayerSettings.BackgroundColorOpacity.ToString(CultureInfo.InvariantCulture);
+            OpacityTextBox.Text = $"{keyDisplayerSettings.BackgroundColorOpacity * 100}%";
             DemoKeysCheckBox.IsChecked = !string.IsNullOrEmpty(keyDisplayerSettings.DemoKeys);
             ResizeCheckBox.IsChecked = keyDisplayerSettings.CanResize;
             var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == keyDisplayerSettings.FontFamily.Source);
