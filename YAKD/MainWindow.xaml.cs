@@ -82,10 +82,7 @@ namespace YAKD
             if (RTSSHandler.IsRunning)
             {
                 InitializeKeyboardHook();
-                if (_isMouseEnabled)
-                {
-                    EnableMouseHook();
-                }
+                EnableMouseHook();
             }
             else
             {
@@ -111,13 +108,16 @@ namespace YAKD
                 _settings.MouseEnabled = false;
             }
 
-            EnableControls(true);
-            _isRtssEnabled = false;
             if (_keyboardHook != null)
             {
                 _keyboardHook.Dispose();
                 _keyboardHook = null;
             }
+
+            _isRtssEnabled = false;
+            RTSSHandler.KillRTSS();
+
+            EnableControls(true);
         }
 
         private void MouseHookCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -268,6 +268,27 @@ namespace YAKD
             UpdateKeyDisplayerForm();
         }
 
+        private void LeftAlignmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.KeysAlignment = HorizontalAlignment.Left;
+            SetActiveButtonForKeysAlignment(HorizontalAlignment.Left);
+            UpdateKeyDisplayerForm();
+        }
+
+        private void CenterAlignmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.KeysAlignment = HorizontalAlignment.Center;
+            SetActiveButtonForKeysAlignment(HorizontalAlignment.Center);
+            UpdateKeyDisplayerForm();
+        }
+
+        private void RightAlignmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.KeysAlignment = HorizontalAlignment.Right;
+            SetActiveButtonForKeysAlignment(HorizontalAlignment.Right);
+            UpdateKeyDisplayerForm();
+        }
+
         #endregion
 
         #region Footer
@@ -290,7 +311,7 @@ namespace YAKD
         {
             if (MessageBox.Show("Are you sure you want to reset your settings?", "YAKD - Default settings", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                _settings = new KeyDisplayerSettings();
+                _settings = new KeyDisplayerSettings { MouseEnabled = _isMouseEnabled };
                 _keyDisplayerForm.Close();
                 _keyDisplayerForm = new KeyDisplayerForm(_settings);
                 _keyDisplayerForm.Show();
@@ -393,6 +414,7 @@ namespace YAKD
             FontComboBox.SelectedIndex = font != null ? FontComboBox.Items.IndexOf(font) : 0;
             FontSizeTextBox.Text = keyDisplayerSettings.FontSize.ToString(CultureInfo.InvariantCulture);
             FontColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.Color);
+            SetActiveButtonForKeysAlignment(keyDisplayerSettings.KeysAlignment);
         }
 
         private void InitializeKeyboardHook()
@@ -427,6 +449,7 @@ namespace YAKD
                     RTSSHandler.RTSSPath = fileSettings.RTSSPath;
                     _isRtssEnabled = fileSettings.RTSSEnabled;
                     _isMouseEnabled = fileSettings.MouseEnabled;
+                    _settings.KeysAlignment = fileSettings.KeysAlignment;
                 }
                 catch (Exception)
                 {
@@ -463,6 +486,7 @@ namespace YAKD
                 fileSettings.RTSSEnabled = _isRtssEnabled;
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
                 fileSettings.MouseEnabled = _isMouseEnabled;
+                fileSettings.KeysAlignment = _settings.KeysAlignment;
                 fileSettings.Created = true;
             }
             catch (Exception)
@@ -485,7 +509,20 @@ namespace YAKD
                 ShowHideWindowButton.IsEnabled =
                 DefaultSettingsButton.IsEnabled =
                 DecreaseFontSizeRepeatButton.IsEnabled =
-                IncreaseFontSizeRepeatButton.IsEnabled = state;
+                IncreaseFontSizeRepeatButton.IsEnabled =
+                LeftAlignmentButton.IsEnabled =
+                CenterAlignmentButton.IsEnabled =
+                RightAlignmentButton.IsEnabled =
+                state;
+
+            if (state)
+            {
+                SetActiveButtonForKeysAlignment(_settings.KeysAlignment);
+            }
+            else
+            {
+                SetActiveButtonForKeysAlignment(null);
+            }
 
             if (state && !_keyDisplayerForm.IsVisible)
             {
@@ -531,9 +568,12 @@ namespace YAKD
 
         private void EnableMouseHook()
         {
-            _mouseHook = new MouseHook();
-            _mouseHook.KeyDown += MouseHook_KeyDown;
-            _mouseHook.KeyUp += MouseHook_KeyUp;
+            if (_isMouseEnabled)
+            {
+                _mouseHook = new MouseHook();
+                _mouseHook.KeyDown += MouseHook_KeyDown;
+                _mouseHook.KeyUp += MouseHook_KeyUp;
+            }
         }
 
         private void DisableMouseHook()
@@ -542,6 +582,43 @@ namespace YAKD
             {
                 _mouseHook.Dispose();
                 _mouseHook = null;
+            }
+        }
+
+        private void SetActiveButtonForKeysAlignment(HorizontalAlignment? alignment)
+        {
+            if (!alignment.HasValue)
+            {
+                LeftAlignmentButton.Tag = "0";
+                CenterAlignmentButton.Tag = "0";
+                RightAlignmentButton.Tag = "0";
+
+                return;
+            }
+
+            switch (alignment)
+            {
+                case HorizontalAlignment.Left:
+                    LeftAlignmentButton.Tag = "1";
+                    CenterAlignmentButton.Tag = "0";
+                    RightAlignmentButton.Tag = "0";
+                    break;
+                case HorizontalAlignment.Center:
+                case HorizontalAlignment.Stretch:
+                    LeftAlignmentButton.Tag = "0";
+                    CenterAlignmentButton.Tag = "1";
+                    RightAlignmentButton.Tag = "0";
+                    break;
+                case HorizontalAlignment.Right:
+                    LeftAlignmentButton.Tag = "0";
+                    CenterAlignmentButton.Tag = "0";
+                    RightAlignmentButton.Tag = "1";
+                    break;
+                default:
+                    LeftAlignmentButton.Tag = "0";
+                    CenterAlignmentButton.Tag = "1";
+                    RightAlignmentButton.Tag = "0";
+                    break;
             }
         }
 

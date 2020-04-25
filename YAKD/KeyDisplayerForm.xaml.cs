@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -60,6 +59,7 @@ namespace YAKD
             KeysTextBlock.FontFamily = settings.FontFamily;
             KeysTextBlock.FontSize = settings.FontSize;
             KeysTextBlock.Foreground = new SolidColorBrush(settings.Color);
+            KeysTextBlock.HorizontalAlignment = settings.KeysAlignment;
             var solidColor = new SolidColorBrush(settings.BackgroundColor)
             {
                 Opacity = settings.BackgroundColorOpacity

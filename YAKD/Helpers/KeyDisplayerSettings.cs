@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 using YAKD.Models;
 
 namespace YAKD.Helpers
@@ -112,6 +113,11 @@ namespace YAKD.Helpers
         /// </summary>
         public bool MouseEnabled { get; set; }
 
+        /// <summary>
+        /// Horizontal keys alignment
+        /// </summary>
+        public HorizontalAlignment KeysAlignment { get; set; }
+
         #endregion
 
         #region Constructor
@@ -126,12 +132,10 @@ namespace YAKD.Helpers
             Color = Color.FromRgb(238, 238, 238);
             BackgroundColor = Colors.Black;
             BackgroundColorOpacity = 0.4;
-            DemoKeys = "";
-            StartupPoint = null;
+            DemoKeys = string.Empty;
             Height = 70;
             Width = 300;
-            CanResize = false;
-            MouseEnabled = false;
+            KeysAlignment = HorizontalAlignment.Center;
         }
 
         #endregion

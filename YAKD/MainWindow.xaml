@@ -1,13 +1,13 @@
-﻿<Window x:Class="YAKD.MainWindow"
+<Window x:Class="YAKD.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="500"
-        MinHeight="500"
-        MaxHeight="550"
+        Height="520"
+        MinHeight="520"
+        MaxHeight="570"
         Width="440"
         MinWidth="440"
         MaxWidth="480"
@@ -92,7 +92,7 @@
                     <ControlTemplate TargetType="RepeatButton">
                         <Border Name="border" 
                                 BorderThickness="1"
-                                Width="Auto"
+                                Width="23"
                                 SnapsToDevicePixels="True"
                                 Height="23"
                                 Padding="0,0,0,1"
@@ -116,6 +116,52 @@
                                 <Setter TargetName="border" Property="BorderBrush" Value="#FF007ACC" />
                                 <Setter TargetName="border" Property="Background" Value="#FF007ACC" />
                                 <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFFFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FFCCCEDB" />
+                                <Setter TargetName="border" Property="Background" Value="#FFF5F5F5" />
+                                <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFA2A4A5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VisualStudioIconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="1"
+                                Width="23"
+                                SnapsToDevicePixels="True"
+                                Height="23"
+                                Padding="3"
+                                BorderBrush="#FFACACAC" 
+                                Background="#FFECECF0">
+                            <ContentPresenter Name="content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFC9DEF5" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF007ACC" />
+                                <Setter TargetName="border" Property="Background" Value="#FF007ACC" />
+                                <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFFFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FFCCCEDB" />
+                                <Setter TargetName="border" Property="Background" Value="#FFF5F5F5" />
+                                <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFA2A4A5" />
+                            </Trigger>
+                            <Trigger Property="Tag" Value="1">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -167,9 +213,9 @@
     </Window.Resources>
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="10*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -288,6 +334,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -336,9 +383,9 @@
                 <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="27" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="27" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Font size:" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <RepeatButton x:Name="DecreaseFontSizeRepeatButton"
@@ -346,7 +393,7 @@
                             Content="-"
                             Style="{StaticResource VisualStudioRepeatButtonStyle}"
                             Click="DecreaseFontSizeRepeatButton_Click"
-                            Margin="0,0,2,0" />
+                            Margin="0,0,4,0" />
                     <TextBox x:Name="FontSizeTextBox"
                              Grid.Column="2"
                              Width="Auto"
@@ -359,7 +406,7 @@
                             Content="+"
                             Style="{StaticResource VisualStudioRepeatButtonStyle}"
                             Click="IncreaseFontSizeRepeatButton_Click"
-                            Margin="2,0,0,0" />
+                            Margin="4,0,0,0" />
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -375,6 +422,37 @@
                             Background="#EEEEEE"
                             Style="{StaticResource ColorPickerButtonStyle}"
                             Click="FontColorRectangle_Click" />
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="2" Margin="0,0,10,0" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Text alignment:" VerticalAlignment="Center" Padding="0,0,8,0" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <Button x:Name="LeftAlignmentButton"
+                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+                                Tag="0"
+                                Style="{StaticResource VisualStudioIconButtonStyle}"
+                                Click="LeftAlignmentButton_Click">
+                            <svgc:SvgViewbox Source="/Images/Icons/text-left-alignment.svg" />
+                        </Button>
+                        <Button x:Name="CenterAlignmentButton"
+                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+                                Tag="1"
+                                Style="{StaticResource VisualStudioIconButtonStyle}"
+                                Margin="4,0"
+                                Click="CenterAlignmentButton_Click">
+                            <svgc:SvgViewbox Source="/Images/Icons/text-center-alignment.svg" />
+                        </Button>
+                        <Button x:Name="RightAlignmentButton"
+                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+                                Tag="0"
+                                Style="{StaticResource VisualStudioIconButtonStyle}"
+                                Click="RightAlignmentButton_Click">
+                            <svgc:SvgViewbox Source="/Images/Icons/text-right-alignment-button.svg" />
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </GroupBox>

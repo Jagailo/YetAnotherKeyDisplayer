@@ -11,7 +11,13 @@
                     Background="Transparent"
                     MouseDown="CanvasImage_MouseDown"
                     MouseUp="CanvasImage_MouseUp">
-                <Ellipse x:Name="EllipsePixel" Width="10" Height="10" Stroke="Black" Fill="White" Canvas.Left="-5" Canvas.Top="-5" />
+                <Ellipse x:Name="EllipsePixel"
+                         Width="10"
+                         Height="10"
+                         Stroke="Black"
+                         Fill="White"
+                         Canvas.Left="-5"
+                         Canvas.Top="-5" />
             </Canvas>
         </Grid>
         <Rectangle x:Name="ColorRectangle"
