@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -49,6 +53,7 @@ namespace YAKD
         /// </summary>
         public MainWindow()
         {
+            CheckForUpdates();
             _settings = new KeyDisplayerSettings();
             _isSliderEnabled = true;
             _isRtssEnabled = false;
@@ -620,6 +625,27 @@ namespace YAKD
                     RightAlignmentButton.Tag = "0";
                     break;
             }
+        }
+
+        private async void CheckForUpdates()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var version = Convert.ToInt16(Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", ""));
+                    var json = new WebClient().DownloadString("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/version.json");
+                    var cloudVersion = JsonConvert.DeserializeObject<VersionModel>(json);
+                    if (version < cloudVersion.Version)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => { AboutTextBlock.Text = "a new version is available"; });
+                    }
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
+            });
         }
 
         #endregion

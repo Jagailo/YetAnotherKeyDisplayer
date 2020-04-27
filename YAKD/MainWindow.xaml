@@ -487,7 +487,8 @@
                        Text="YAKD v.1.2 by Jagailo - "
                        VerticalAlignment="Top"
                        FontSize="11" />
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock x:Name="AboutTextBlock"
+                       HorizontalAlignment="Left"
                        Text="about"
                        VerticalAlignment="Top"
                        FontSize="11"

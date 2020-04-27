@@ -42,8 +42,8 @@ namespace YAKD.Controls.ColorPicker
         {
             InitializeComponent();
 
-            _ellipseHalfWidth = EllipsePixel.Width / 2.0;
-            _ellipseHalfHeight = EllipsePixel.Height / 2.0;
+            _ellipseHalfWidth = Math.Floor(EllipsePixel.Width / 2);
+            _ellipseHalfHeight = Math.Floor(EllipsePixel.Height / 2);
 
             SetColor(Colors.White);
             _isChangingByUser = true;
@@ -60,7 +60,7 @@ namespace YAKD.Controls.ColorPicker
         public void SetColor(Color color)
         {
             SelectedColor = color;
-            MoveEllipse(CanvasImage.Width / 2.0, CanvasImage.Height / 2.0, color);
+            MoveEllipse(CanvasImage.Width / 2, CanvasImage.Height / 2, color);
             UpdateTextBox();
             ColorRectangle.Fill = new SolidColorBrush(color);
         }
@@ -76,11 +76,7 @@ namespace YAKD.Controls.ColorPicker
                 var x = Mouse.GetPosition(CanvasPanel).X;
                 var y = Mouse.GetPosition(CanvasPanel).Y;
 
-                if (x < _ellipseHalfWidth || x > CanvasPanel.Width - _ellipseHalfWidth || y < _ellipseHalfHeight || y > CanvasPanel.Height - _ellipseHalfHeight)
-                {
-                    _isMouseDown = false;
-                }
-                else if (x < CanvasImage.Width && x >= 0 && y < CanvasImage.Height && y >= 0)
+                if (x >= _ellipseHalfWidth && x <= CanvasImage.Width - _ellipseHalfWidth - 1 && y >= _ellipseHalfHeight && y <= CanvasImage.Height - _ellipseHalfHeight - 1)
                 {
                     try
                     {
@@ -102,6 +98,10 @@ namespace YAKD.Controls.ColorPicker
                         CanvasImage.InvalidateVisual();
                     }
                 }
+                else
+                {
+                    _isMouseDown = false;
+                }
             }
         }
 
@@ -120,7 +120,7 @@ namespace YAKD.Controls.ColorPicker
             if (_isChangingByUser && Regex.IsMatch(ColorName.Text, @"^#(?:[0-9a-fA-F]{3}){1,2}$"))
             {
                 SelectedColor = (Color)ColorConverter.ConvertFromString(ColorName.Text);
-                MoveEllipse(CanvasImage.Width / 2.0, CanvasImage.Height / 2.0, SelectedColor);
+                MoveEllipse(CanvasImage.Width / 2, CanvasImage.Height / 2, SelectedColor);
                 ColorRectangle.Fill = new SolidColorBrush(SelectedColor);
             }
         }

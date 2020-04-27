@@ -81,6 +81,9 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SharpVectors.Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b532964b8548be77, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpVectors.1.0\lib\net20\SharpVectors.Converters.dll</HintPath>
     </Reference>
@@ -139,6 +142,7 @@
     <Compile Include="Hooks\Keyboard\KeyboardHookEventArgs.cs" />
     <Compile Include="Hooks\Mouse\MouseHookEventArgs.cs" />
     <Compile Include="Models\StartupLocationModel.cs" />
+    <Compile Include="Models\VersionModel.cs" />
     <Compile Include="RTSSWindow.xaml.cs">
       <DependentUpon>RTSSWindow.xaml</DependentUpon>
     </Compile>

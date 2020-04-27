@@ -6,7 +6,7 @@
         xmlns:colorPicker="clr-namespace:YAKD.Controls.ColorPicker"
         mc:Ignorable="d"
         Title="Choose a color"
-        Height="301"
+        Height="305"
         Width="196"
         FontFamily="{StaticResource RobotoRegular}"
         ResizeMode="NoResize"
@@ -65,8 +65,6 @@
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2"
                                  Grid.Row="0"
-                                 Width="170"
-                                 Height="221"
                                  TabIndex="0" />
         <Button x:Name="OkButton"
                 Grid.Row="1"
