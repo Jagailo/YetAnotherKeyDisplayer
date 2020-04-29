@@ -16,3 +16,7 @@ The program for displaying the pressed keys of the keyboard and mouse. RTSS Riva
 * Used [RTSS shared memory](https://github.com/spencerhakim/RTSSSharedMemoryNET) library written by [@spencerhakim](https://github.com/spencerhakim).
 * [@Barnacle](https://github.com/Barnacle) added mouse support.
 * Text alignment icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [flaticon](https://www.flaticon.com/).
+
+## YAKD on other sites
+* [Softpedia.com](https://www.softpedia.com/get/Others/Miscellaneous/YAKD-Yet-Another-Key-Displayer.shtml)
+* [Sonraid.ru](http://sonraid.ru/yakd-yet-another-key-displayer/)
