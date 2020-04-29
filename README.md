@@ -7,7 +7,7 @@ The program for displaying the pressed keys of the keyboard and mouse. RTSS Riva
 ![Yet Another Key Displayer](https://imgur.com/EndoFls.png)
 ![Yet Another Key Displayer](https://imgur.com/QqNUYUb.png)
 ![Yet Another Key Displayer](https://imgur.com/kMhUvHF.png)
-![Yet Another Key Displayer](https://imgur.com/8y0Xhnq.png)
+![Yet Another Key Displayer](https://imgur.com/pbwBa4A.png)
 
 ## Как использовать (russian tutorial)
 [![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
