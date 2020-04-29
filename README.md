@@ -20,3 +20,6 @@ The program for displaying the pressed keys of the keyboard and mouse. RTSS Riva
 ## YAKD on other sites
 * [Softpedia.com](https://www.softpedia.com/get/Others/Miscellaneous/YAKD-Yet-Another-Key-Displayer.shtml)
 * [Sonraid.ru](http://sonraid.ru/yakd-yet-another-key-displayer/)
+* [Ilovefreesoftware.com](https://www.ilovefreesoftware.com/21/windows/show-keystrokes-on-screen-set-font-background-color-to-display-keys.html)
+* [Stahnu.cz](https://stahnu.cz/utility/yet-another-key-displayer)
+* [Stiahnut.sk](https://stiahnut.sk/utility-a-ostatne/yet-another-key-displayer)
