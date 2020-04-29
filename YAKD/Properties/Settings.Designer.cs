@@ -226,5 +226,17 @@ namespace YAKD.Properties {
                 this["KeysAlignment"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FirstLaunchStatistic {
+            get {
+                return ((bool)(this["FirstLaunchStatistic"]));
+            }
+            set {
+                this["FirstLaunchStatistic"] = value;
+            }
+        }
     }
 }

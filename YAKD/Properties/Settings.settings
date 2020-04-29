@@ -53,5 +53,8 @@
     <Setting Name="KeysAlignment" Type="System.Windows.HorizontalAlignment" Scope="User">
       <Value Profile="(Default)">Center</Value>
     </Setting>
+    <Setting Name="FirstLaunchStatistic" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

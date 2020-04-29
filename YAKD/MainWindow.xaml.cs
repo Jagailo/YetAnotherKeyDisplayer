@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,12 +8,15 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using YAKD.Enums;
 using YAKD.Helpers;
 using YAKD.Hooks.Keyboard;
 using YAKD.Hooks.Mouse;
@@ -455,6 +460,11 @@ namespace YAKD
                     _isRtssEnabled = fileSettings.RTSSEnabled;
                     _isMouseEnabled = fileSettings.MouseEnabled;
                     _settings.KeysAlignment = fileSettings.KeysAlignment;
+
+                    if (!fileSettings.FirstLaunchStatistic)
+                    {
+                        SendStatistic();
+                    }
                 }
                 catch (Exception)
                 {
@@ -644,6 +654,40 @@ namespace YAKD
                 catch (Exception)
                 {
                     // Ignored
+                }
+            });
+        }
+
+        private async void SendStatistic()
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    var statistic = new StatisticModel
+                    {
+                        Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                        Type = StatisticType.Installation
+                    };
+
+                    var serializerSettings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        Converters = new List<JsonConverter> { new StringEnumConverter() }
+                    };
+                    var json = JsonConvert.SerializeObject(statistic, serializerSettings);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    using (var httpClient = new HttpClient())
+                    {
+                        await httpClient.PostAsync("https://yakd.000webhostapp.com/api/statistic/create.php", content);
+                    }
+
+                    Properties.Settings.Default.FirstLaunchStatistic = true;
+                }
+                catch (Exception)
+                {
+                    Properties.Settings.Default.FirstLaunchStatistic = false;
                 }
             });
         }

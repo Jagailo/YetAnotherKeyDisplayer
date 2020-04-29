@@ -138,10 +138,12 @@
     </Compile>
     <Compile Include="Enums\HookType.cs" />
     <Compile Include="Enums\MouseMessage.cs" />
+    <Compile Include="Enums\StatisticType.cs" />
     <Compile Include="Helpers\MouseButtonsConverter.cs" />
     <Compile Include="Hooks\Keyboard\KeyboardHookEventArgs.cs" />
     <Compile Include="Hooks\Mouse\MouseHookEventArgs.cs" />
     <Compile Include="Models\StartupLocationModel.cs" />
+    <Compile Include="Models\StatisticModel.cs" />
     <Compile Include="Models\VersionModel.cs" />
     <Compile Include="RTSSWindow.xaml.cs">
       <DependentUpon>RTSSWindow.xaml</DependentUpon>
