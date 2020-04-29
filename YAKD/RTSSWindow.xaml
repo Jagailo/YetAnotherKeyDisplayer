@@ -3,12 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:YAKD"
         mc:Ignorable="d"
-        Title="Error: Rivatuner Statistics Server not found" Height="250" Width="450"
+        Title="Error: Rivatuner Statistics Server is not found"
+        Height="250"
+        Width="450"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5" Foreground="#1E1E1E"
-        FontFamily="{StaticResource RobotoRegular}" FontSize="14" ResizeMode="NoResize">
+        Background="#F5F5F5"
+        Foreground="#1E1E1E"
+        FontFamily="{StaticResource RobotoRegular}"
+        FontSize="14"
+        ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
@@ -24,8 +28,11 @@
                                 Margin="0,5,5,5"
                                 BorderBrush="#FFACACAC" 
                                 Background="#FFECECF0">
-                            <ContentPresenter Name="content" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              TextBlock.Foreground="#FF1E1E1E" TextBlock.FontSize="12" />
+                            <ContentPresenter Name="content"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextBlock.Foreground="#FF1E1E1E"
+                                              TextBlock.FontSize="12" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -53,7 +60,8 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock TextWrapping="Wrap"
-                       Text="Rivatuner Statistics Server (RTSS) is a program through which you can output pressed keys directly into the game with minimal loss in performance. This program is developed by a third party - Guru3D.com." Margin="10" />
+                       Text="Rivatuner Statistics Server (RTSS) is a program with which you can output pressed keys directly into the game with minimal loss in performance. This program is developed by a third party - Guru3D.com."
+                       Margin="10" />
             <TextBlock x:Name="RTSSPathTextBlock" TextWrapping="Wrap" Margin="10" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">

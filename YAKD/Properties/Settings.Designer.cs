@@ -12,7 +12,7 @@ namespace YAKD.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#00000000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF000000")]
         public global::System.Windows.Media.Color BackgroundColor {
             get {
                 return ((global::System.Windows.Media.Color)(this["BackgroundColor"]));
@@ -37,7 +37,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.4")]
         public double BackgroundColorOpacity {
             get {
                 return ((double)(this["BackgroundColorOpacity"]));
@@ -73,7 +73,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
         public double FontSize {
             get {
                 return ((double)(this["FontSize"]));
@@ -85,7 +85,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#00000000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFEEEEEE")]
         public global::System.Windows.Media.Color Color {
             get {
                 return ((global::System.Windows.Media.Color)(this["Color"]));
@@ -133,7 +133,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("70")]
         public double Height {
             get {
                 return ((double)(this["Height"]));
@@ -145,7 +145,7 @@ namespace YAKD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
         public double Width {
             get {
                 return ((double)(this["Width"]));
@@ -200,6 +200,42 @@ namespace YAKD.Properties {
             }
             set {
                 this["RTSSPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MouseEnabled {
+            get {
+                return ((bool)(this["MouseEnabled"]));
+            }
+            set {
+                this["MouseEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Center")]
+        public global::System.Windows.HorizontalAlignment KeysAlignment {
+            get {
+                return ((global::System.Windows.HorizontalAlignment)(this["KeysAlignment"]));
+            }
+            set {
+                this["KeysAlignment"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FirstLaunchStatistic {
+            get {
+                return ((bool)(this["FirstLaunchStatistic"]));
+            }
+            set {
+                this["FirstLaunchStatistic"] = value;
             }
         }
     }

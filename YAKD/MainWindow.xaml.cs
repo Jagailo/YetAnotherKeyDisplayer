@@ -1,13 +1,26 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using YAKD.Utils;
+using YAKD.Enums;
+using YAKD.Helpers;
+using YAKD.Hooks.Keyboard;
+using YAKD.Hooks.Mouse;
+using YAKD.Models;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
@@ -15,109 +28,166 @@ using MessageBoxResult = System.Windows.Forms.DialogResult;
 
 namespace YAKD
 {
+    /// <summary>
+    /// Main window
+    /// </summary>
     public partial class MainWindow : Window
     {
-        private KeyDisplayerForm keyDisplayerForm;
-        private KeyDisplayerSettings settings;
-        private bool isFirstRun, isSliderEnabled, isRTSSEnabled;
-        private KeyboardHook keyboardHook;
-        private List<string> keys;
+        #region Fields
 
+        private KeyDisplayerForm _keyDisplayerForm;
+
+        private KeyDisplayerSettings _settings;
+
+        private readonly bool _isFirstRun;
+
+        private bool _isSliderEnabled, _isRtssEnabled, _isMouseEnabled;
+
+        private KeyboardHook _keyboardHook;
+
+        private MouseHook _mouseHook;
+
+        private readonly List<string> _keys;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of MainWindow class
+        /// </summary>
         public MainWindow()
         {
-            settings = new KeyDisplayerSettings();
-            isSliderEnabled = true;
-            isRTSSEnabled = false;
-            keys = new List<string>();
+            CheckForUpdates();
+            _settings = new KeyDisplayerSettings();
+            _isSliderEnabled = true;
+            _isRtssEnabled = false;
+            _isMouseEnabled = false;
+            _keys = new List<string>();
             InitializeSettingsFromFile(Properties.Settings.Default);
-            isFirstRun = true;
+            _isFirstRun = true;
             InitializeComponent();
-            isFirstRun = false;
+            _isFirstRun = false;
             System.Windows.Forms.Application.EnableVisualStyles();
-            InitializeMainWindow(settings);
-            InitializeKeyDisplayerForm(settings);
-            keyDisplayerForm.Show();
+            InitializeMainWindow(_settings);
+            InitializeKeyDisplayerForm(_settings);
+            _keyDisplayerForm.Show();
             Focus();
         }
 
-        #region Control handlers
+        #endregion
+
+        #region Handlers
+
+        #region Key Displayer Mode
 
         private void RTSSRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            EnableDisableControls(false);
+            EnableControls(false);
             RTSSRadioButton.IsChecked = true;
             e.Handled = true;
-            isRTSSEnabled = true;
+            _isRtssEnabled = true;
             RTSSHandler.RunRTSS();
 
-            if (RTSSHandler.IsRTSSRunning())
+            if (RTSSHandler.IsRunning)
             {
                 InitializeKeyboardHook();
+                EnableMouseHook();
             }
             else
             {
-                RTSSWindow rtssWindow = new RTSSWindow(RTSSHandler.RTSSPath);
+                var rtssWindow = new RTSSWindow(RTSSHandler.RTSSPath);
                 rtssWindow.ShowDialog();
-                if (Transfer.RTSSPath != null)
+                if (TransferModel.RTSSPath != null)
                 {
-                    RTSSHandler.RTSSPath = Transfer.RTSSPath;
+                    RTSSHandler.RTSSPath = TransferModel.RTSSPath;
                 }
                 WindowRadioButton.IsChecked = true;
-            }            
-        }
-
-        private void OnHookKeyUp(object sender, HookEventArgs e)
-        {
-            keys.RemoveAll(x => x == e.Key);
-            SendKeysToRTSS();
-        }
-
-        private void OnHookKeyDown(object sender, HookEventArgs e)
-        {
-            if (!keys.Exists(x => x == e.Key))
-            {
-                keys.Add(e.Key);
-                SendKeysToRTSS();
             }
         }
 
         private void WindowRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            EnableDisableControls(true);
-            isRTSSEnabled = false;
-            if (keyboardHook != null)
+            if (_isMouseEnabled)
             {
-                keyboardHook.Dispose();
-                keyboardHook = null;
+                DisableMouseHook();
+                _settings.MouseEnabled = true;
+            }
+            else
+            {
+                _settings.MouseEnabled = false;
+            }
+
+            if (_keyboardHook != null)
+            {
+                _keyboardHook.Dispose();
+                _keyboardHook = null;
+            }
+
+            _isRtssEnabled = false;
+            RTSSHandler.KillRTSS();
+
+            EnableControls(true);
+        }
+
+        private void MouseHookCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            _isMouseEnabled = true;
+            if (_isRtssEnabled)
+            {
+                EnableMouseHook();
+            }
+            else
+            {
+                _settings.MouseEnabled = _isMouseEnabled;
+                UpdateKeyDisplayerForm();
             }
         }
 
+        private void MouseHookCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _isMouseEnabled = false;
+            if (_isRtssEnabled)
+            {
+                DisableMouseHook();
+            }
+            else
+            {
+                _settings.MouseEnabled = _isMouseEnabled;
+                UpdateKeyDisplayerForm();
+            }
+        }
+
+        #endregion
+
+        #region Window
+
         private void BackgroundColorRectangle_Click(object sender, RoutedEventArgs e)
         {
-            ColorPickerWindow colorPickerWindow = new ColorPickerWindow(settings.BackgroundColor);
+            var colorPickerWindow = new ColorPickerWindow(_settings.BackgroundColor);
             colorPickerWindow.ShowDialog();
-            settings.AddBackgroundColor(Transfer.SelectedColor);
-            BackgroundColorRectangle.Background = new SolidColorBrush(Transfer.SelectedColor);
+            _settings.BackgroundColor = TransferModel.SelectedColor;
+            BackgroundColorRectangle.Background = new SolidColorBrush(TransferModel.SelectedColor);
             UpdateKeyDisplayerForm();
         }
 
         private void OpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (OpacityTextBox != null && isSliderEnabled)
+            if (OpacityTextBox != null && _isSliderEnabled)
             {
-                OpacityTextBox.Text = OpacitySlider.Value.ToString();
+                OpacityTextBox.Text = $"{OpacitySlider.Value.ToString(CultureInfo.InvariantCulture)}%";
             }
         }
 
         private void OpacityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string value = OpacityTextBox.Text.Replace('.', ',');
-            if (double.TryParse(value, out double number) && (number >= 0.01 && number <= 1))
+            var value = OpacityTextBox.Text.Replace("%", "");
+            if (int.TryParse(value, out var number) && number > 0 && number <= 100)
             {
-                settings.AddBackgroundColorOpacity(number);
-                isSliderEnabled = false;
+                _isSliderEnabled = false;
                 OpacitySlider.Value = number;
-                isSliderEnabled = true;
+                _isSliderEnabled = true;
+                _settings.BackgroundColorOpacity = number / 100.0;
                 UpdateKeyDisplayerForm();
             }
         }
@@ -132,15 +202,19 @@ namespace YAKD
 
         private void DemoKeysCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            settings.EnableDemoKeys(DemoKeysCheckBox.IsChecked);
+            _settings.EnableDemoKeys(DemoKeysCheckBox.IsChecked);
             UpdateKeyDisplayerForm();
         }
 
         private void ResizeCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            settings.EnableResize(ResizeCheckBox.IsChecked);
+            _settings.EnableResize(ResizeCheckBox.IsChecked);
             UpdateKeyDisplayerForm();
         }
+
+        #endregion
+
+        #region Keys
 
         private void FontComboBox_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
         {
@@ -153,47 +227,94 @@ namespace YAKD
 
         private void FontComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!isFirstRun)
+            if (!_isFirstRun)
             {
-                settings.AddFontFamily(((FontFamily)FontComboBox.SelectedItem).Source);
+                _settings.AddFontFamily(((FontFamily)FontComboBox.SelectedItem).Source);
                 UpdateKeyDisplayerForm();
             }
         }
 
         private void FontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(FontSizeTextBox.Text, out int number) && number > 0)
+            if (int.TryParse(FontSizeTextBox.Text, out var number) && number >= 2 && number <= 1000)
             {
-                settings.AddFontSize(number);
+                _settings.FontSize = number;
             }
             else
             {
                 var fontSizeDefault = new KeyDisplayerSettings().FontSize;
-                settings.AddFontSize(fontSizeDefault);
-                FontSizeTextBox.Text = fontSizeDefault.ToString();
+                _settings.FontSize = fontSizeDefault;
+                FontSizeTextBox.Text = fontSizeDefault.ToString(CultureInfo.InvariantCulture);
             }
             UpdateKeyDisplayerForm();
+        }
+
+        private void DecreaseFontSizeRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newValue = _settings.FontSize - 1;
+            if (newValue >= 2)
+            {
+                _settings.FontSize = newValue;
+                FontSizeTextBox.Text = newValue.ToString(CultureInfo.InvariantCulture);
+                UpdateKeyDisplayerForm();
+            }
+        }
+
+        private void IncreaseFontSizeRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newValue = _settings.FontSize + 1;
+            if (newValue <= 1000)
+            {
+                _settings.FontSize = newValue;
+                FontSizeTextBox.Text = newValue.ToString(CultureInfo.InvariantCulture);
+                UpdateKeyDisplayerForm();
+            }
         }
 
         private void FontColorRectangle_Click(object sender, RoutedEventArgs e)
         {
-            ColorPickerWindow colorPickerWindow = new ColorPickerWindow(settings.Color);
+            var colorPickerWindow = new ColorPickerWindow(_settings.Color);
             colorPickerWindow.ShowDialog();
-            settings.AddColor(Transfer.SelectedColor);
-            FontColorRectangle.Background = new SolidColorBrush(Transfer.SelectedColor);
+            _settings.Color = TransferModel.SelectedColor;
+            FontColorRectangle.Background = new SolidColorBrush(TransferModel.SelectedColor);
             UpdateKeyDisplayerForm();
         }
 
+        private void LeftAlignmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.KeysAlignment = HorizontalAlignment.Left;
+            SetActiveButtonForKeysAlignment(HorizontalAlignment.Left);
+            UpdateKeyDisplayerForm();
+        }
+
+        private void CenterAlignmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.KeysAlignment = HorizontalAlignment.Center;
+            SetActiveButtonForKeysAlignment(HorizontalAlignment.Center);
+            UpdateKeyDisplayerForm();
+        }
+
+        private void RightAlignmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.KeysAlignment = HorizontalAlignment.Right;
+            SetActiveButtonForKeysAlignment(HorizontalAlignment.Right);
+            UpdateKeyDisplayerForm();
+        }
+
+        #endregion
+
+        #region Footer
+
         private void ShowHideWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            if (keyDisplayerForm.IsVisible)
+            if (_keyDisplayerForm.IsVisible)
             {
-                keyDisplayerForm.Close();
+                _keyDisplayerForm.Close();
             }
             else
             {
-                InitializeKeyDisplayerForm(settings);
-                keyDisplayerForm.Show();
+                InitializeKeyDisplayerForm(_settings);
+                _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
             }
         }
@@ -202,27 +323,29 @@ namespace YAKD
         {
             if (MessageBox.Show("Are you sure you want to reset your settings?", "YAKD - Default settings", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                settings = new KeyDisplayerSettings();
-                keyDisplayerForm.Close();
-                keyDisplayerForm = new KeyDisplayerForm(settings);
-                keyDisplayerForm.Show();
+                _settings = new KeyDisplayerSettings { MouseEnabled = _isMouseEnabled };
+                _keyDisplayerForm.Close();
+                _keyDisplayerForm = new KeyDisplayerForm(_settings);
+                _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
-                InitializeMainWindow(settings);
+                InitializeMainWindow(_settings);
             }
         }
 
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://github.com/Jagailo/YetAnotherKeyDisplayer");
+            Process.Start("https://github.com/Jagailo/YetAnotherKeyDisplayer/releases");
         }
 
         #endregion
 
-        #region Form handlers
+        #endregion
+
+        #region Window events
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (isRTSSEnabled)
+            if (_isRtssEnabled)
             {
                 RTSSRadioButton.IsChecked = true;
             }
@@ -230,13 +353,19 @@ namespace YAKD
             {
                 WindowRadioButton.IsChecked = true;
             }
+
+            MouseHookCheckBox.IsChecked = _isMouseEnabled;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            keyDisplayerForm.Close();
+            Title += " [Saving ...]";
+            _keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
-            RTSSHandler.KillRTSS(); // TODO: придумать
+            if (RTSSHandler.IsRunning)
+            {
+                RTSSHandler.KillRTSS();
+            }
         }
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)
@@ -246,54 +375,67 @@ namespace YAKD
 
         private void KeyDisplayerForm_LocationChanged(object sender, EventArgs e)
         {
-            settings.AddStartupPoint(new StartupLocation(keyDisplayerForm.Left, keyDisplayerForm.Top));
+            _settings.StartupPoint = new StartupLocationModel(_keyDisplayerForm.Left, _keyDisplayerForm.Top);
         }
 
         private void KeyDisplayerForm_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            settings.AddWidth(keyDisplayerForm.Width);
-            settings.AddHeight(keyDisplayerForm.Height);
+            _settings.Width = _keyDisplayerForm.Width;
+            _settings.Height = _keyDisplayerForm.Height;
         }
 
         #endregion
 
-        #region Initialization logic
+        #region Events
 
-        private void InitializeKeyDisplayerForm(KeyDisplayerSettings settings)
+        private void KeyboardHook_KeyDown(object sender, KeyboardHookEventArgs e) => AddKey(e.Key);
+
+        private void KeyboardHook_KeyUp(object sender, KeyboardHookEventArgs e) => RemoveKey(e.Key);
+
+        private void MouseHook_KeyDown(object sender, MouseHookEventArgs e) => AddKey(e.Key);
+
+        private void MouseHook_KeyUp(object sender, MouseHookEventArgs e) => RemoveKey(e.Key);
+
+        #endregion
+
+        #region Helpers
+
+        private void InitializeKeyDisplayerForm(KeyDisplayerSettings keyDisplayerSettings)
         {
-            keyDisplayerForm = new KeyDisplayerForm(settings);
-            keyDisplayerForm.LocationChanged += KeyDisplayerForm_LocationChanged;
-            keyDisplayerForm.SizeChanged += KeyDisplayerForm_SizeChanged;
-            keyDisplayerForm.Closed += KeyDisplayerForm_Closed;
+            _keyDisplayerForm = new KeyDisplayerForm(keyDisplayerSettings);
+            _keyDisplayerForm.LocationChanged += KeyDisplayerForm_LocationChanged;
+            _keyDisplayerForm.SizeChanged += KeyDisplayerForm_SizeChanged;
+            _keyDisplayerForm.Closed += KeyDisplayerForm_Closed;
         }
 
         private void UpdateKeyDisplayerForm()
         {
-            if (keyDisplayerForm != null && keyDisplayerForm.IsVisible)
+            if (_keyDisplayerForm != null && _keyDisplayerForm.IsVisible)
             {
-                keyDisplayerForm.InitializeSettings(settings);
+                _keyDisplayerForm.InitializeSettings(_settings);
             }
         }
 
-        private void InitializeMainWindow(KeyDisplayerSettings settings)
+        private void InitializeMainWindow(KeyDisplayerSettings keyDisplayerSettings)
         {
-            BackgroundColorRectangle.Background = new SolidColorBrush(settings.BackgroundColor);
-            OpacityTextBox.Text = settings.BackgroundColorOpacity.ToString();
-            DemoKeysCheckBox.IsChecked = settings.DemoKeys == "" ? false : true;
-            ResizeCheckBox.IsChecked = settings.CanResize;
-            FontFamily font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == settings.FontFamily.Source);
-            FontComboBox.SelectedIndex = FontComboBox.Items.IndexOf(font);
-            FontSizeTextBox.Text = settings.FontSize.ToString();
-            FontColorRectangle.Background = new SolidColorBrush(settings.Color);
+            BackgroundColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.BackgroundColor);
+            OpacityTextBox.Text = $"{keyDisplayerSettings.BackgroundColorOpacity * 100}%";
+            DemoKeysCheckBox.IsChecked = !string.IsNullOrEmpty(keyDisplayerSettings.DemoKeys);
+            ResizeCheckBox.IsChecked = keyDisplayerSettings.CanResize;
+            var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == keyDisplayerSettings.FontFamily.Source);
+            FontComboBox.SelectedIndex = font != null ? FontComboBox.Items.IndexOf(font) : 0;
+            FontSizeTextBox.Text = keyDisplayerSettings.FontSize.ToString(CultureInfo.InvariantCulture);
+            FontColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.Color);
+            SetActiveButtonForKeysAlignment(keyDisplayerSettings.KeysAlignment);
         }
 
         private void InitializeKeyboardHook()
         {
-            if (keyboardHook == null)
+            if (_keyboardHook == null)
             {
-                keyboardHook = new KeyboardHook();
-                keyboardHook.KeyDown += new KeyboardHook.HookEventHandler(OnHookKeyDown);
-                keyboardHook.KeyUp += new KeyboardHook.HookEventHandler(OnHookKeyUp);
+                _keyboardHook = new KeyboardHook();
+                _keyboardHook.KeyDown += KeyboardHook_KeyDown;
+                _keyboardHook.KeyUp += KeyboardHook_KeyUp;
             }
         }
 
@@ -303,23 +445,33 @@ namespace YAKD
             {
                 try
                 {
-                    settings.AddFontFamily(fileSettings.FontFamily);
-                    settings.AddFontSize(fileSettings.FontSize);
-                    settings.AddColor(fileSettings.Color);
-                    settings.AddBackgroundColor(fileSettings.BackgroundColor);
-                    settings.AddBackgroundColorOpacity(fileSettings.BackgroundColorOpacity);
-                    settings.EnableDemoKeys(fileSettings.DemoKeys);
+                    _settings.AddFontFamily(fileSettings.FontFamily);
+                    _settings.FontSize = fileSettings.FontSize;
+                    _settings.Color = fileSettings.Color;
+                    _settings.BackgroundColor = fileSettings.BackgroundColor;
+                    _settings.BackgroundColorOpacity = fileSettings.BackgroundColorOpacity;
+                    _settings.EnableDemoKeys(fileSettings.DemoKeys);
                     if (fileSettings.StartupPoint)
                     {
-                        settings.AddStartupPoint(new StartupLocation(fileSettings.x, fileSettings.y));
+                        _settings.StartupPoint = new StartupLocationModel(fileSettings.x, fileSettings.y);
                     }
-                    settings.AddWidth(fileSettings.Width);
-                    settings.AddHeight(fileSettings.Height);
-                    settings.EnableResize(fileSettings.CanResize);
+                    _settings.Width = fileSettings.Width;
+                    _settings.Height = fileSettings.Height;
+                    _settings.EnableResize(fileSettings.CanResize);
                     RTSSHandler.RTSSPath = fileSettings.RTSSPath;
-                    isRTSSEnabled = fileSettings.RTSSEnabled;
+                    _isRtssEnabled = fileSettings.RTSSEnabled;
+                    _isMouseEnabled = fileSettings.MouseEnabled;
+                    _settings.KeysAlignment = fileSettings.KeysAlignment;
+
+                    if (!fileSettings.FirstLaunchStatistic)
+                    {
+                        SendStatistic();
+                    }
                 }
-                catch { }
+                catch (Exception)
+                {
+                    // Ignored
+                }
             }
         }
 
@@ -327,16 +479,16 @@ namespace YAKD
         {
             try
             {
-                fileSettings.FontFamily = settings.FontFamily.Source;
-                fileSettings.FontSize = settings.FontSize;
-                fileSettings.Color = settings.Color;
-                fileSettings.BackgroundColor = settings.BackgroundColor;
-                fileSettings.BackgroundColorOpacity = settings.BackgroundColorOpacity;
-                fileSettings.DemoKeys = settings.DemoKeys == "" ? false : true;
-                if (settings.StartupPoint != null)
+                fileSettings.FontFamily = _settings.FontFamily.Source;
+                fileSettings.FontSize = _settings.FontSize;
+                fileSettings.Color = _settings.Color;
+                fileSettings.BackgroundColor = _settings.BackgroundColor;
+                fileSettings.BackgroundColorOpacity = _settings.BackgroundColorOpacity;
+                fileSettings.DemoKeys = !string.IsNullOrEmpty(_settings.DemoKeys);
+                if (_settings.StartupPoint != null)
                 {
-                    fileSettings.x = settings.StartupPoint.Left;
-                    fileSettings.y = settings.StartupPoint.Top;
+                    fileSettings.x = _settings.StartupPoint.Left;
+                    fileSettings.y = _settings.StartupPoint.Top;
                     fileSettings.StartupPoint = true;
                 }
                 else
@@ -345,18 +497,23 @@ namespace YAKD
                     fileSettings.y = 0;
                     fileSettings.StartupPoint = false;
                 }
-                fileSettings.Width = settings.Width;
-                fileSettings.Height = settings.Height;
-                fileSettings.CanResize = settings.CanResize;
-                fileSettings.RTSSEnabled = isRTSSEnabled;
+                fileSettings.Width = _settings.Width;
+                fileSettings.Height = _settings.Height;
+                fileSettings.CanResize = _settings.CanResize;
+                fileSettings.RTSSEnabled = _isRtssEnabled;
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
+                fileSettings.MouseEnabled = _isMouseEnabled;
+                fileSettings.KeysAlignment = _settings.KeysAlignment;
                 fileSettings.Created = true;
             }
-            catch { }
+            catch (Exception)
+            {
+                // Ignored
+            }
             fileSettings.Save();
         }
 
-        private void EnableDisableControls(bool state)
+        private void EnableControls(bool state)
         {
             BackgroundColorRectangle.IsEnabled =
                 OpacitySlider.IsEnabled =
@@ -367,53 +524,174 @@ namespace YAKD
                 FontSizeTextBox.IsEnabled =
                 FontColorRectangle.IsEnabled =
                 ShowHideWindowButton.IsEnabled =
-                DefaultSettingsButton.IsEnabled = state;
+                DefaultSettingsButton.IsEnabled =
+                DecreaseFontSizeRepeatButton.IsEnabled =
+                IncreaseFontSizeRepeatButton.IsEnabled =
+                LeftAlignmentButton.IsEnabled =
+                CenterAlignmentButton.IsEnabled =
+                RightAlignmentButton.IsEnabled =
+                state;
 
-            if (state && !keyDisplayerForm.IsVisible)
+            if (state)
             {
-                InitializeKeyDisplayerForm(settings);
-                keyDisplayerForm.Show();
+                SetActiveButtonForKeysAlignment(_settings.KeysAlignment);
+            }
+            else
+            {
+                SetActiveButtonForKeysAlignment(null);
+            }
+
+            if (state && !_keyDisplayerForm.IsVisible)
+            {
+                InitializeKeyDisplayerForm(_settings);
+                _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
             }
-            else if (!state && keyDisplayerForm.IsVisible)
+            else if (!state && _keyDisplayerForm.IsVisible)
             {
-                keyDisplayerForm.Close();
+                _keyDisplayerForm.Close();
             }
         }
 
-        #endregion
-
-        #region Logic
-
         private void SendKeysToRTSS()
         {
-            keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-            string keysString = "";
-            for (int i = 0; i < keys.Count; i++)
-            {
-                if (i == 0)
-                {
-                    keysString += " ";
-                }
-                keysString += keys.ElementAt(i);
-                if (i != keys.Count - 1)
-                {
-                    keysString += " + ";
-                }
-                else
-                {
-                    keysString += " ";
-                }
-            }
+            _keys.Sort((a, b) => b.Length.CompareTo(a.Length));
+            var keysString = _keys.Any() ? $" {string.Join(" + ", _keys)} " : string.Empty;
 
             try
             {
                 RTSSHandler.Print(keysString);
             }
-            catch (Exception exc)
+            catch (Exception exception)
             {
-                MessageBox.Show(exc.Message, exc.Source, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, exception.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void AddKey(string key)
+        {
+            if (!_keys.Contains(key))
+            {
+                _keys.Add(key);
+                SendKeysToRTSS();
+            }
+        }
+
+        private void RemoveKey(string key)
+        {
+            _keys.RemoveAll(x => x == key);
+            SendKeysToRTSS();
+        }
+
+        private void EnableMouseHook()
+        {
+            if (_isMouseEnabled)
+            {
+                _mouseHook = new MouseHook();
+                _mouseHook.KeyDown += MouseHook_KeyDown;
+                _mouseHook.KeyUp += MouseHook_KeyUp;
+            }
+        }
+
+        private void DisableMouseHook()
+        {
+            if (_mouseHook != null)
+            {
+                _mouseHook.Dispose();
+                _mouseHook = null;
+            }
+        }
+
+        private void SetActiveButtonForKeysAlignment(HorizontalAlignment? alignment)
+        {
+            if (!alignment.HasValue)
+            {
+                LeftAlignmentButton.Tag = "0";
+                CenterAlignmentButton.Tag = "0";
+                RightAlignmentButton.Tag = "0";
+
+                return;
+            }
+
+            switch (alignment)
+            {
+                case HorizontalAlignment.Left:
+                    LeftAlignmentButton.Tag = "1";
+                    CenterAlignmentButton.Tag = "0";
+                    RightAlignmentButton.Tag = "0";
+                    break;
+                case HorizontalAlignment.Center:
+                case HorizontalAlignment.Stretch:
+                    LeftAlignmentButton.Tag = "0";
+                    CenterAlignmentButton.Tag = "1";
+                    RightAlignmentButton.Tag = "0";
+                    break;
+                case HorizontalAlignment.Right:
+                    LeftAlignmentButton.Tag = "0";
+                    CenterAlignmentButton.Tag = "0";
+                    RightAlignmentButton.Tag = "1";
+                    break;
+                default:
+                    LeftAlignmentButton.Tag = "0";
+                    CenterAlignmentButton.Tag = "1";
+                    RightAlignmentButton.Tag = "0";
+                    break;
+            }
+        }
+
+        private async void CheckForUpdates()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var version = Convert.ToInt16(Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", ""));
+                    var json = new WebClient().DownloadString("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/version.json");
+                    var cloudVersion = JsonConvert.DeserializeObject<VersionModel>(json);
+                    if (version < cloudVersion.Version)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => { AboutTextBlock.Text = "a new version is available"; });
+                    }
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
+            });
+        }
+
+        private async void SendStatistic()
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    var statistic = new StatisticModel
+                    {
+                        Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                        Type = StatisticType.Installation
+                    };
+
+                    var serializerSettings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        Converters = new List<JsonConverter> { new StringEnumConverter() }
+                    };
+                    var json = JsonConvert.SerializeObject(statistic, serializerSettings);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    using (var httpClient = new HttpClient())
+                    {
+                        await httpClient.PostAsync("https://yakd.000webhostapp.com/api/statistic/create.php", content);
+                    }
+
+                    Properties.Settings.Default.FirstLaunchStatistic = true;
+                }
+                catch (Exception)
+                {
+                    Properties.Settings.Default.FirstLaunchStatistic = false;
+                }
+            });
         }
 
         #endregion

@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="BackgroundColor" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#00000000</Value>
+      <Value Profile="(Default)">#FF000000</Value>
     </Setting>
     <Setting Name="BackgroundColorOpacity" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">0.4</Value>
     </Setting>
     <Setting Name="Created" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -15,10 +15,10 @@
       <Value Profile="(Default)">Arial</Value>
     </Setting>
     <Setting Name="FontSize" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">16</Value>
     </Setting>
     <Setting Name="Color" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#00000000</Value>
+      <Value Profile="(Default)">#FFEEEEEE</Value>
     </Setting>
     <Setting Name="DemoKeys" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -30,10 +30,10 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="Height" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">70</Value>
     </Setting>
     <Setting Name="Width" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">300</Value>
     </Setting>
     <Setting Name="CanResize" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -46,6 +46,15 @@
     </Setting>
     <Setting Name="RTSSPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe</Value>
+    </Setting>
+    <Setting Name="MouseEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KeysAlignment" Type="System.Windows.HorizontalAlignment" Scope="User">
+      <Value Profile="(Default)">Center</Value>
+    </Setting>
+    <Setting Name="FirstLaunchStatistic" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
