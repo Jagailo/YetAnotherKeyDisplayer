@@ -132,26 +132,28 @@ namespace YAKD
 
         private void MouseHookCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            _isMouseEnabled = true;
             if (_isRtssEnabled)
             {
                 EnableMouseHook();
             }
             else
             {
-                _isMouseEnabled = _settings.MouseEnabled = true;
+                _settings.MouseEnabled = _isMouseEnabled;
                 UpdateKeyDisplayerForm();
             }
         }
 
         private void MouseHookCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
+            _isMouseEnabled = false;
             if (_isRtssEnabled)
             {
                 DisableMouseHook();
             }
             else
             {
-                _isMouseEnabled = _settings.MouseEnabled = false;
+                _settings.MouseEnabled = _isMouseEnabled;
                 UpdateKeyDisplayerForm();
             }
         }
@@ -554,7 +556,7 @@ namespace YAKD
         private void SendKeysToRTSS()
         {
             _keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-            var keysString = $" {string.Join(" + ", _keys)} ";
+            var keysString = _keys.Any() ? $" {string.Join(" + ", _keys)} " : string.Empty;
 
             try
             {
