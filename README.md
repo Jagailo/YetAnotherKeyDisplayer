@@ -1,7 +1,18 @@
 ![YAKD](https://i.imgur.com/urXDS4X.png)
 ### YAKD - Yet Another Key Displayer
 The program for displaying the pressed keys of the keyboard and mouse. RTSS Rivatuner Statistics Server is supported.
+
+#### :computer: 1000+ installs :heart:
 #### Download installer: [YAKD v.1.2 [0.85 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/v1.2/YAKD_1.2_installer.zip)
+
+## Key features
+* Capture keyboard and mouse;
+* 2 displaying modes are available: display keys in a window or send them to RTSS for display in fullscreen games;
+* Ability to change the keys font, size, color and background;
+* Auto-save of all styles settings;
+* Not annoying notification of a new version;
+* Free software without ads and donations;
+* Key Displayer as a window can be captured in OBS (use the chroma key filter to make the window transparent).
 
 ## Screenshots
 ![Yet Another Key Displayer](https://imgur.com/EndoFls.png)
