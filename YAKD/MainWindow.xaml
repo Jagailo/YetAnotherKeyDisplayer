@@ -5,19 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="520"
-        MinHeight="520"
-        MaxHeight="570"
+        Height="540"
         Width="440"
-        MinWidth="440"
-        MaxWidth="480"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E"
         FontFamily="{StaticResource RobotoRegular}"
         FontSize="14"
         Loaded="Window_Loaded"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        ResizeMode="CanMinimize">
     <Window.Resources>
         <Style x:Key="ColorPickerButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
@@ -213,15 +210,15 @@
     </Window.Resources>
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="8*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header=" Key Displayer Mode " Margin="0,10">
+        <GroupBox Grid.Row="0" Header=" Key Displayer " Margin="0,10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -258,6 +255,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -321,6 +319,15 @@
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
                           Click="ResizeCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
+                <CheckBox x:Name="FixWindowCheckBox"
+                          Grid.Column="1"
+                          Grid.Row="2"
+                          Content="Fix the window"
+                          VerticalAlignment="Center"
+                          Margin="9,5,0,5"
+                          VerticalContentAlignment="Center"
+                          Click="FixWindowCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
@@ -484,7 +491,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,5,1,2">
             <TextBlock HorizontalAlignment="Left"
-                       Text="YAKD v.1.2 by Jagailo - "
+                       Text="YAKD v.1.2.1 by Jagailo - "
                        VerticalAlignment="Top"
                        FontSize="11" />
             <TextBlock x:Name="AboutTextBlock"

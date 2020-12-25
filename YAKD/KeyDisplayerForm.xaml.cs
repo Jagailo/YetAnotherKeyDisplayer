@@ -24,6 +24,8 @@ namespace YAKD
         // For demo keys only
         private bool _isKeyboardHookEnabled;
 
+        private bool _isWindowShouldBeFixed;
+
         private readonly List<string> _keys;
 
         #endregion
@@ -85,6 +87,7 @@ namespace YAKD
             Height = settings.Height;
             Width = settings.Width;
             ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
+            _isWindowShouldBeFixed = settings.FixWindow;
 
             InitializeMouseHook(settings.MouseEnabled);
         }
@@ -93,7 +96,13 @@ namespace YAKD
 
         #region Handlers
 
-        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
+        private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!_isWindowShouldBeFixed)
+            {
+                DragMove();
+            }
+        }
 
         #endregion
 
