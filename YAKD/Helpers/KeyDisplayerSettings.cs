@@ -109,6 +109,11 @@ namespace YAKD.Helpers
         public bool CanResize { get; private set; }
 
         /// <summary>
+        /// Fix the window
+        /// </summary>
+        public bool FixWindow { get; private set; }
+
+        /// <summary>
         /// Is tracking mouse
         /// </summary>
         public bool MouseEnabled { get; set; }
@@ -180,6 +185,22 @@ namespace YAKD.Helpers
             else
             {
                 CanResize = false;
+            }
+        }
+
+        /// <summary>
+        /// Fix the window option
+        /// </summary>
+        /// <param name="value">Value</param>
+        public void WindowFixing(bool? value)
+        {
+            if (value.HasValue && value.Value)
+            {
+                FixWindow = true;
+            }
+            else
+            {
+                FixWindow = false;
             }
         }
 

@@ -79,7 +79,7 @@ namespace YAKD
 
         #region Handlers
 
-        #region Key Displayer Mode
+        #region Key Displayer
 
         private void RTSSRadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -209,6 +209,12 @@ namespace YAKD
         private void ResizeCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _settings.EnableResize(ResizeCheckBox.IsChecked);
+            UpdateKeyDisplayerForm();
+        }
+
+        private void FixWindowCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.WindowFixing(FixWindowCheckBox.IsChecked);
             UpdateKeyDisplayerForm();
         }
 
@@ -422,6 +428,7 @@ namespace YAKD
             OpacityTextBox.Text = $"{keyDisplayerSettings.BackgroundColorOpacity * 100}%";
             DemoKeysCheckBox.IsChecked = !string.IsNullOrEmpty(keyDisplayerSettings.DemoKeys);
             ResizeCheckBox.IsChecked = keyDisplayerSettings.CanResize;
+            FixWindowCheckBox.IsChecked = keyDisplayerSettings.FixWindow;
             var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == keyDisplayerSettings.FontFamily.Source);
             FontComboBox.SelectedIndex = font != null ? FontComboBox.Items.IndexOf(font) : 0;
             FontSizeTextBox.Text = keyDisplayerSettings.FontSize.ToString(CultureInfo.InvariantCulture);
@@ -458,6 +465,7 @@ namespace YAKD
                     _settings.Width = fileSettings.Width;
                     _settings.Height = fileSettings.Height;
                     _settings.EnableResize(fileSettings.CanResize);
+                    _settings.WindowFixing(fileSettings.FixWindow);
                     RTSSHandler.RTSSPath = fileSettings.RTSSPath;
                     _isRtssEnabled = fileSettings.RTSSEnabled;
                     _isMouseEnabled = fileSettings.MouseEnabled;
@@ -472,6 +480,10 @@ namespace YAKD
                 {
                     // Ignored
                 }
+            }
+            else
+            {
+                SendStatistic();
             }
         }
 
@@ -500,6 +512,7 @@ namespace YAKD
                 fileSettings.Width = _settings.Width;
                 fileSettings.Height = _settings.Height;
                 fileSettings.CanResize = _settings.CanResize;
+                fileSettings.FixWindow = _settings.FixWindow;
                 fileSettings.RTSSEnabled = _isRtssEnabled;
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
                 fileSettings.MouseEnabled = _isMouseEnabled;
@@ -520,6 +533,7 @@ namespace YAKD
                 OpacityTextBox.IsEnabled =
                 DemoKeysCheckBox.IsEnabled =
                 ResizeCheckBox.IsEnabled =
+                FixWindowCheckBox.IsEnabled =
                 FontComboBox.IsEnabled =
                 FontSizeTextBox.IsEnabled =
                 FontColorRectangle.IsEnabled =
