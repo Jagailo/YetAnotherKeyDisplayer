@@ -123,6 +123,11 @@ namespace YAKD.Helpers
         /// </summary>
         public HorizontalAlignment KeysAlignment { get; set; }
 
+        /// <summary>
+        /// Display delay
+        /// </summary>
+        public int DisplayDelay { get; set; }
+
         #endregion
 
         #region Constructor
@@ -141,6 +146,7 @@ namespace YAKD.Helpers
             Height = 70;
             Width = 300;
             KeysAlignment = HorizontalAlignment.Center;
+            DisplayDelay = 0;
         }
 
         #endregion

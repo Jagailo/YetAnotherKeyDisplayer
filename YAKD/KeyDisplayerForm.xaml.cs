@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -25,6 +26,8 @@ namespace YAKD
         private bool _isKeyboardHookEnabled;
 
         private bool _isWindowShouldBeFixed;
+
+        private int _displayDelay;
 
         private readonly List<string> _keys;
 
@@ -88,6 +91,7 @@ namespace YAKD
             Width = settings.Width;
             ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
             _isWindowShouldBeFixed = settings.FixWindow;
+            _displayDelay = settings.DisplayDelay;
 
             InitializeMouseHook(settings.MouseEnabled);
         }
@@ -110,11 +114,11 @@ namespace YAKD
 
         private void KeyboardHook_KeyDown(object sender, KeyboardHookEventArgs e) => AddKey(e.Key);
 
-        private void KeyboardHook_KeyUp(object sender, KeyboardHookEventArgs e) => RemoveKey(e.Key);
+        private void KeyboardHook_KeyUp(object sender, KeyboardHookEventArgs e) => RemoveKeyAsync(e.Key);
 
         private void MouseHook_KeyDown(object sender, MouseHookEventArgs e) => AddKey(e.Key);
 
-        private void MouseHook_KeyUp(object sender, MouseHookEventArgs e) => RemoveKey(e.Key);
+        private void MouseHook_KeyUp(object sender, MouseHookEventArgs e) => RemoveKeyAsync(e.Key);
 
         #endregion
 
@@ -159,9 +163,15 @@ namespace YAKD
             }
         }
 
-        private void RemoveKey(string key)
+        private async void RemoveKeyAsync(string key)
         {
             _keys.RemoveAll(x => x == key);
+
+            if (_displayDelay != 0)
+            {
+                await Task.Delay(_displayDelay);
+            }
+
             ShowKeys();
         }
 

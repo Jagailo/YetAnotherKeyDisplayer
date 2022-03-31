@@ -295,12 +295,37 @@
                             Margin="2,2,2,0" />
                     <TextBox x:Name="OpacityTextBox"
                              Grid.Column="2"
-                             Width="45"
+                             Width="50"
                              Height="22"
                              Style="{StaticResource VisualStudioTextBoxStyle}"
                              HorizontalContentAlignment="Center"
                              MaxLength="4"
                              TextChanged="OpacityTextBox_TextChanged" />
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Delay:" VerticalAlignment="Center" />
+                    <Slider x:Name="DisplayDelaySlider"
+                            Grid.Column="1"
+                            LargeChange="100"
+                            Maximum="400"
+                            Minimum="0"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="50"
+                            HorizontalContentAlignment="Stretch"
+                            ValueChanged="DisplayDelaySlider_ValueChanged"
+                            SmallChange="50"
+                            VerticalAlignment="Center"
+                            Margin="2,2,2,0" />
+                    <TextBlock x:Name="DisplayDelayTextBlock"
+                               Grid.Column="2"
+                               Text="0 ms"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
                 </Grid>
                 <CheckBox x:Name="DemoKeysCheckBox"
                           Grid.Column="1"
@@ -491,7 +516,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,5,1,2">
             <TextBlock HorizontalAlignment="Left"
-                       Text="YAKD v.1.2.1 by Jagailo - "
+                       Text="YAKD v.1.3 by Jagailo - "
                        VerticalAlignment="Top"
                        FontSize="11" />
             <TextBlock x:Name="AboutTextBlock"

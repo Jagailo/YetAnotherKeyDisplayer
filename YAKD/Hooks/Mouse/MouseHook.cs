@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using YAKD.Enums;
 using YAKD.Helpers;
 
@@ -62,33 +64,50 @@ namespace YAKD.Hooks.Mouse
 
         private int HookCallback(int code, IntPtr wParam, ref MOUSEHOOKSTRUCT lParam)
         {
-            switch ((MouseMessage)wParam)
+            var mouseParam = (MouseMessage)wParam;
+            switch (mouseParam)
             {
                 case MouseMessage.WM_LBUTTONDOWN:
                 case MouseMessage.WM_RBUTTONDOWN:
                 case MouseMessage.WM_MBUTTONDOWN:
-                    KeyDown?.Invoke(this, new MouseHookEventArgs(MouseButtonsConverter.GetButtonName((MouseMessage)wParam)));
+                    KeyDown?.Invoke(this, new MouseHookEventArgs(MouseButtonsConverter.GetButtonName(mouseParam)));
                     break;
                 case MouseMessage.WM_LBUTTONUP:
                 case MouseMessage.WM_RBUTTONUP:
                 case MouseMessage.WM_MBUTTONUP:
-                    KeyUp?.Invoke(this, new MouseHookEventArgs(MouseButtonsConverter.GetButtonName((MouseMessage)wParam)));
+                    KeyUp?.Invoke(this, new MouseHookEventArgs(MouseButtonsConverter.GetButtonName(mouseParam)));
                     break;
                 case MouseMessage.WM_XBUTTONDOWN when lParam.hwnd.Equals((IntPtr)0x00010000):
-                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName((MouseMessage)wParam)} 1"));
+                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 1"));
                     break;
                 case MouseMessage.WM_XBUTTONUP when lParam.hwnd.Equals((IntPtr)0x00010000):
-                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName((MouseMessage)wParam)} 1"));
+                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 1"));
                     break;
                 case MouseMessage.WM_XBUTTONDOWN when lParam.hwnd.Equals((IntPtr)0x00020000):
-                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName((MouseMessage)wParam)} 2"));
+                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 2"));
                     break;
                 case MouseMessage.WM_XBUTTONUP when lParam.hwnd.Equals((IntPtr)0x00020000):
-                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName((MouseMessage)wParam)} 2"));
+                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 2"));
+                    break;
+                case MouseMessage.WM_MOUSEWHEEL when lParam.hwnd.Equals((IntPtr)(-0x00780000)):
+                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Up"));
+                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Down"));
+                    StopMouseWheelAsync("Down");
+                    break;
+                case MouseMessage.WM_MOUSEWHEEL when lParam.hwnd.Equals((IntPtr)0x00780000):
+                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Down"));
+                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Up"));
+                    StopMouseWheelAsync("Up");
                     break;
             }
 
             return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
+        }
+
+        private async void StopMouseWheelAsync(string wheelDirection)
+        {
+            await Task.Delay(300);
+            KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(MouseMessage.WM_MOUSEWHEEL)} {wheelDirection}"));
         }
 
         private void Install()
@@ -99,7 +118,7 @@ namespace YAKD.Hooks.Mouse
             }
 
             var list = Assembly.GetExecutingAssembly().GetModules();
-            System.Diagnostics.Debug.Assert(list != null && list.Length > 0);
+            Debug.Assert(list != null && list.Length > 0);
 
             _hookHandle = SetWindowsHookEx(HookType, _hookFunction, Marshal.GetHINSTANCE(list[0]), 0);
         }

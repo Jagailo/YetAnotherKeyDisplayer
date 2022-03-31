@@ -37,7 +37,8 @@ namespace YAKD.Helpers
                 { MouseMessage.WM_MBUTTONDBLCLK, "MMB" },
                 { MouseMessage.WM_XBUTTONUP, "XMB" },
                 { MouseMessage.WM_XBUTTONDOWN, "XMB" },
-                { MouseMessage.WM_XBUTTONDBLCLK, "XMB" }
+                { MouseMessage.WM_XBUTTONDBLCLK, "XMB" },
+                { MouseMessage.WM_MOUSEWHEEL, "Mouse Wheel" }
             };
         }
 

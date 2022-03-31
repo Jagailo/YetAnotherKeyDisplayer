@@ -130,6 +130,10 @@ namespace YAKD
             EnableControls(true);
         }
 
+        #endregion
+
+        #region Common
+
         private void MouseHookCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             _isMouseEnabled = true;
@@ -156,6 +160,13 @@ namespace YAKD
                 _settings.MouseEnabled = _isMouseEnabled;
                 UpdateKeyDisplayerForm();
             }
+        }
+
+        private void DisplayDelaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            DisplayDelayTextBlock.Text = $"{DisplayDelaySlider.Value.ToString(CultureInfo.InvariantCulture)} ms";
+            _settings.DisplayDelay = Convert.ToInt32(DisplayDelaySlider.Value);
+            UpdateKeyDisplayerForm();
         }
 
         #endregion
@@ -434,6 +445,8 @@ namespace YAKD
             FontSizeTextBox.Text = keyDisplayerSettings.FontSize.ToString(CultureInfo.InvariantCulture);
             FontColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.Color);
             SetActiveButtonForKeysAlignment(keyDisplayerSettings.KeysAlignment);
+            DisplayDelaySlider.Value = keyDisplayerSettings.DisplayDelay;
+            DisplayDelayTextBlock.Text = $"{keyDisplayerSettings.DisplayDelay.ToString(CultureInfo.InvariantCulture)} ms";
         }
 
         private void InitializeKeyboardHook()
@@ -470,6 +483,7 @@ namespace YAKD
                     _isRtssEnabled = fileSettings.RTSSEnabled;
                     _isMouseEnabled = fileSettings.MouseEnabled;
                     _settings.KeysAlignment = fileSettings.KeysAlignment;
+                    _settings.DisplayDelay = fileSettings.DisplayDelay;
 
                     if (!fileSettings.FirstLaunchStatistic)
                     {
@@ -483,7 +497,10 @@ namespace YAKD
             }
             else
             {
+                Properties.Settings.Default.Upgrade();
                 SendStatistic();
+                fileSettings.Created = true;
+                InitializeSettingsFromFile(fileSettings);
             }
         }
 
@@ -517,6 +534,7 @@ namespace YAKD
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
                 fileSettings.MouseEnabled = _isMouseEnabled;
                 fileSettings.KeysAlignment = _settings.KeysAlignment;
+                fileSettings.DisplayDelay = _settings.DisplayDelay;
                 fileSettings.Created = true;
             }
             catch (Exception)
@@ -544,6 +562,8 @@ namespace YAKD
                 LeftAlignmentButton.IsEnabled =
                 CenterAlignmentButton.IsEnabled =
                 RightAlignmentButton.IsEnabled =
+                DisplayDelaySlider.IsEnabled =
+                DisplayDelayTextBlock.IsEnabled =
                 state;
 
             if (state)
@@ -676,6 +696,12 @@ namespace YAKD
 
         private async void SendStatistic()
         {
+            #if DEBUG
+                
+            return;
+
+            #endif
+
             await Task.Run(async () =>
             {
                 try

@@ -64,6 +64,11 @@
         /// <summary>
         /// An X mouse button was double-clicked
         /// </summary>
-        WM_XBUTTONDBLCLK = 0x020D
+        WM_XBUTTONDBLCLK = 0x020D,
+
+        /// <summary>
+        /// Mouse wheel
+        /// </summary>
+        WM_MOUSEWHEEL = 0x020A
     }
 }
