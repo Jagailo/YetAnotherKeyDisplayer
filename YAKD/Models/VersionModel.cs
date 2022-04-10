@@ -1,4 +1,6 @@
-﻿namespace YAKD.Models
+﻿using Newtonsoft.Json;
+
+namespace YAKD.Models
 {
     /// <summary>
     /// Application version model
@@ -7,6 +9,10 @@
     {
         #region Properties
 
+        /// <summary>
+        /// Version
+        /// </summary>
+        [JsonProperty("version")]
         public short Version { get; set; }
 
         #endregion
