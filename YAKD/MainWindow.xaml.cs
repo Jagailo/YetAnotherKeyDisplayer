@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,7 +59,7 @@ namespace YAKD
         /// </summary>
         public MainWindow()
         {
-            CheckForUpdates();
+            CheckForUpdatesAsync();
             _settings = new KeyDisplayerSettings();
             _isSliderEnabled = true;
             _isRtssEnabled = false;
@@ -487,7 +488,7 @@ namespace YAKD
 
                     if (!fileSettings.FirstLaunchStatistic)
                     {
-                        SendStatistic();
+                        SendStatisticAsync();
                     }
                 }
                 catch (Exception)
@@ -498,7 +499,7 @@ namespace YAKD
             else
             {
                 Properties.Settings.Default.Upgrade();
-                SendStatistic();
+                fileSettings.FirstLaunchStatistic = false;
                 fileSettings.Created = true;
                 InitializeSettingsFromFile(fileSettings);
             }
@@ -673,7 +674,7 @@ namespace YAKD
             }
         }
 
-        private async void CheckForUpdates()
+        private async void CheckForUpdatesAsync()
         {
             await Task.Run(() =>
             {
@@ -694,11 +695,11 @@ namespace YAKD
             });
         }
 
-        private async void SendStatistic()
+        private static async void SendStatisticAsync()
         {
             #if DEBUG
-                
-            return;
+
+                return;
 
             #endif
 
@@ -722,7 +723,11 @@ namespace YAKD
 
                     using (var httpClient = new HttpClient())
                     {
-                        await httpClient.PostAsync("https://yakd.000webhostapp.com/api/statistic/create.php", content);
+                        var configResponse = await httpClient.GetAsync("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/config.json");
+                        var configJson = await configResponse.Content.ReadAsStringAsync();
+                        var config = JsonConvert.DeserializeObject<ConfigModel>(configJson);
+
+                        await httpClient.PostAsync(config.StatUrl, content);
                     }
 
                     Properties.Settings.Default.FirstLaunchStatistic = true;

@@ -142,6 +142,7 @@
     <Compile Include="Helpers\MouseButtonsConverter.cs" />
     <Compile Include="Hooks\Keyboard\KeyboardHookEventArgs.cs" />
     <Compile Include="Hooks\Mouse\MouseHookEventArgs.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\StartupLocationModel.cs" />
     <Compile Include="Models\StatisticModel.cs" />
     <Compile Include="Models\VersionModel.cs" />
