@@ -32,7 +32,7 @@ namespace YAKD.Helpers
         /// <summary>
         /// Returns true if RTSS is running
         /// </summary>
-        public static bool IsRunning => _rtssInstance!=null || Process.GetProcessesByName("RTSS").Length != 0;
+        public static bool IsRTSSRunning => Process.GetProcessesByName("RTSS").Length != 0;
 
         #endregion
 
@@ -43,8 +43,7 @@ namespace YAKD.Helpers
         /// </summary>
         static RTSSHandler()
         {
-            //not it is incorrect
-            ///TODO: check registry value HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Unwinder\RTSS\InstallDir to get RTSS installation path
+            // HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Unwinder\RTSS\InstallDir
             RTSSPath = @"C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe";
         }
 
@@ -58,7 +57,7 @@ namespace YAKD.Helpers
         /// <param name="text">Text</param>
         public static void Print(string text)
         {
-            if (IsRunning)
+            if (IsRTSSRunning)
             {
                 _osd?.Update(text);
             }
@@ -69,7 +68,11 @@ namespace YAKD.Helpers
         /// </summary>
         public static void RunRTSS()
         {
-            if (_rtssInstance == null && !IsRunning && File.Exists(RTSSPath))
+            if (IsRTSSRunning)
+            {
+                RunOSD();
+            }
+            else if (_rtssInstance == null && File.Exists(RTSSPath))
             {
                 try
                 {
@@ -80,11 +83,6 @@ namespace YAKD.Helpers
                 {
                     MessageBox.Show(exc.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
-
-            if (IsRunning)
-            {
-                RunOSD();
             }
         }
 

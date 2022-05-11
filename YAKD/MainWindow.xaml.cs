@@ -11,7 +11,6 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -90,7 +89,7 @@ namespace YAKD
             _isRtssEnabled = true;
             RTSSHandler.RunRTSS();
 
-            if (RTSSHandler.IsRunning)
+            if (RTSSHandler.IsRTSSRunning)
             {
                 InitializeKeyboardHook();
                 EnableMouseHook();
@@ -380,7 +379,7 @@ namespace YAKD
             Title += " [Saving ...]";
             _keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
-            if (RTSSHandler.IsRunning)
+            if (RTSSHandler.IsRTSSRunning)
             {
                 RTSSHandler.KillRTSS();
             }
