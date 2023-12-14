@@ -2,7 +2,7 @@
 ### YAKD - Yet Another Key Displayer
 The program for displaying the pressed keys of the keyboard and mouse. RTSS Rivatuner Statistics Server is supported.
 
-#### 💻 11000+ installs ❤💖
+#### 💻 11000+ installs ❤
 #### Download installer: [YAKD v.1.3 [1.29 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.3/YAKD_1.3_installer.exe)
 
 ## Key features
@@ -34,6 +34,4 @@ The program for displaying the pressed keys of the keyboard and mouse. RTSS Riva
 * [Ilovefreesoftware.com](https://www.ilovefreesoftware.com/21/windows/show-keystrokes-on-screen-set-font-background-color-to-display-keys.html)
 * [Filecroco.com](https://www.filecroco.com/download-yet-another-key-displayer)
 * [Updov.com](https://updov.com/download-yet-another-key-displayer/)
-* [Stahnu.cz](https://stahnu.cz/utility/yet-another-key-displayer)
-* [Stiahnut.sk](https://stiahnut.sk/utility-a-ostatne/yet-another-key-displayer)
 * [AlternativeTo.net](https://alternativeto.net/software/yakd/about/)
