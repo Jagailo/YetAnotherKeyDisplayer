@@ -192,7 +192,7 @@ namespace YAKD
 
         private void OpacityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var value = OpacityTextBox.Text.Replace("%", "");
+            var value = OpacityTextBox.Text.Replace("%", string.Empty);
             if (int.TryParse(value, out var number) && number > 0 && number <= 100)
             {
                 _isSliderEnabled = false;
@@ -226,6 +226,12 @@ namespace YAKD
         private void FixWindowCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _settings.WindowFixing(FixWindowCheckBox.IsChecked);
+            UpdateKeyDisplayerForm();
+        }
+
+        private void ClickThroughWindowCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.EnableClickThroughWindow(ClickThroughWindowCheckBox.IsChecked);
             UpdateKeyDisplayerForm();
         }
 
@@ -447,6 +453,7 @@ namespace YAKD
             SetActiveButtonForKeysAlignment(keyDisplayerSettings.KeysAlignment);
             DisplayDelaySlider.Value = keyDisplayerSettings.DisplayDelay;
             DisplayDelayTextBlock.Text = $"{keyDisplayerSettings.DisplayDelay.ToString(CultureInfo.InvariantCulture)} ms";
+            ClickThroughWindowCheckBox.IsChecked = keyDisplayerSettings.ClickThroughWindow;
         }
 
         private void InitializeKeyboardHook()
@@ -484,6 +491,7 @@ namespace YAKD
                     _isMouseEnabled = fileSettings.MouseEnabled;
                     _settings.KeysAlignment = fileSettings.KeysAlignment;
                     _settings.DisplayDelay = fileSettings.DisplayDelay;
+                    _settings.EnableClickThroughWindow(fileSettings.ClickThroughWindow);
 
                     if (!fileSettings.FirstLaunchStatistic)
                     {
@@ -535,6 +543,7 @@ namespace YAKD
                 fileSettings.MouseEnabled = _isMouseEnabled;
                 fileSettings.KeysAlignment = _settings.KeysAlignment;
                 fileSettings.DisplayDelay = _settings.DisplayDelay;
+                fileSettings.ClickThroughWindow = _settings.ClickThroughWindow;
                 fileSettings.Created = true;
             }
             catch (Exception)
@@ -546,25 +555,25 @@ namespace YAKD
 
         private void EnableControls(bool state)
         {
-            BackgroundColorRectangle.IsEnabled =
-                OpacitySlider.IsEnabled =
-                OpacityTextBox.IsEnabled =
-                DemoKeysCheckBox.IsEnabled =
-                ResizeCheckBox.IsEnabled =
-                FixWindowCheckBox.IsEnabled =
-                FontComboBox.IsEnabled =
-                FontSizeTextBox.IsEnabled =
-                FontColorRectangle.IsEnabled =
-                ShowHideWindowButton.IsEnabled =
-                DefaultSettingsButton.IsEnabled =
-                DecreaseFontSizeRepeatButton.IsEnabled =
-                IncreaseFontSizeRepeatButton.IsEnabled =
-                LeftAlignmentButton.IsEnabled =
-                CenterAlignmentButton.IsEnabled =
-                RightAlignmentButton.IsEnabled =
-                DisplayDelaySlider.IsEnabled =
-                DisplayDelayTextBlock.IsEnabled =
-                state;
+            BackgroundColorRectangle.IsEnabled = state;
+            CenterAlignmentButton.IsEnabled = state;
+            ClickThroughWindowCheckBox.IsEnabled = state;
+            DecreaseFontSizeRepeatButton.IsEnabled = state;
+            DefaultSettingsButton.IsEnabled = state;
+            DemoKeysCheckBox.IsEnabled = state;
+            DisplayDelaySlider.IsEnabled = state;
+            DisplayDelayTextBlock.IsEnabled = state;
+            FixWindowCheckBox.IsEnabled = state;
+            FontColorRectangle.IsEnabled = state;
+            FontComboBox.IsEnabled = state;
+            FontSizeTextBox.IsEnabled = state;
+            IncreaseFontSizeRepeatButton.IsEnabled = state;
+            LeftAlignmentButton.IsEnabled = state;
+            OpacitySlider.IsEnabled = state;
+            OpacityTextBox.IsEnabled = state;
+            ResizeCheckBox.IsEnabled = state;
+            RightAlignmentButton.IsEnabled = state;
+            ShowHideWindowButton.IsEnabled = state;
 
             if (state)
             {
@@ -679,7 +688,7 @@ namespace YAKD
             {
                 try
                 {
-                    var version = Convert.ToInt16(Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", ""));
+                    var version = Convert.ToInt16(Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", string.Empty));
                     var json = new WebClient().DownloadString("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/version.json");
                     var cloudVersion = JsonConvert.DeserializeObject<VersionModel>(json);
                     if (version < cloudVersion.Version)

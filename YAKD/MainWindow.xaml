@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="540"
+        Height="560"
         Width="440"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
@@ -210,9 +210,9 @@
     </Window.Resources>
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -255,6 +255,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -353,6 +354,15 @@
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
                           Click="FixWindowCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
+                <CheckBox x:Name="ClickThroughWindowCheckBox"
+                          Grid.Column="1"
+                          Grid.Row="3"
+                          Content="Click-through window"
+                          VerticalAlignment="Center"
+                          Margin="9,5,0,5"
+                          VerticalContentAlignment="Center"
+                          Click="ClickThroughWindowCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>

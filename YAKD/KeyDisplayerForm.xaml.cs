@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using YAKD.Helpers;
 using YAKD.Hooks.Keyboard;
 using YAKD.Hooks.Mouse;
+using YAKD.Properties;
 
 namespace YAKD
 {
@@ -29,7 +32,11 @@ namespace YAKD
 
         private int _displayDelay;
 
+        private bool _clickThroughWindow;
+
         private readonly List<string> _keys;
+
+        private IntPtr _windowHandle;
 
         #endregion
 
@@ -92,6 +99,9 @@ namespace YAKD
             ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
             _isWindowShouldBeFixed = settings.FixWindow;
             _displayDelay = settings.DisplayDelay;
+            _clickThroughWindow = settings.ClickThroughWindow;
+
+            ApplyClickThroughWindowSetting();
 
             InitializeMouseHook(settings.MouseEnabled);
         }
@@ -111,6 +121,13 @@ namespace YAKD
         #endregion
 
         #region Events
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            _windowHandle = new WindowInteropHelper(this).Handle;
+            ApplyClickThroughWindowSetting();
+        }
 
         private void KeyboardHook_KeyDown(object sender, KeyboardHookEventArgs e) => AddKey(e.Key);
 
@@ -173,6 +190,21 @@ namespace YAKD
             }
 
             ShowKeys();
+        }
+
+        private void ApplyClickThroughWindowSetting()
+        {
+            if (_windowHandle != default)
+            {
+                if (_clickThroughWindow)
+                {
+                    WindowsService.SetWindowTransparent(_windowHandle);
+                }
+                else
+                {
+                    WindowsService.SetWindowNotTransparent(_windowHandle);
+                }
+            }
         }
 
         #endregion

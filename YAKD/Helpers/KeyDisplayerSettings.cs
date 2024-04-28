@@ -128,6 +128,11 @@ namespace YAKD.Helpers
         /// </summary>
         public int DisplayDelay { get; set; }
 
+        /// <summary>
+        /// Click-through window
+        /// </summary>
+        public bool ClickThroughWindow { get; set; }
+
         #endregion
 
         #region Constructor
@@ -207,6 +212,22 @@ namespace YAKD.Helpers
             else
             {
                 FixWindow = false;
+            }
+        }
+
+        /// <summary>
+        /// Enables click-through window
+        /// </summary>
+        /// <param name="value">Value</param>
+        public void EnableClickThroughWindow(bool? value)
+        {
+            if (value.HasValue && value.Value)
+            {
+                ClickThroughWindow = true;
+            }
+            else
+            {
+                ClickThroughWindow = false;
             }
         }
 
