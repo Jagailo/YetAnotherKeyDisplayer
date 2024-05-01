@@ -1,4 +1,5 @@
 ﻿using System;
+using YAKD.Models;
 
 namespace YAKD.Hooks.Mouse
 {
@@ -9,7 +10,7 @@ namespace YAKD.Hooks.Mouse
         /// <summary>
         /// Key
         /// </summary>
-        public readonly string Key;
+        public readonly KeyModel Key;
 
         #endregion
 
@@ -21,7 +22,7 @@ namespace YAKD.Hooks.Mouse
         /// <param name="keyCode">Mouse key code from WinAPI hook</param>
         public MouseHookEventArgs(string keyCode)
         {
-            Key = keyCode;
+            Key = new KeyModel(keyCode);
         }
 
         #endregion

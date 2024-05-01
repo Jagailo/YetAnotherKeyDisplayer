@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -39,15 +39,19 @@ namespace YAKD
 
         private KeyDisplayerSettings _settings;
 
+        private KeysSettings _keysSettings;
+
         private readonly bool _isFirstRun;
 
-        private bool _isSliderEnabled, _isRtssEnabled, _isMouseEnabled;
+        private bool _isSliderEnabled, _isRtssEnabled;
 
         private KeyboardHook _keyboardHook;
 
         private MouseHook _mouseHook;
 
-        private readonly List<string> _keys;
+        private readonly List<KeyModel> _keys;
+
+        private System.Windows.Forms.NotifyIcon _notifyIcon;
 
         #endregion
 
@@ -60,16 +64,17 @@ namespace YAKD
         {
             CheckForUpdatesAsync();
             _settings = new KeyDisplayerSettings();
+            _keysSettings = new KeysSettings();
             _isSliderEnabled = true;
             _isRtssEnabled = false;
-            _isMouseEnabled = false;
-            _keys = new List<string>();
+            _keys = new List<KeyModel>();
             InitializeSettingsFromFile(Properties.Settings.Default);
             _isFirstRun = true;
             InitializeComponent();
+            InitializeNotifyIcon();
             _isFirstRun = false;
             System.Windows.Forms.Application.EnableVisualStyles();
-            InitializeMainWindow(_settings);
+            InitializeMainWindow();
             InitializeKeyDisplayerForm(_settings);
             _keyDisplayerForm.Show();
             Focus();
@@ -102,13 +107,14 @@ namespace YAKD
                 {
                     RTSSHandler.RTSSPath = TransferModel.RTSSPath;
                 }
+
                 WindowRadioButton.IsChecked = true;
             }
         }
 
         private void WindowRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (_isMouseEnabled)
+            if (_keysSettings.IsMouseEnabled)
             {
                 DisableMouseHook();
                 _settings.MouseEnabled = true;
@@ -132,46 +138,49 @@ namespace YAKD
 
         #endregion
 
-        #region Common
+        #region Keys
 
         private void MouseHookCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            _isMouseEnabled = true;
+            _keysSettings.IsMouseEnabled = true;
             if (_isRtssEnabled)
             {
                 EnableMouseHook();
             }
             else
             {
-                _settings.MouseEnabled = _isMouseEnabled;
+                _settings.MouseEnabled = _keysSettings.IsMouseEnabled;
                 UpdateKeyDisplayerForm();
             }
         }
 
         private void MouseHookCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            _isMouseEnabled = false;
+            _keysSettings.IsMouseEnabled = false;
             if (_isRtssEnabled)
             {
                 DisableMouseHook();
             }
             else
             {
-                _settings.MouseEnabled = _isMouseEnabled;
+                _settings.MouseEnabled = _keysSettings.IsMouseEnabled;
                 UpdateKeyDisplayerForm();
             }
         }
 
-        private void DisplayDelaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ShortNameForNumpadCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            DisplayDelayTextBlock.Text = $"{DisplayDelaySlider.Value.ToString(CultureInfo.InvariantCulture)} ms";
-            _settings.DisplayDelay = Convert.ToInt32(DisplayDelaySlider.Value);
-            UpdateKeyDisplayerForm();
+            _keysSettings.ShortNameForNumpad = ShortNameForNumpadCheckBox.IsChecked == true;
+        }
+
+        private void IgnoreLeftRightCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _keysSettings.IgnoreLeftRight = IgnoreLeftRightCheckBox.IsChecked == true;
         }
 
         #endregion
 
-        #region Window
+        #region YAKD window
 
         private void BackgroundColorRectangle_Click(object sender, RoutedEventArgs e)
         {
@@ -203,9 +212,16 @@ namespace YAKD
             }
         }
 
+        private void DisplayDelaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            DisplayDelayTextBlock.Text = $"{DisplayDelaySlider.Value.ToString(CultureInfo.InvariantCulture)} ms";
+            _settings.DisplayDelay = Convert.ToInt32(DisplayDelaySlider.Value);
+            UpdateKeyDisplayerForm();
+        }
+
         private void CheckBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Space)
+            if (e.Key == Key.Space || e.Key == Key.OemPlus || e.Key == Key.OemMinus || e.Key == Key.Add || e.Key == Key.Subtract)
             {
                 e.Handled = true;
             }
@@ -235,9 +251,15 @@ namespace YAKD
             UpdateKeyDisplayerForm();
         }
 
+        private void DisplayOnKeyPressedOnlyCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _settings.EnableDisplayOnKeyPressedOnly(DisplayOnKeyPressedOnlyCheckBox.IsChecked);
+            UpdateKeyDisplayerForm();
+        }
+
         #endregion
 
-        #region Keys
+        #region YAKD window keys
 
         private void FontComboBox_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
         {
@@ -245,6 +267,7 @@ namespace YAKD
             {
                 return;
             }
+
             e.Handled = true;
         }
 
@@ -269,6 +292,7 @@ namespace YAKD
                 _settings.FontSize = fontSizeDefault;
                 FontSizeTextBox.Text = fontSizeDefault.ToString(CultureInfo.InvariantCulture);
             }
+
             UpdateKeyDisplayerForm();
         }
 
@@ -342,16 +366,23 @@ namespace YAKD
             }
         }
 
+        private void MinimizeToTrayButton_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            _notifyIcon.Visible = true;
+        }
+
         private void DefaultSettingsButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to reset your settings?", "YAKD - Default settings", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                _settings = new KeyDisplayerSettings { MouseEnabled = _isMouseEnabled };
+                _keysSettings = new KeysSettings();
+                _settings = new KeyDisplayerSettings { MouseEnabled = _keysSettings.IsMouseEnabled };
                 _keyDisplayerForm.Close();
-                _keyDisplayerForm = new KeyDisplayerForm(_settings);
+                _keyDisplayerForm = new KeyDisplayerForm(_settings, _keysSettings);
                 _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
-                InitializeMainWindow(_settings);
+                InitializeMainWindow();
             }
         }
 
@@ -377,7 +408,7 @@ namespace YAKD
                 WindowRadioButton.IsChecked = true;
             }
 
-            MouseHookCheckBox.IsChecked = _isMouseEnabled;
+            MouseHookCheckBox.IsChecked = _keysSettings.IsMouseEnabled;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -389,6 +420,8 @@ namespace YAKD
             {
                 RTSSHandler.KillRTSS();
             }
+
+            _notifyIcon.Dispose();
         }
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)
@@ -423,9 +456,27 @@ namespace YAKD
 
         #region Helpers
 
+        private void InitializeNotifyIcon()
+        {
+            _notifyIcon = new System.Windows.Forms.NotifyIcon();
+            _notifyIcon.Click += (s, args) =>
+            {
+                Show();
+                _notifyIcon.Visible = false;
+            };
+
+            using (var iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Images/Icons/main-icon.ico"))?.Stream)
+            {
+                if (iconStream != null)
+                {
+                    _notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+                }
+            }
+        }
+
         private void InitializeKeyDisplayerForm(KeyDisplayerSettings keyDisplayerSettings)
         {
-            _keyDisplayerForm = new KeyDisplayerForm(keyDisplayerSettings);
+            _keyDisplayerForm = new KeyDisplayerForm(keyDisplayerSettings, _keysSettings);
             _keyDisplayerForm.LocationChanged += KeyDisplayerForm_LocationChanged;
             _keyDisplayerForm.SizeChanged += KeyDisplayerForm_SizeChanged;
             _keyDisplayerForm.Closed += KeyDisplayerForm_Closed;
@@ -439,28 +490,33 @@ namespace YAKD
             }
         }
 
-        private void InitializeMainWindow(KeyDisplayerSettings keyDisplayerSettings)
+        private void InitializeMainWindow()
         {
-            BackgroundColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.BackgroundColor);
-            OpacityTextBox.Text = $"{keyDisplayerSettings.BackgroundColorOpacity * 100}%";
-            DemoKeysCheckBox.IsChecked = !string.IsNullOrEmpty(keyDisplayerSettings.DemoKeys);
-            ResizeCheckBox.IsChecked = keyDisplayerSettings.CanResize;
-            FixWindowCheckBox.IsChecked = keyDisplayerSettings.FixWindow;
-            var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == keyDisplayerSettings.FontFamily.Source);
+            var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == _settings.FontFamily.Source);
+
+            BackgroundColorRectangle.Background = new SolidColorBrush(_settings.BackgroundColor);
+            ClickThroughWindowCheckBox.IsChecked = _settings.ClickThroughWindow;
+            DemoKeysCheckBox.IsChecked = !string.IsNullOrEmpty(_settings.DemoKeys);
+            DisplayDelaySlider.Value = _settings.DisplayDelay;
+            DisplayDelayTextBlock.Text = $"{_settings.DisplayDelay.ToString(CultureInfo.InvariantCulture)} ms";
+            DisplayOnKeyPressedOnlyCheckBox.IsChecked = _settings.DisplayOnKeyPressedOnly;
+            FixWindowCheckBox.IsChecked = _settings.FixWindow;
+            FontColorRectangle.Background = new SolidColorBrush(_settings.Color);
             FontComboBox.SelectedIndex = font != null ? FontComboBox.Items.IndexOf(font) : 0;
-            FontSizeTextBox.Text = keyDisplayerSettings.FontSize.ToString(CultureInfo.InvariantCulture);
-            FontColorRectangle.Background = new SolidColorBrush(keyDisplayerSettings.Color);
-            SetActiveButtonForKeysAlignment(keyDisplayerSettings.KeysAlignment);
-            DisplayDelaySlider.Value = keyDisplayerSettings.DisplayDelay;
-            DisplayDelayTextBlock.Text = $"{keyDisplayerSettings.DisplayDelay.ToString(CultureInfo.InvariantCulture)} ms";
-            ClickThroughWindowCheckBox.IsChecked = keyDisplayerSettings.ClickThroughWindow;
+            FontSizeTextBox.Text = _settings.FontSize.ToString(CultureInfo.InvariantCulture);
+            IgnoreLeftRightCheckBox.IsChecked = _keysSettings.IgnoreLeftRight;
+            MouseHookCheckBox.IsChecked = _keysSettings.IsMouseEnabled;
+            OpacityTextBox.Text = $"{_settings.BackgroundColorOpacity * 100}%";
+            ResizeCheckBox.IsChecked = _settings.CanResize;
+            SetActiveButtonForKeysAlignment(_settings.KeysAlignment);
+            ShortNameForNumpadCheckBox.IsChecked = _keysSettings.ShortNameForNumpad;
         }
 
         private void InitializeKeyboardHook()
         {
             if (_keyboardHook == null)
             {
-                _keyboardHook = new KeyboardHook();
+                _keyboardHook = new KeyboardHook(_keysSettings);
                 _keyboardHook.KeyDown += KeyboardHook_KeyDown;
                 _keyboardHook.KeyUp += KeyboardHook_KeyUp;
             }
@@ -472,26 +528,33 @@ namespace YAKD
             {
                 try
                 {
-                    _settings.AddFontFamily(fileSettings.FontFamily);
-                    _settings.FontSize = fileSettings.FontSize;
-                    _settings.Color = fileSettings.Color;
-                    _settings.BackgroundColor = fileSettings.BackgroundColor;
-                    _settings.BackgroundColorOpacity = fileSettings.BackgroundColorOpacity;
-                    _settings.EnableDemoKeys(fileSettings.DemoKeys);
                     if (fileSettings.StartupPoint)
                     {
                         _settings.StartupPoint = new StartupLocationModel(fileSettings.x, fileSettings.y);
                     }
-                    _settings.Width = fileSettings.Width;
-                    _settings.Height = fileSettings.Height;
-                    _settings.EnableResize(fileSettings.CanResize);
-                    _settings.WindowFixing(fileSettings.FixWindow);
-                    RTSSHandler.RTSSPath = fileSettings.RTSSPath;
-                    _isRtssEnabled = fileSettings.RTSSEnabled;
-                    _isMouseEnabled = fileSettings.MouseEnabled;
-                    _settings.KeysAlignment = fileSettings.KeysAlignment;
+
+                    _keysSettings.IgnoreLeftRight = fileSettings.IgnoreLeftRight;
+                    _keysSettings.IsMouseEnabled = fileSettings.MouseEnabled;
+                    _keysSettings.ShortNameForNumpad = fileSettings.ShortNameForNumpad;
+
+                    _settings.AddFontFamily(fileSettings.FontFamily);
+                    _settings.BackgroundColor = fileSettings.BackgroundColor;
+                    _settings.BackgroundColorOpacity = fileSettings.BackgroundColorOpacity;
+                    _settings.Color = fileSettings.Color;
                     _settings.DisplayDelay = fileSettings.DisplayDelay;
                     _settings.EnableClickThroughWindow(fileSettings.ClickThroughWindow);
+                    _settings.EnableDemoKeys(fileSettings.DemoKeys);
+                    _settings.EnableDisplayOnKeyPressedOnly(fileSettings.DisplayOnKeyPressedOnly);
+                    _settings.EnableResize(fileSettings.CanResize);
+                    _settings.FontSize = fileSettings.FontSize;
+                    _settings.Height = fileSettings.Height;
+                    _settings.KeysAlignment = fileSettings.KeysAlignment;
+                    _settings.MouseEnabled = fileSettings.MouseEnabled;
+                    _settings.Width = fileSettings.Width;
+                    _settings.WindowFixing(fileSettings.FixWindow);
+
+                    RTSSHandler.RTSSPath = fileSettings.RTSSPath;
+                    _isRtssEnabled = fileSettings.RTSSEnabled;
 
                     if (!fileSettings.FirstLaunchStatistic)
                     {
@@ -516,12 +579,6 @@ namespace YAKD
         {
             try
             {
-                fileSettings.FontFamily = _settings.FontFamily.Source;
-                fileSettings.FontSize = _settings.FontSize;
-                fileSettings.Color = _settings.Color;
-                fileSettings.BackgroundColor = _settings.BackgroundColor;
-                fileSettings.BackgroundColorOpacity = _settings.BackgroundColorOpacity;
-                fileSettings.DemoKeys = !string.IsNullOrEmpty(_settings.DemoKeys);
                 if (_settings.StartupPoint != null)
                 {
                     fileSettings.x = _settings.StartupPoint.Left;
@@ -534,22 +591,34 @@ namespace YAKD
                     fileSettings.y = 0;
                     fileSettings.StartupPoint = false;
                 }
-                fileSettings.Width = _settings.Width;
-                fileSettings.Height = _settings.Height;
+
+                fileSettings.BackgroundColor = _settings.BackgroundColor;
+                fileSettings.BackgroundColorOpacity = _settings.BackgroundColorOpacity;
                 fileSettings.CanResize = _settings.CanResize;
+                fileSettings.ClickThroughWindow = _settings.ClickThroughWindow;
+                fileSettings.Color = _settings.Color;
+                fileSettings.DemoKeys = !string.IsNullOrEmpty(_settings.DemoKeys);
+                fileSettings.DisplayDelay = _settings.DisplayDelay;
+                fileSettings.DisplayOnKeyPressedOnly = _settings.DisplayOnKeyPressedOnly;
                 fileSettings.FixWindow = _settings.FixWindow;
+                fileSettings.FontFamily = _settings.FontFamily.Source;
+                fileSettings.FontSize = _settings.FontSize;
+                fileSettings.Height = _settings.Height;
+                fileSettings.IgnoreLeftRight = _keysSettings.IgnoreLeftRight;
+                fileSettings.KeysAlignment = _settings.KeysAlignment;
+                fileSettings.MouseEnabled = _keysSettings.IsMouseEnabled;
                 fileSettings.RTSSEnabled = _isRtssEnabled;
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
-                fileSettings.MouseEnabled = _isMouseEnabled;
-                fileSettings.KeysAlignment = _settings.KeysAlignment;
-                fileSettings.DisplayDelay = _settings.DisplayDelay;
-                fileSettings.ClickThroughWindow = _settings.ClickThroughWindow;
+                fileSettings.ShortNameForNumpad = _keysSettings.ShortNameForNumpad;
+                fileSettings.Width = _settings.Width;
+
                 fileSettings.Created = true;
             }
             catch (Exception)
             {
                 // Ignored
             }
+
             fileSettings.Save();
         }
 
@@ -563,6 +632,7 @@ namespace YAKD
             DemoKeysCheckBox.IsEnabled = state;
             DisplayDelaySlider.IsEnabled = state;
             DisplayDelayTextBlock.IsEnabled = state;
+            DisplayOnKeyPressedOnlyCheckBox.IsEnabled = state;
             FixWindowCheckBox.IsEnabled = state;
             FontColorRectangle.IsEnabled = state;
             FontComboBox.IsEnabled = state;
@@ -596,10 +666,10 @@ namespace YAKD
             }
         }
 
-        private void SendKeysToRTSS()
+        private void SendKeysToRtss()
         {
-            _keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-            var keysString = _keys.Any() ? $" {string.Join(" + ", _keys)} " : string.Empty;
+            _keys.Sort((a, b) => b.DisplayName.Length.CompareTo(a.DisplayName.Length));
+            var keysString = _keys.Any() ? $" {string.Join(" + ", _keys.Select(x => x.DisplayName).Distinct())} " : string.Empty;
 
             try
             {
@@ -611,24 +681,24 @@ namespace YAKD
             }
         }
 
-        private void AddKey(string key)
+        private void AddKey(KeyModel key)
         {
-            if (!_keys.Contains(key))
+            if (_keys.All(x => x.Name != key.Name))
             {
                 _keys.Add(key);
-                SendKeysToRTSS();
+                SendKeysToRtss();
             }
         }
 
-        private void RemoveKey(string key)
+        private void RemoveKey(KeyModel key)
         {
-            _keys.RemoveAll(x => x == key);
-            SendKeysToRTSS();
+            _keys.RemoveAll(x => x.Name == key.Name);
+            SendKeysToRtss();
         }
 
         private void EnableMouseHook()
         {
-            if (_isMouseEnabled)
+            if (_keysSettings.IsMouseEnabled)
             {
                 _mouseHook = new MouseHook();
                 _mouseHook.KeyDown += MouseHook_KeyDown;
@@ -659,26 +729,38 @@ namespace YAKD
             switch (alignment)
             {
                 case HorizontalAlignment.Left:
+                {
                     LeftAlignmentButton.Tag = "1";
                     CenterAlignmentButton.Tag = "0";
                     RightAlignmentButton.Tag = "0";
+
                     break;
+                }
                 case HorizontalAlignment.Center:
                 case HorizontalAlignment.Stretch:
+                {
                     LeftAlignmentButton.Tag = "0";
                     CenterAlignmentButton.Tag = "1";
                     RightAlignmentButton.Tag = "0";
+
                     break;
+                }
                 case HorizontalAlignment.Right:
+                {
                     LeftAlignmentButton.Tag = "0";
                     CenterAlignmentButton.Tag = "0";
                     RightAlignmentButton.Tag = "1";
+
                     break;
+                }
                 default:
+                {
                     LeftAlignmentButton.Tag = "0";
                     CenterAlignmentButton.Tag = "1";
                     RightAlignmentButton.Tag = "0";
+
                     break;
+                }
             }
         }
 
@@ -705,11 +787,11 @@ namespace YAKD
 
         private static async void SendStatisticAsync()
         {
-            #if DEBUG
+#if DEBUG
 
-                return;
+            return;
 
-            #endif
+#endif
 
             await Task.Run(async () =>
             {

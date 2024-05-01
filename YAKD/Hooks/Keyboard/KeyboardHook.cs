@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using YAKD.Enums;
+using YAKD.Models;
 
 namespace YAKD.Hooks.Keyboard
 {
@@ -17,7 +18,7 @@ namespace YAKD.Hooks.Keyboard
         }
 
         [DllImport("user32.dll")]
-        private static extern IntPtr SetWindowsHookEx(HookType code, HookProc func, IntPtr instance, int threadID);
+        private static extern IntPtr SetWindowsHookEx(HookType code, HookProc func, IntPtr instance, int threadId);
 
         [DllImport("user32.dll")]
         private static extern int UnhookWindowsHookEx(IntPtr hook);
@@ -36,8 +37,11 @@ namespace YAKD.Hooks.Keyboard
         public event HookEventHandler KeyDown;
         public event HookEventHandler KeyUp;
 
-        public KeyboardHook()
+        private readonly KeysSettings _keysSettings;
+
+        public KeyboardHook(KeysSettings settings)
         {
+            _keysSettings = settings;
             _hookFunction = HookCallback;
             Install();
         }
@@ -61,12 +65,12 @@ namespace YAKD.Hooks.Keyboard
 
             if ((lParam.flags & 0x80) != 0)
             {
-                KeyUp?.Invoke(this, new KeyboardHookEventArgs(lParam.vkCode));
+                KeyUp?.Invoke(this, new KeyboardHookEventArgs(lParam.vkCode, _keysSettings));
             }
 
             if ((lParam.flags & 0x80) == 0)
             {
-                KeyDown?.Invoke(this, new KeyboardHookEventArgs(lParam.vkCode));
+                KeyDown?.Invoke(this, new KeyboardHookEventArgs(lParam.vkCode, _keysSettings));
             }
 
             return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
@@ -80,7 +84,6 @@ namespace YAKD.Hooks.Keyboard
             }
 
             var modules = Assembly.GetExecutingAssembly().GetModules();
-            System.Diagnostics.Debug.Assert(modules != null && modules.Length > 0);
 
             _hookHandle = SetWindowsHookEx(HookType, _hookFunction, Marshal.GetHINSTANCE(modules[0]), 0);
         }

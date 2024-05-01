@@ -274,5 +274,41 @@ namespace YAKD.Properties {
                 this["ClickThroughWindow"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShortNameForNumpad {
+            get {
+                return ((bool)(this["ShortNameForNumpad"]));
+            }
+            set {
+                this["ShortNameForNumpad"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IgnoreLeftRight {
+            get {
+                return ((bool)(this["IgnoreLeftRight"]));
+            }
+            set {
+                this["IgnoreLeftRight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisplayOnKeyPressedOnly {
+            get {
+                return ((bool)(this["DisplayOnKeyPressedOnly"]));
+            }
+            set {
+                this["DisplayOnKeyPressedOnly"] = value;
+            }
+        }
     }
 }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="560"
-        Width="440"
+        Height="640"
+        Width="480"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E"
@@ -57,7 +57,7 @@
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               TextBlock.Foreground="#FF1E1E1E"
-                                              TextBlock.FontSize="12" />
+                                              TextBlock.FontSize="13" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -210,18 +210,18 @@
     </Window.Resources>
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="4*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="14*" />
+            <RowDefinition Height="10*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header=" Key Displayer " Margin="0,10">
+        <GroupBox Grid.Row="0" Header=" Key Displayer " Margin="0,9">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -234,27 +234,51 @@
                              Checked="RTSSRadioButton_Checked" />
                 <RadioButton x:Name="WindowRadioButton"
                              Grid.Row="1"
-                             Content="YAKD Window"
+                             Content="YAKD window"
                              GroupName="KeyDisplayerMode"
                              Padding="3,-2,0,0"
                              VerticalContentAlignment="Center"
                              Checked="WindowRadioButton_Checked" />
-                <CheckBox x:Name="MouseHookCheckBox"
-                          Grid.Row="2"
-                          Content="Tracking mouse"
-                          Padding="3,-2,0,0"
-                          VerticalContentAlignment="Center"
-                          Checked="MouseHookCheckBox_Checked"
-                          Unchecked="MouseHookCheckBox_Unchecked" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header=" Window " Margin="0,10,0,11">
+
+        <GroupBox Grid.Row="1" Header=" Keys " Margin="0,9">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <CheckBox x:Name="MouseHookCheckBox"
+                          Grid.Row="0"
+                          Content="Track mouse"
+                          VerticalContentAlignment="Center"
+                          Checked="MouseHookCheckBox_Checked"
+                          Unchecked="MouseHookCheckBox_Unchecked"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown"/>
+                <CheckBox x:Name="ShortNameForNumpadCheckBox"
+                          Grid.Row="1"
+                          Content="Short name for Numpad"
+                          VerticalContentAlignment="Center"
+                          Click="ShortNameForNumpadCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
+                <CheckBox x:Name="IgnoreLeftRightCheckBox"
+                          Grid.Row="2"
+                          Content="Ignore Left (L) and Right (R) prefixes"
+                          VerticalContentAlignment="Center"
+                          Click="IgnoreLeftRightCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2" Header=" YAKD window " Margin="0,9">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -313,7 +337,7 @@
                     <Slider x:Name="DisplayDelaySlider"
                             Grid.Column="1"
                             LargeChange="100"
-                            Maximum="400"
+                            Maximum="500"
                             Minimum="0"
                             IsSnapToTickEnabled="True"
                             TickFrequency="50"
@@ -364,10 +388,19 @@
                           VerticalContentAlignment="Center"
                           Click="ClickThroughWindowCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
+                <CheckBox x:Name="DisplayOnKeyPressedOnlyCheckBox"
+                          Grid.Column="1"
+                          Grid.Row="4"
+                          Content="Display on key pressed only"
+                          VerticalAlignment="Center"
+                          Margin="9,5,0,5"
+                          VerticalContentAlignment="Center"
+                          Click="DisplayOnKeyPressedOnlyCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="2" Header=" Keys " Margin="0,10">
+        <GroupBox Grid.Row="3" Header=" YAKD window keys " Margin="0,9">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -499,10 +532,11 @@
             </Grid>
         </GroupBox>
 
-        <StackPanel Grid.Row="3" Height="16" />
+        <StackPanel Grid.Row="4" Height="18" />
 
-        <Grid Grid.Row="4" VerticalAlignment="Center">
+        <Grid Grid.Row="5" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -511,22 +545,28 @@
                     Content="Hide (Alt + F4)"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="ShowHideWindowButton_Click"
-                    Margin="1,5,10,5" />
-            <Button x:Name="DefaultSettingsButton"
+                    Margin="1,5,5,5" />
+            <Button x:Name="MinimizeToTrayButton"
                     Grid.Column="1"
+                    Content="Minimize to tray"
+                    Style="{StaticResource VisualStudioButtonStyle}"
+                    Click="MinimizeToTrayButton_Click"
+                    Margin="5" />
+            <Button x:Name="DefaultSettingsButton"
+                    Grid.Column="2"
                     Content="Default settings"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="DefaultSettingsButton_Click"
-                    Margin="10,5,1,5" />
+                    Margin="5,5,1,5" />
         </Grid>
 
-        <StackPanel Grid.Row="5"
+        <StackPanel Grid.Row="6"
                     Orientation="Horizontal"
                     VerticalAlignment="Bottom"
                     HorizontalAlignment="Right"
                     Margin="0,5,1,2">
             <TextBlock HorizontalAlignment="Left"
-                       Text="YAKD v.1.3.1 by Jagailo - "
+                       Text="YAKD v.1.4 by Jagailo - "
                        VerticalAlignment="Top"
                        FontSize="11" />
             <TextBlock x:Name="AboutTextBlock"

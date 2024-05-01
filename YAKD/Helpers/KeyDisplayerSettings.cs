@@ -133,6 +133,11 @@ namespace YAKD.Helpers
         /// </summary>
         public bool ClickThroughWindow { get; set; }
 
+        /// <summary>
+        /// Display on key pressed only
+        /// </summary>
+        public bool DisplayOnKeyPressedOnly { get; set; }
+
         #endregion
 
         #region Constructor
@@ -228,6 +233,22 @@ namespace YAKD.Helpers
             else
             {
                 ClickThroughWindow = false;
+            }
+        }
+
+        /// <summary>
+        /// Enables display on key pressed only
+        /// </summary>
+        /// <param name="value">Value</param>
+        public void EnableDisplayOnKeyPressedOnly(bool? value)
+        {
+            if (value.HasValue && value.Value)
+            {
+                DisplayOnKeyPressedOnly = true;
+            }
+            else
+            {
+                DisplayOnKeyPressedOnly = false;
             }
         }
 

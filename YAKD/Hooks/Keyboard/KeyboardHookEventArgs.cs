@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using YAKD.Helpers;
+using YAKD.Models;
 
 namespace YAKD.Hooks.Keyboard
 {
@@ -11,7 +12,7 @@ namespace YAKD.Hooks.Keyboard
         /// <summary>
         /// Key
         /// </summary>
-        public readonly string Key;
+        public readonly KeyModel Key;
 
         #endregion
 
@@ -21,9 +22,10 @@ namespace YAKD.Hooks.Keyboard
         /// Initializes a new instance of the KeyboardHookEventArgs class
         /// </summary>
         /// <param name="keyCode">Key code from WinAPI hook</param>
-        public KeyboardHookEventArgs(uint keyCode)
+        /// <param name="settings">Settings</param>
+        public KeyboardHookEventArgs(uint keyCode, KeysSettings settings)
         {
-            Key = KeyboardListConverter.GetKeyName(((Keys)keyCode).ToString());
+            Key = new KeyModel(KeyboardListConverter.GetKeyName(((Keys)keyCode).ToString()), settings);
         }
 
         #endregion

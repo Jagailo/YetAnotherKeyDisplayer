@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -8,7 +9,7 @@ using System.Windows.Media;
 using YAKD.Helpers;
 using YAKD.Hooks.Keyboard;
 using YAKD.Hooks.Mouse;
-using YAKD.Properties;
+using YAKD.Models;
 
 namespace YAKD
 {
@@ -28,15 +29,11 @@ namespace YAKD
         // For demo keys only
         private bool _isKeyboardHookEnabled;
 
-        private bool _isWindowShouldBeFixed;
-
-        private int _displayDelay;
-
-        private bool _clickThroughWindow;
-
-        private readonly List<string> _keys;
+        private readonly List<KeyModel> _keys;
 
         private IntPtr _windowHandle;
+
+        private readonly KeyDisplayerSettings _settings;
 
         #endregion
 
@@ -46,18 +43,16 @@ namespace YAKD
         /// Initializes a new instance of the KeyDisplayerForm class
         /// </summary>
         /// <param name="settings">Displaying settings</param>
-        public KeyDisplayerForm(KeyDisplayerSettings settings)
+        /// <param name="keysSettings">Keys settings</param>
+        public KeyDisplayerForm(KeyDisplayerSettings settings, KeysSettings keysSettings)
         {
-            if (settings == null)
-            {
-                settings = new KeyDisplayerSettings();
-            }
+            _keys = new List<KeyModel>();
+            _settings = settings ?? new KeyDisplayerSettings();
 
             InitializeComponent();
             InitializeSettings(settings);
-            _keys = new List<string>();
 
-            _keyboardHook = new KeyboardHook();
+            _keyboardHook = new KeyboardHook(keysSettings);
             _keyboardHook.KeyDown += KeyboardHook_KeyDown;
             _keyboardHook.KeyUp += KeyboardHook_KeyUp;
         }
@@ -72,11 +67,11 @@ namespace YAKD
             KeysTextBlock.FontSize = settings.FontSize;
             KeysTextBlock.Foreground = new SolidColorBrush(settings.Color);
             KeysTextBlock.HorizontalAlignment = settings.KeysAlignment;
-            var solidColor = new SolidColorBrush(settings.BackgroundColor)
+            Background = new SolidColorBrush(_settings.BackgroundColor)
             {
-                Opacity = settings.BackgroundColorOpacity
+                Opacity = _settings.DisplayOnKeyPressedOnly && _keys.Count == 0 ? 0 : _settings.BackgroundColorOpacity
             };
-            Background = solidColor;
+
             if (settings.DemoKeys != "")
             {
                 KeysTextBlock.Text = settings.DemoKeys;
@@ -97,9 +92,6 @@ namespace YAKD
             Height = settings.Height;
             Width = settings.Width;
             ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
-            _isWindowShouldBeFixed = settings.FixWindow;
-            _displayDelay = settings.DisplayDelay;
-            _clickThroughWindow = settings.ClickThroughWindow;
 
             ApplyClickThroughWindowSetting();
 
@@ -112,7 +104,7 @@ namespace YAKD
 
         private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!_isWindowShouldBeFixed)
+            if (!_settings.FixWindow)
             {
                 DragMove();
             }
@@ -166,27 +158,39 @@ namespace YAKD
         {
             if (_isKeyboardHookEnabled)
             {
-                _keys.Sort((a, b) => b.Length.CompareTo(a.Length));
-                KeysTextBlock.Text = string.Join(" + ", _keys);
+                _keys.Sort((a, b) => b.DisplayName.Length.CompareTo(a.DisplayName.Length));
+                KeysTextBlock.Text = string.Join(" + ", _keys.Select(x => x.DisplayName).Distinct());
+
+                if (_settings.DisplayOnKeyPressedOnly)
+                {
+                    if (Background.Opacity == 0 && _keys.Count != 0)
+                    {
+                        Background.Opacity = _settings.BackgroundColorOpacity;
+                    }
+                    else if (Background.Opacity != 0 && _keys.Count == 0)
+                    {
+                        Background.Opacity = 0;
+                    }
+                }
             }
         }
 
-        private void AddKey(string key)
+        private void AddKey(KeyModel key)
         {
-            if (!_keys.Contains(key))
+            if (_keys.All(x => x.Name != key.Name))
             {
                 _keys.Add(key);
                 ShowKeys();
             }
         }
 
-        private async void RemoveKeyAsync(string key)
+        private async void RemoveKeyAsync(KeyModel key)
         {
-            _keys.RemoveAll(x => x == key);
+            _keys.RemoveAll(x => x.Name == key.Name);
 
-            if (_displayDelay != 0)
+            if (_settings.DisplayDelay != 0)
             {
-                await Task.Delay(_displayDelay);
+                await Task.Delay(_settings.DisplayDelay);
             }
 
             ShowKeys();
@@ -196,7 +200,7 @@ namespace YAKD
         {
             if (_windowHandle != default)
             {
-                if (_clickThroughWindow)
+                if (_settings.ClickThroughWindow)
                 {
                     WindowsService.SetWindowTransparent(_windowHandle);
                 }
