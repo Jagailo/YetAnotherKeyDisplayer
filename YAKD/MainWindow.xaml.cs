@@ -176,6 +176,7 @@ namespace YAKD
         private void IgnoreLeftRightCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _keysSettings.IgnoreLeftRight = IgnoreLeftRightCheckBox.IsChecked == true;
+            DemoKeysCheckBox_Click(sender, e);
         }
 
         #endregion
@@ -229,7 +230,7 @@ namespace YAKD
 
         private void DemoKeysCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            _settings.EnableDemoKeys(DemoKeysCheckBox.IsChecked);
+            _settings.EnableDemoKeys(DemoKeysCheckBox.IsChecked, _keysSettings);
             UpdateKeyDisplayerForm();
         }
 
@@ -543,7 +544,7 @@ namespace YAKD
                     _settings.Color = fileSettings.Color;
                     _settings.DisplayDelay = fileSettings.DisplayDelay;
                     _settings.EnableClickThroughWindow(fileSettings.ClickThroughWindow);
-                    _settings.EnableDemoKeys(fileSettings.DemoKeys);
+                    _settings.EnableDemoKeys(fileSettings.DemoKeys, _keysSettings);
                     _settings.EnableDisplayOnKeyPressedOnly(fileSettings.DisplayOnKeyPressedOnly);
                     _settings.EnableResize(fileSettings.CanResize);
                     _settings.FontSize = fileSettings.FontSize;

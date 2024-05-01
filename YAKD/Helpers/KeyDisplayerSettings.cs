@@ -176,11 +176,14 @@ namespace YAKD.Helpers
         /// Enables demo keys
         /// </summary>
         /// <param name="value">Value</param>
-        public void EnableDemoKeys(bool? value)
+        /// <param name="keysSettings">Keys settings</param>
+        public void EnableDemoKeys(bool? value, KeysSettings keysSettings)
         {
             if (value.HasValue && value.Value)
             {
-                DemoKeys = "L Shift + L Ctrl + Enter + C + V";
+                DemoKeys = keysSettings.IgnoreLeftRight
+                    ? "Shift + Ctrl + Enter + C + V"
+                    : "L Shift + L Ctrl + Enter + C + V";
             }
             else
             {
