@@ -21,7 +21,16 @@ namespace YAKD
             OkButton.Focus();
 
             TransferModel.SelectedColor = color;
-            ColorPickerControl.SetColor(color);
+            if (color == Colors.Black)
+            {
+                ColorCanvas.HexadecimalString = "#000000";
+            }
+            else
+            {
+                ColorCanvas.R = color.R;
+                ColorCanvas.G = color.G;
+                ColorCanvas.B = color.B;
+            }
         }
 
         #endregion
@@ -30,7 +39,7 @@ namespace YAKD
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            TransferModel.SelectedColor = ColorPickerControl.SelectedColor;
+            TransferModel.SelectedColor = Color.FromRgb(ColorCanvas.R, ColorCanvas.G, ColorCanvas.B);
             Close();
         }
 

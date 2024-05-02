@@ -13,46 +13,6 @@
         FontFamily="{StaticResource RobotoRegular}"
         FontSize="14"
         ResizeMode="NoResize">
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                                BorderThickness="1"
-                                Width="Auto"
-                                SnapsToDevicePixels="True"
-                                Height="23"
-                                Padding="8,0,8,1"
-                                Margin="0,5,5,5"
-                                BorderBrush="#FFACACAC" 
-                                Background="#FFECECF0">
-                            <ContentPresenter Name="content"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              TextBlock.Foreground="#FF1E1E1E"
-                                              TextBlock.FontSize="12" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFC9DEF5" />
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
-                            </Trigger>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF007ACC" />
-                                <Setter TargetName="border" Property="Background" Value="#FF007ACC" />
-                                <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFFFFFFF" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -60,14 +20,30 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock TextWrapping="Wrap"
-                       Text="Rivatuner Statistics Server (RTSS) is a program with which you can output pressed keys directly into the game with minimal loss in performance. This program is developed by a third party - Guru3D.com."
+                       Text="Rivatuner Statistics Server (RTSS) is a program that allows you to display pressed keys directly into the game with minimal loss in performance. This program is developed by a third party - Guru3D.com."
                        Margin="10" />
-            <TextBlock x:Name="RTSSPathTextBlock" TextWrapping="Wrap" Margin="10" />
+            <TextBlock x:Name="RTSSPathTextBlock"
+                       TextWrapping="Wrap"
+                       Margin="10" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="DownloadRTSSButton" Content="Download RTSS" Click="DownloadRTSSButton_Click" />
-            <Button x:Name="FindRTSSButton" Content="Specify the path to RTSS.exe" Click="FindRTSSButton_Click" />
-            <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" />
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button x:Name="DownloadRTSSButton"
+                    Content="Download RTSS"
+                    Style="{StaticResource VisualStudioButtonStyle}"
+                    Margin="0,5,5,5"
+                    Click="DownloadRTSSButton_Click" />
+            <Button x:Name="FindRTSSButton"
+                    Content="Specify the path to RTSS.exe"
+                    Style="{StaticResource VisualStudioButtonStyle}"
+                    Margin="0,5,5,5"
+                    Click="FindRTSSButton_Click" />
+            <Button x:Name="CancelButton"
+                    Content="Cancel"
+                    Style="{StaticResource VisualStudioButtonStyle}"
+                    Margin="0,5,5,5"
+                    Click="CancelButton_Click" />
         </StackPanel>
     </Grid>
 </Window>

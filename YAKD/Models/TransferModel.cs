@@ -1,5 +1,4 @@
 ﻿using System.Windows.Media;
-using YAKD.Controls.ColorPicker;
 
 namespace YAKD.Models
 {
@@ -13,7 +12,7 @@ namespace YAKD.Models
         /// <summary>
         /// Selected color
         /// </summary>
-        /// <remarks>Used in <see cref="ColorPicker"/></remarks>
+        /// <remarks>Used in <see cref="ColorPickerWindow"/></remarks>
         public static Color SelectedColor { get; set; }
 
         /// <summary>

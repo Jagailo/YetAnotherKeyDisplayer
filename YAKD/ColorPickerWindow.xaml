@@ -3,55 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:colorPicker="clr-namespace:YAKD.Controls.ColorPicker"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Choose a color"
-        Height="305"
-        Width="196"
+        Height="342"
+        Width="271"
         FontFamily="{StaticResource RobotoRegular}"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E">
-    <Window.Resources>
-        <Style x:Key="VisualStudioButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                                BorderThickness="1"
-                                Width="Auto"
-                                SnapsToDevicePixels="True"
-                                Height="23"
-                                Padding="0,0,0,1"
-                                BorderBrush="#FFACACAC" 
-                                Background="#FFECECF0">
-                            <ContentPresenter Name="content"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              TextBlock.Foreground="#FF1E1E1E"
-                                              TextBlock.FontSize="12" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFC9DEF5" />
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
-                            </Trigger>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF3399FF" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF007ACC" />
-                                <Setter TargetName="border" Property="Background" Value="#FF007ACC" />
-                                <Setter TargetName="content" Property="TextBlock.Foreground" Value="#FFFFFFFF" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -61,11 +22,22 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <colorPicker:ColorPicker x:Name="ColorPickerControl"
-                                 Grid.Column="0"
-                                 Grid.ColumnSpan="2"
-                                 Grid.Row="0"
-                                 TabIndex="0" />
+
+        <xctk:ColorCanvas Name="ColorCanvas"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          Grid.Row="0"
+                          TabIndex="0"
+                          UsingAlphaChannel="False" 
+                          Width="235"
+                          Height="240"
+                          Margin="5"
+                          VerticalAlignment="Top"
+                          Background="{x:Null}"
+                          Foreground="#1E1E1E"
+                          BorderBrush="#ACACAC" 
+                          FontSize="11" />
+
         <Button x:Name="OkButton"
                 Grid.Row="1"
                 Grid.Column="0"
@@ -74,6 +46,7 @@
                 TabIndex="1"
                 Style="{StaticResource VisualStudioButtonStyle}"
                 Margin="5,10,5,5" />
+
         <Button x:Name="CancelButton"
                 Grid.Row="1"
                 Grid.Column="1"
