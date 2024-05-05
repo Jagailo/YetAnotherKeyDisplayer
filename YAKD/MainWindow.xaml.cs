@@ -75,7 +75,7 @@ namespace YAKD
             _isFirstRun = false;
             System.Windows.Forms.Application.EnableVisualStyles();
             InitializeMainWindow();
-            InitializeKeyDisplayerForm(_settings);
+            InitializeKeyDisplayerForm();
             _keyDisplayerForm.Show();
             Focus();
         }
@@ -361,7 +361,7 @@ namespace YAKD
             }
             else
             {
-                InitializeKeyDisplayerForm(_settings);
+                InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
             }
@@ -380,7 +380,7 @@ namespace YAKD
                 _keysSettings = new KeysSettings();
                 _settings = new KeyDisplayerSettings { MouseEnabled = _keysSettings.IsMouseEnabled };
                 _keyDisplayerForm.Close();
-                _keyDisplayerForm = new KeyDisplayerForm(_settings, _keysSettings);
+                InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
                 InitializeMainWindow();
@@ -432,7 +432,19 @@ namespace YAKD
 
         private void KeyDisplayerForm_LocationChanged(object sender, EventArgs e)
         {
-            _settings.StartupPoint = new StartupLocationModel(_keyDisplayerForm.Left, _keyDisplayerForm.Top);
+            if (_settings.StartupPoint == null)
+            {
+                _settings.StartupPoint = new StartupLocationModel
+                {
+                    Left = _keyDisplayerForm.Left,
+                    Top = _keyDisplayerForm.Top
+                };
+            }
+            else
+            {
+                _settings.StartupPoint.Left = _keyDisplayerForm.Left;
+                _settings.StartupPoint.Top = _keyDisplayerForm.Top;
+            }
         }
 
         private void KeyDisplayerForm_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -475,9 +487,9 @@ namespace YAKD
             }
         }
 
-        private void InitializeKeyDisplayerForm(KeyDisplayerSettings keyDisplayerSettings)
+        private void InitializeKeyDisplayerForm()
         {
-            _keyDisplayerForm = new KeyDisplayerForm(keyDisplayerSettings, _keysSettings);
+            _keyDisplayerForm = new KeyDisplayerForm(_settings, _keysSettings);
             _keyDisplayerForm.LocationChanged += KeyDisplayerForm_LocationChanged;
             _keyDisplayerForm.SizeChanged += KeyDisplayerForm_SizeChanged;
             _keyDisplayerForm.Closed += KeyDisplayerForm_Closed;
@@ -531,7 +543,11 @@ namespace YAKD
                 {
                     if (fileSettings.StartupPoint)
                     {
-                        _settings.StartupPoint = new StartupLocationModel(fileSettings.x, fileSettings.y);
+                        _settings.StartupPoint = new StartupLocationModel
+                        {
+                            Left = fileSettings.x,
+                            Top = fileSettings.y
+                        };
                     }
 
                     _keysSettings.IgnoreLeftRight = fileSettings.IgnoreLeftRight;
@@ -657,7 +673,7 @@ namespace YAKD
 
             if (state && !_keyDisplayerForm.IsVisible)
             {
-                InitializeKeyDisplayerForm(_settings);
+                InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
                 ShowHideWindowButton.Content = "Hide (Alt + F4)";
             }

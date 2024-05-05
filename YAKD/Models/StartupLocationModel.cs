@@ -5,31 +5,14 @@
     /// </summary>
     public class StartupLocationModel
     {
-        #region Properties
-
         /// <summary>
         /// Point from top of the screen
         /// </summary>
-        public double Top { get; }
+        public double Top { get; set; }
 
         /// <summary>
         /// Point from left of the screen
         /// </summary>
-        public double Left { get; }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Initializes a new instance of StartupLocation class
-        /// </summary>
-        public StartupLocationModel(double x, double y)
-        {
-            Left = x;
-            Top = y;
-        }
-
-        #endregion
+        public double Left { get; set; }
     }
 }
