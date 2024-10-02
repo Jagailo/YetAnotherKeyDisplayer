@@ -1,7 +1,8 @@
-﻿using RTSSSharedMemoryNET;
+using RTSSSharedMemoryNET;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
@@ -72,17 +73,35 @@ namespace YAKD.Helpers
             {
                 RunOSD();
             }
-            else if (_rtssInstance == null && File.Exists(RTSSPath))
+            else if (File.Exists(RTSSPath))
             {
+                KillRTSS();
+
                 try
                 {
                     _rtssInstance = Process.Start(RTSSPath);
-                    Thread.Sleep(2000); // If it works, don't touch it
+                    WaitForRTSSStartup();
                 }
                 catch (Exception exc)
                 {
                     MessageBox.Show(exc.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private static void WaitForRTSSStartup()
+        {
+            const int maxWaitTime = 5000;
+            const int checkInterval = 500;
+
+            for (var waited = 0; waited < maxWaitTime; waited += checkInterval)
+            {
+                if (IsRTSSRunning)
+                {
+                    return;
+                }
+
+                Thread.Sleep(checkInterval);
             }
         }
 
@@ -114,9 +133,22 @@ namespace YAKD.Helpers
                 try
                 {
                     _rtssInstance.Kill();
+                    _rtssInstance.Dispose();
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
+                finally
+                {
                     _rtssInstance = null;
-                    var proc = Process.GetProcessesByName("RTSSHooksLoader64");
-                    proc[0].Kill();
+                }
+
+                try
+                {
+                    var hooksLoader = Process.GetProcessesByName("RTSSHooksLoader64").FirstOrDefault();
+                    hooksLoader?.Kill();
+                    hooksLoader?.Dispose();
                 }
                 catch (Exception)
                 {

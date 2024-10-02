@@ -179,6 +179,12 @@ namespace YAKD
             DemoKeysCheckBox_Click(sender, e);
         }
 
+        private void UseArrowIconsCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _keysSettings.UseArrowIcons = UseArrowIconsCheckBox.IsChecked == true;
+            DemoKeysCheckBox_Click(sender, e);
+        }
+
         #endregion
 
         #region YAKD window
@@ -363,7 +369,7 @@ namespace YAKD
             {
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+                ShowHideWindowButton.Content = "Hide YAKD window";
             }
         }
 
@@ -382,7 +388,7 @@ namespace YAKD
                 _keyDisplayerForm.Close();
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+                ShowHideWindowButton.Content = "Hide YAKD window";
                 InitializeMainWindow();
             }
         }
@@ -427,7 +433,7 @@ namespace YAKD
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)
         {
-            ShowHideWindowButton.Content = "Show";
+            ShowHideWindowButton.Content = "Show YAKD window";
         }
 
         private void KeyDisplayerForm_LocationChanged(object sender, EventArgs e)
@@ -523,6 +529,7 @@ namespace YAKD
             ResizeCheckBox.IsChecked = _settings.CanResize;
             SetActiveButtonForKeysAlignment(_settings.KeysAlignment);
             ShortNameForNumpadCheckBox.IsChecked = _keysSettings.ShortNameForNumpad;
+            UseArrowIconsCheckBox.IsChecked = _keysSettings.UseArrowIcons;
         }
 
         private void InitializeKeyboardHook()
@@ -553,6 +560,7 @@ namespace YAKD
                     _keysSettings.IgnoreLeftRight = fileSettings.IgnoreLeftRight;
                     _keysSettings.IsMouseEnabled = fileSettings.MouseEnabled;
                     _keysSettings.ShortNameForNumpad = fileSettings.ShortNameForNumpad;
+                    _keysSettings.UseArrowIcons = fileSettings.UseArrowIcons;
 
                     _settings.AddFontFamily(fileSettings.FontFamily);
                     _settings.BackgroundColor = fileSettings.BackgroundColor;
@@ -627,6 +635,7 @@ namespace YAKD
                 fileSettings.RTSSEnabled = _isRtssEnabled;
                 fileSettings.RTSSPath = RTSSHandler.RTSSPath;
                 fileSettings.ShortNameForNumpad = _keysSettings.ShortNameForNumpad;
+                fileSettings.UseArrowIcons = _keysSettings.UseArrowIcons;
                 fileSettings.Width = _settings.Width;
 
                 fileSettings.Created = true;
@@ -675,7 +684,7 @@ namespace YAKD
             {
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+                ShowHideWindowButton.Content = "Hide YAKD window";
             }
             else if (!state && _keyDisplayerForm.IsVisible)
             {

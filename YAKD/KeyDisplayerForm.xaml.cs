@@ -50,6 +50,8 @@ namespace YAKD
             _settings = settings ?? new KeyDisplayerSettings();
 
             InitializeComponent();
+            ShowInTaskbar = false;
+
             InitializeSettings(settings);
 
             _keyboardHook = new KeyboardHook(keysSettings);

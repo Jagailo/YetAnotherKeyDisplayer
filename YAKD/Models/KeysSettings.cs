@@ -19,5 +19,10 @@
         /// Ignore Left (L) and Right (R) prefixes
         /// </summary>
         public bool IgnoreLeftRight { get; set; }
+
+        /// <summary>
+        /// Using arrow icons for Up/Right/Down/Left keys.
+        /// </summary>
+        public bool UseArrowIcons { get; set; }
     }
 }

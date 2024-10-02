@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="640"
+        Height="660"
         Width="480"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
@@ -44,7 +44,7 @@
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*" />
-            <RowDefinition Height="9*" />
+            <RowDefinition Height="11*" />
             <RowDefinition Height="14*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="Auto" />
@@ -81,6 +81,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <CheckBox x:Name="MouseHookCheckBox"
                           Grid.Row="0"
@@ -100,6 +101,12 @@
                           Content="Ignore Left (L) and Right (R) prefixes"
                           VerticalContentAlignment="Center"
                           Click="IgnoreLeftRightCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
+                <CheckBox x:Name="UseArrowIconsCheckBox"
+                          Grid.Row="3"
+                          Content="Use arrow symbols instead of key names"
+                          VerticalContentAlignment="Center"
+                          Click="UseArrowIconsCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
@@ -153,7 +160,7 @@
                             Margin="2,2,2,0" />
                     <TextBox x:Name="OpacityTextBox"
                              Grid.Column="2"
-                             Width="50"
+                             Width="60"
                              Height="22"
                              Style="{StaticResource VisualStudioTextBoxStyle}"
                              HorizontalContentAlignment="Center"
@@ -164,13 +171,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Delay:" VerticalAlignment="Center" />
                     <Slider x:Name="DisplayDelaySlider"
                             Grid.Column="1"
                             LargeChange="100"
-                            Maximum="500"
+                            Maximum="5000"
                             Minimum="0"
                             IsSnapToTickEnabled="True"
                             TickFrequency="50"
@@ -375,7 +382,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="ShowHideWindowButton"
                     Grid.Column="0"
-                    Content="Hide (Alt + F4)"
+                    Content="Hide YAKD window"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="ShowHideWindowButton_Click"
                     Margin="1,5,5,5" />
@@ -399,7 +406,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,5,1,2">
             <TextBlock HorizontalAlignment="Left"
-                       Text="YAKD v.1.4 by Jagailo - "
+                       Text="YAKD v.1.5 by Jagailo - "
                        VerticalAlignment="Top"
                        FontSize="11" />
             <TextBlock x:Name="AboutTextBlock"

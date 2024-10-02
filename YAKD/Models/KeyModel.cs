@@ -1,4 +1,4 @@
-﻿namespace YAKD.Models
+namespace YAKD.Models
 {
     /// <summary>
     /// Key model
@@ -45,6 +45,37 @@
                         .Replace("Left ", string.Empty)
                         .Replace("R ", string.Empty)
                         .Replace("Right ", string.Empty);
+                }
+
+                if (settings.UseArrowIcons)
+                {
+                    switch (Name)
+                    {
+                        case "Up":
+                        {
+                            DisplayName = DisplayName.Replace("Up", "\u2191"); // ↑
+
+                            break;
+                        }
+                        case "Right":
+                        {
+                            DisplayName = DisplayName.Replace("Right", "\u2192"); // →
+
+                            break;
+                        }
+                        case "Down":
+                        {
+                            DisplayName = DisplayName.Replace("Down", "\u2193"); // ↓
+
+                            break;
+                        }
+                        case "Left":
+                        {
+                            DisplayName = DisplayName.Replace("Left", "\u2190"); // ←
+
+                            break;
+                        }
+                    }
                 }
 
                 DisplayName = UppercaseFirstLetter(DisplayName);
