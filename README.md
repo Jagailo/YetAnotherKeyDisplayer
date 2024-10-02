@@ -2,8 +2,8 @@
 ### YAKD - Yet Another Key Displayer
 The program for displaying the pressed keys of the keyboard and mouse. RTSS Rivatuner Statistics Server is supported.
 
-#### 💻 11000+ installs ❤
-#### Download installer: [YAKD v.1.3 [1.29 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.3/YAKD_1.3_installer.exe)
+#### 💻 12000+ installs ❤
+#### Download installer: [YAKD v.1.4 [1.57 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.4/YAKD_1.4_installer.exe)
 
 ## Key features
 * Capture keyboard and mouse;
@@ -15,10 +15,18 @@ The program for displaying the pressed keys of the keyboard and mouse. RTSS Riva
 * Key Displayer as a window can be captured in OBS (use the chroma key filter to make the window transparent).
 
 ## Screenshots
-![Yet Another Key Displayer](https://imgur.com/EndoFls.png)
-![Yet Another Key Displayer](https://imgur.com/QqNUYUb.png)
-![Yet Another Key Displayer](https://imgur.com/kMhUvHF.png)
-![Yet Another Key Displayer](https://imgur.com/pbwBa4A.png)
+<p align="center">
+  <img src="https://github.com/Jagailo/YetAnotherKeyDisplayer/assets/10468120/7a8682c6-d615-4b51-a535-fa7fd46a57e6" alt="Yet Another Key Displayer" />
+</p>
+<p align="center">
+  <img src="https://github.com/Jagailo/YetAnotherKeyDisplayer/assets/10468120/e1d6d704-e496-42fe-8fac-a9c4bb7787fc" alt="Yet Another Key Displayer" />
+</p>
+<p align="center">
+  <img src="https://imgur.com/kMhUvHF.png" alt="Yet Another Key Displayer" />
+</p>
+<p align="center">
+  <img src="https://imgur.com/pbwBa4A.png" alt="Yet Another Key Displayer" />
+</p>
 
 ## Как использовать (russian tutorial)
 [![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
