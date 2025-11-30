@@ -478,6 +478,7 @@ namespace YAKD
         private void InitializeNotifyIcon()
         {
             _notifyIcon = new System.Windows.Forms.NotifyIcon();
+            _notifyIcon.Text = "Yet Another Key Displayer";
             _notifyIcon.Click += (s, args) =>
             {
                 Show();
