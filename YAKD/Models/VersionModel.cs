@@ -3,14 +3,14 @@
 namespace YAKD.Models
 {
     /// <summary>
-    /// Application version model
+    /// Application version model.
     /// </summary>
     public class VersionModel
     {
         #region Properties
 
         /// <summary>
-        /// Version
+        /// Version.
         /// </summary>
         [JsonProperty("version")]
         public short Version { get; set; }

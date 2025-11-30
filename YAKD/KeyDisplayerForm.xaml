@@ -9,7 +9,11 @@
         WindowStyle="None"
         MouseLeftButtonDown="WindowMouseLeftButtonDown"
         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-        Topmost="True">
+        Topmost="True"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="ClearType">
     <Grid Margin="10">
         <TextBlock x:Name="KeysTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>

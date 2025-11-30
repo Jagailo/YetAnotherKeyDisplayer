@@ -5,16 +5,16 @@ using YAKD.Models;
 namespace YAKD
 {
     /// <summary>
-    /// Color picker window
+    /// Color picker window.
     /// </summary>
     public partial class ColorPickerWindow : Window
     {
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the ColorPickerWindow class
+        /// Initializes a new instance of the ColorPickerWindow class.
         /// </summary>
-        /// <param name="color">Initial color</param>
+        /// <param name="color">Initial color.</param>
         public ColorPickerWindow(Color color)
         {
             InitializeComponent();

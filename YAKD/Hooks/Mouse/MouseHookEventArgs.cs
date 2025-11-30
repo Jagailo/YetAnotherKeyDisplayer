@@ -8,7 +8,7 @@ namespace YAKD.Hooks.Mouse
         #region Fields
 
         /// <summary>
-        /// Key
+        /// Key.
         /// </summary>
         public readonly KeyModel Key;
 
@@ -17,9 +17,9 @@ namespace YAKD.Hooks.Mouse
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the MouseHookEventArgs class
+        /// Initializes a new instance of the MouseHookEventArgs class.
         /// </summary>
-        /// <param name="keyCode">Mouse key code from WinAPI hook</param>
+        /// <param name="keyCode">Mouse key code from WinAPI hook.</param>
         public MouseHookEventArgs(string keyCode)
         {
             Key = new KeyModel(keyCode);

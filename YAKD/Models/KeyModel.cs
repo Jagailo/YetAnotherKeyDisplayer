@@ -1,19 +1,19 @@
 namespace YAKD.Models
 {
     /// <summary>
-    /// Key model
+    /// Key model.
     /// </summary>
     public class KeyModel
     {
         #region Properties
 
         /// <summary>
-        /// Name
+        /// Name.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Display name
+        /// Display name.
         /// </summary>
         public string DisplayName { get; }
 
@@ -22,10 +22,10 @@ namespace YAKD.Models
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the KeyModel class
+        /// Initializes a new instance of the KeyModel class.
         /// </summary>
-        /// <param name="name">Key original name</param>
-        /// <param name="settings">Settings</param>
+        /// <param name="name">Key original name.</param>
+        /// <param name="settings">Settings.</param>
         public KeyModel(string name, KeysSettings settings)
         {
             Name = name;
@@ -85,7 +85,7 @@ namespace YAKD.Models
         /// <summary>
         /// Initializes a new instance of the KeyModel class.
         /// </summary>
-        /// <param name="name">Key original name</param>
+        /// <param name="name">Key original name.</param>
         public KeyModel(string name)
         {
             Name = name;

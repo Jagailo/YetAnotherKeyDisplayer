@@ -35,6 +35,7 @@ namespace YAKD.Hooks.Keyboard
         public delegate void HookEventHandler(object sender, KeyboardHookEventArgs e);
 
         public event HookEventHandler KeyDown;
+
         public event HookEventHandler KeyUp;
 
         private readonly KeysSettings _keysSettings;

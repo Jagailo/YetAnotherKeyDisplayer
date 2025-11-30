@@ -10,7 +10,7 @@ namespace YAKD.Hooks.Keyboard
         #region Fields
 
         /// <summary>
-        /// Key
+        /// Key.
         /// </summary>
         public readonly KeyModel Key;
 
@@ -19,10 +19,10 @@ namespace YAKD.Hooks.Keyboard
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the KeyboardHookEventArgs class
+        /// Initializes a new instance of the KeyboardHookEventArgs class.
         /// </summary>
-        /// <param name="keyCode">Key code from WinAPI hook</param>
-        /// <param name="settings">Settings</param>
+        /// <param name="keyCode">Key code from WinAPI hook.</param>
+        /// <param name="settings">Settings.</param>
         public KeyboardHookEventArgs(uint keyCode, KeysSettings settings)
         {
             Key = new KeyModel(KeyboardListConverter.GetKeyName(((Keys)keyCode).ToString()), settings);

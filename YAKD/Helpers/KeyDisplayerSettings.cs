@@ -5,7 +5,7 @@ using YAKD.Models;
 namespace YAKD.Helpers
 {
     /// <summary>
-    /// Settings for KeyDisplayer (window)
+    /// Settings for the key displayer window.
     /// </summary>
     public class KeyDisplayerSettings
     {
@@ -18,14 +18,14 @@ namespace YAKD.Helpers
         #region Properties
 
         /// <summary>
-        /// Font
+        /// Font.
         /// </summary>
         public FontFamily FontFamily { get; private set; }
 
         /// <summary>
-        /// Font size
+        /// Font size.
         /// </summary>
-        /// <remarks>From 2 to 1000</remarks>
+        /// <remarks>From 2 to 1000.</remarks>
         public double FontSize
         {
             get => _fontSize;
@@ -39,17 +39,17 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Font color
+        /// Font color.
         /// </summary>
         public Color Color { get; set; }
 
         /// <summary>
-        /// Background color
+        /// Background color.
         /// </summary>
         public Color BackgroundColor { get; set; }
 
         /// <summary>
-        /// Background color opacity
+        /// Background color opacity.
         /// </summary>
         public double BackgroundColorOpacity
         {
@@ -64,17 +64,17 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// List of demo keys
+        /// List of demo keys.
         /// </summary>
         public string DemoKeys { get; private set; }
 
         /// <summary>
-        /// Startup position
+        /// Startup position.
         /// </summary>
         public StartupLocationModel StartupPoint { get; set; }
 
         /// <summary>
-        /// Height
+        /// Height.
         /// </summary>
         public double Height
         {
@@ -89,7 +89,7 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Width
+        /// Width.
         /// </summary>
         public double Width
         {
@@ -104,37 +104,37 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Is resizable
+        /// Is resizable.
         /// </summary>
         public bool CanResize { get; private set; }
 
         /// <summary>
-        /// Fix the window
+        /// Indicates whether the window is locked in place.
         /// </summary>
         public bool FixWindow { get; private set; }
 
         /// <summary>
-        /// Is tracking mouse
+        /// Indicates whether mouse input tracking is enabled.
         /// </summary>
         public bool MouseEnabled { get; set; }
 
         /// <summary>
-        /// Horizontal keys alignment
+        /// Horizontal keys alignment.
         /// </summary>
         public HorizontalAlignment KeysAlignment { get; set; }
 
         /// <summary>
-        /// Display delay
+        /// Display delay.
         /// </summary>
         public int DisplayDelay { get; set; }
 
         /// <summary>
-        /// Click-through window
+        /// Click-through window.
         /// </summary>
         public bool ClickThroughWindow { get; set; }
 
         /// <summary>
-        /// Display on key pressed only
+        /// Display on key pressed only.
         /// </summary>
         public bool DisplayOnKeyPressedOnly { get; set; }
 
@@ -143,7 +143,7 @@ namespace YAKD.Helpers
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of KeyDisplayerSettings class with default settings
+        /// Initializes a new instance of the KeyDisplayerSettings class.
         /// </summary>
         public KeyDisplayerSettings()
         {
@@ -164,7 +164,7 @@ namespace YAKD.Helpers
         #region Methods
 
         /// <summary>
-        /// Updates font
+        /// Updates the font family.
         /// </summary>
         /// <param name="fontName">Font family name</param>
         public void AddFontFamily(string fontName)
@@ -173,10 +173,10 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Enables demo keys
+        /// Enables or disables demo keys.
         /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="keysSettings">Keys settings</param>
+        /// <param name="value">Value.</param>
+        /// <param name="keysSettings">Keys settings.</param>
         public void EnableDemoKeys(bool? value, KeysSettings keysSettings)
         {
             if (value.HasValue && value.Value)
@@ -187,14 +187,14 @@ namespace YAKD.Helpers
             }
             else
             {
-                DemoKeys = "";
+                DemoKeys = string.Empty;
             }
         }
 
         /// <summary>
-        /// Enables resize option
+        /// Enables or disables the resize option.
         /// </summary>
-        /// <param name="value">Value</param>
+        /// <param name="value">Value.</param>
         public void EnableResize(bool? value)
         {
             if (value.HasValue && value.Value)
@@ -208,9 +208,9 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Fix the window option
+        /// Enables or disables window locking.
         /// </summary>
-        /// <param name="value">Value</param>
+        /// <param name="value">Value.</param>
         public void WindowFixing(bool? value)
         {
             if (value.HasValue && value.Value)
@@ -224,9 +224,9 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Enables click-through window
+        /// Enables or disables the click-through window behavior.
         /// </summary>
-        /// <param name="value">Value</param>
+        /// <param name="value">Value.</param>
         public void EnableClickThroughWindow(bool? value)
         {
             if (value.HasValue && value.Value)
@@ -240,9 +240,9 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Enables display on key pressed only
+        /// Enables or disables display only when keys are pressed.
         /// </summary>
-        /// <param name="value">Value</param>
+        /// <param name="value">Value.</param>
         public void EnableDisplayOnKeyPressedOnly(bool? value)
         {
             if (value.HasValue && value.Value)

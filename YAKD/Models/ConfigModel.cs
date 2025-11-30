@@ -3,14 +3,14 @@
 namespace YAKD.Models
 {
     /// <summary>
-    /// Configuration model
+    /// Configuration model.
     /// </summary>
     public class ConfigModel
     {
         #region Properties
 
         /// <summary>
-        /// Statistics URL
+        /// Statistics URL.
         /// </summary>
         [JsonProperty("statUrl")]
         public string StatUrl { get; set; }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Error: Rivatuner Statistics Server is not found"
+        Title="Error: RivaTuner Statistics Server not found"
         Height="250"
         Width="450"
         WindowStartupLocation="CenterScreen"
@@ -12,6 +12,10 @@
         Foreground="#1E1E1E"
         FontFamily="{StaticResource RobotoRegular}"
         FontSize="14"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="ClearType"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -20,7 +24,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock TextWrapping="Wrap"
-                       Text="Rivatuner Statistics Server (RTSS) is a program that allows you to display pressed keys directly into the game with minimal loss in performance. This program is developed by a third party - Guru3D.com."
+                       Text="RivaTuner Statistics Server (RTSS) is a program that allows you to display pressed keys directly in the game with minimal performance loss. This program is developed by a third party, Guru3D.com."
                        Margin="10" />
             <TextBlock x:Name="RTSSPathTextBlock"
                        TextWrapping="Wrap"

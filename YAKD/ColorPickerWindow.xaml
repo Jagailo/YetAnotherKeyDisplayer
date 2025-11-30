@@ -12,7 +12,11 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
-        Foreground="#1E1E1E">
+        Foreground="#1E1E1E"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="ClearType">
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

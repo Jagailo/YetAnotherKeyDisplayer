@@ -29,7 +29,7 @@ using MessageBoxResult = System.Windows.Forms.DialogResult;
 namespace YAKD
 {
     /// <summary>
-    /// Main window
+    /// Main window.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -58,7 +58,7 @@ namespace YAKD
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of MainWindow class
+        /// Initializes a new instance of MainWindow class.
         /// </summary>
         public MainWindow()
         {
@@ -790,6 +790,7 @@ namespace YAKD
             }
         }
 
+        // ReSharper disable once AsyncVoidMethod
         private async void CheckForUpdatesAsync()
         {
             await Task.Run(() =>
@@ -811,6 +812,7 @@ namespace YAKD
             });
         }
 
+        // ReSharper disable once AsyncVoidMethod
         private static async void SendStatisticAsync()
         {
 #if DEBUG
@@ -834,6 +836,7 @@ namespace YAKD
                         ContractResolver = new CamelCasePropertyNamesContractResolver(),
                         Converters = new List<JsonConverter> { new StringEnumConverter() }
                     };
+
                     var json = JsonConvert.SerializeObject(statistic, serializerSettings);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
