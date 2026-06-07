@@ -69,6 +69,7 @@ namespace RTSSSharedMemoryNET
         // Instantaneous framerate fields
         DateTime InstantaneousTimeStart;
         DateTime InstantaneousTimeEnd;
+        DWORD InstantaneousTimeEndTickCount; // raw dwTime1 (GetTickCount ms), used to detect live rendering
         DWORD InstantaneousFrames;
         TimeSpan InstantaneousFrameTime;
 

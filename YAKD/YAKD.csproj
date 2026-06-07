@@ -154,6 +154,7 @@
     <Compile Include="Enums\HookType.cs" />
     <Compile Include="Enums\MouseMessage.cs" />
     <Compile Include="Enums\StatisticType.cs" />
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\MouseButtonsConverter.cs" />
     <Compile Include="Helpers\WindowsService.cs" />
     <Compile Include="Hooks\Keyboard\KeyboardHookEventArgs.cs" />
@@ -172,7 +173,7 @@
     <Compile Include="Helpers\KeyDisplayerSettings.cs" />
     <Compile Include="Helpers\KeyboardListConverter.cs" />
     <Compile Include="Hooks\Mouse\MouseHook.cs" />
-    <Compile Include="Helpers\RTSSHandler.cs" />
+    <Compile Include="Helpers\RtssHandler.cs" />
     <Compile Include="Models\TransferModel.cs" />
     <Page Include="ColorPickerWindow.xaml">
       <SubType>Designer</SubType>

@@ -92,20 +92,20 @@ namespace YAKD
             RTSSRadioButton.IsChecked = true;
             e.Handled = true;
             _isRtssEnabled = true;
-            RTSSHandler.RunRTSS();
+            RtssHandler.RunRtss();
 
-            if (RTSSHandler.IsRTSSRunning)
+            if (RtssHandler.IsRtssRunning)
             {
                 InitializeKeyboardHook();
                 EnableMouseHook();
             }
             else
             {
-                var rtssWindow = new RTSSWindow(RTSSHandler.RTSSPath);
+                var rtssWindow = new RTSSWindow(RtssHandler.RtssPath);
                 rtssWindow.ShowDialog();
                 if (TransferModel.RTSSPath != null)
                 {
-                    RTSSHandler.RTSSPath = TransferModel.RTSSPath;
+                    RtssHandler.RtssPath = TransferModel.RTSSPath;
                 }
 
                 WindowRadioButton.IsChecked = true;
@@ -131,7 +131,7 @@ namespace YAKD
             }
 
             _isRtssEnabled = false;
-            RTSSHandler.KillRTSS();
+            RtssHandler.ReleaseOsd();
 
             EnableControls(true);
         }
@@ -421,12 +421,11 @@ namespace YAKD
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             Title += " [Saving ...]";
+
+            RtssHandler.Shutdown();
+
             _keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
-            if (RTSSHandler.IsRTSSRunning)
-            {
-                RTSSHandler.KillRTSS();
-            }
 
             _notifyIcon.Dispose();
         }
@@ -579,7 +578,7 @@ namespace YAKD
                     _settings.Width = fileSettings.Width;
                     _settings.WindowFixing(fileSettings.FixWindow);
 
-                    RTSSHandler.RTSSPath = fileSettings.RTSSPath;
+                    RtssHandler.RtssPath = fileSettings.RTSSPath;
                     _isRtssEnabled = fileSettings.RTSSEnabled;
 
                     if (!fileSettings.FirstLaunchStatistic)
@@ -587,9 +586,9 @@ namespace YAKD
                         SendStatisticAsync();
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // Ignored
+                    Logger.Write(exception);
                 }
             }
             else
@@ -634,16 +633,16 @@ namespace YAKD
                 fileSettings.KeysAlignment = _settings.KeysAlignment;
                 fileSettings.MouseEnabled = _keysSettings.IsMouseEnabled;
                 fileSettings.RTSSEnabled = _isRtssEnabled;
-                fileSettings.RTSSPath = RTSSHandler.RTSSPath;
+                fileSettings.RTSSPath = RtssHandler.RtssPath;
                 fileSettings.ShortNameForNumpad = _keysSettings.ShortNameForNumpad;
                 fileSettings.UseArrowIcons = _keysSettings.UseArrowIcons;
                 fileSettings.Width = _settings.Width;
 
                 fileSettings.Created = true;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // Ignored
+                Logger.Write(exception);
             }
 
             fileSettings.Save();
@@ -696,14 +695,16 @@ namespace YAKD
         private void SendKeysToRtss()
         {
             _keys.Sort((a, b) => b.DisplayName.Length.CompareTo(a.DisplayName.Length));
-            var keysString = _keys.Any() ? $" {string.Join(" + ", _keys.Select(x => x.DisplayName).Distinct())} " : string.Empty;
+            var keysString = _keys.Any() ? string.Join(" + ", _keys.Select(x => x.DisplayName).Distinct()) : string.Empty;
 
             try
             {
-                RTSSHandler.Print(keysString);
+                RtssHandler.Print(keysString);
             }
             catch (Exception exception)
             {
+                Logger.Write(exception);
+
                 MessageBox.Show(exception.Message, exception.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -806,9 +807,9 @@ namespace YAKD
                         Application.Current.Dispatcher.Invoke(() => { AboutTextBlock.Text = "a new version is available"; });
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // Ignored
+                    Logger.Write(exception);
                 }
             });
         }

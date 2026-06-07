@@ -1,8 +1,9 @@
+using Microsoft.Win32;
 using RTSSSharedMemoryNET;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
@@ -13,13 +14,32 @@ namespace YAKD.Helpers
     /// <summary>
     /// Provides helper methods for working with RTSS.
     /// </summary>
-    public static class RTSSHandler
+    public static class RtssHandler
     {
         #region Fields
 
         private static Process _rtssInstance;
 
+        private static bool _startedByYakd;
+
         private static OSD _osd;
+
+        private const string OsdEntryName = "YAKDOSD";
+
+        private const string RtssSharedMemoryName = "RTSSSharedMemoryV2";
+
+        private static readonly string[] RtssHelperProcessNames =
+        {
+            "RTSSHooksLoader",
+            "RTSSHooksLoader64",
+            "EncoderServer",
+            "EncoderServer64"
+        };
+
+        private const uint FileMapAllAccess = 0x000F001F;
+
+        private const int SharedMemoryWaitTimeout = 6000;
+        private const int SharedMemoryCheckInterval = 250;
 
         #endregion
 
@@ -28,12 +48,12 @@ namespace YAKD.Helpers
         /// <summary>
         /// Path to the RTSS executable.
         /// </summary>
-        public static string RTSSPath { get; set; }
+        public static string RtssPath { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether RTSS is currently running.
         /// </summary>
-        public static bool IsRTSSRunning => Process.GetProcessesByName("RTSS").Length != 0;
+        public static bool IsRtssRunning => Process.GetProcessesByName("RTSS").Length != 0;
 
         #endregion
 
@@ -42,10 +62,9 @@ namespace YAKD.Helpers
         /// <summary>
         /// Initializes a new instance of the RTSSHandler class.
         /// </summary>
-        static RTSSHandler()
+        static RtssHandler()
         {
-            // HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Unwinder\RTSS\InstallDir
-            RTSSPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "RivaTuner Statistics Server", "RTSS.exe");
+            RtssPath = ResolveRtssPath();
         }
 
         #endregion
@@ -58,135 +77,259 @@ namespace YAKD.Helpers
         /// <param name="text">Text.</param>
         public static void Print(string text)
         {
-            if (IsRTSSRunning)
+            if (!IsRtssRunning)
             {
-                if (_osd == null)
-                {
-                    RunOSD();
-                }
+                return;
+            }
 
-                _osd?.Update(SanitizeTextForRTSS(text));
+            if (_osd == null)
+            {
+                RunOsd();
+            }
+
+            if (_osd != null && !_osd.Update(SanitizeTextForRtss(text)))
+            {
+                DisposeOsd();
             }
         }
 
         /// <summary>
         /// Launches RTSS.
         /// </summary>
-        public static void RunRTSS()
+        public static void RunRtss()
         {
-            if (IsRTSSRunning)
+            if (IsRtssRunning)
             {
-                RunOSD();
+                if (!IsOurInstanceAlive())
+                {
+                    _rtssInstance = null;
+                    _startedByYakd = false;
+                }
+
+                RunOsd();
+
                 return;
             }
 
-            if (File.Exists(RTSSPath))
+            if (!File.Exists(RtssPath))
             {
-                KillRTSS();
+                return;
+            }
 
-                try
-                {
-                    _rtssInstance = Process.Start(RTSSPath);
-                    WaitForRTSSStartup();
+            DisposeOsd();
+            _rtssInstance = null;
+            _startedByYakd = false;
 
-                    if (IsRTSSRunning)
-                    {
-                        RunOSD();
-                    }
-                }
-                catch (Exception exc)
+            try
+            {
+                _rtssInstance = Process.Start(RtssPath);
+                _startedByYakd = true;
+
+                if (WaitForSharedMemory())
                 {
-                    MessageBox.Show(exc.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
+                    RunOsd();
                 }
+            }
+            catch (Exception exception)
+            {
+                Logger.Write(exception);
+
+                MessageBox.Show(exception.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         /// <summary>
-        /// Closes RTSS.
+        /// Releases the YAKD OSD slot without touching the RTSS process.
+        /// Use this when switching display modes: RTSS keeps running, only YAKD's overlay disappears.
         /// </summary>
-        public static void KillRTSS()
+        public static void ReleaseOsd()
         {
-            if (_osd != null)
+            DisposeOsd();
+        }
+
+        /// <summary>
+        /// Releases the YAKD OSD slot and closes RTSS, but only if YAKD launched it itself.
+        /// An RTSS instance started by the user is left running so YAKD never shuts down something it did not start.
+        /// </summary>
+        public static void Shutdown()
+        {
+            DisposeOsd();
+
+            var instance = _rtssInstance;
+            var startedByYakd = _startedByYakd;
+
+            _rtssInstance = null;
+            _startedByYakd = false;
+
+            if (!startedByYakd)
             {
-                try
-                {
-                    _osd.Dispose();
-                }
-                catch (Exception)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    _osd = null;
-                }
+                return;
             }
 
-            if (_rtssInstance != null)
+            try
             {
-                try
+                if (instance != null && !instance.HasExited)
                 {
-                    _rtssInstance.Kill();
-                    _rtssInstance.Dispose();
-                }
-                catch (Exception)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    _rtssInstance = null;
-                }
-
-                try
-                {
-                    var hooksLoader = Process.GetProcessesByName("RTSSHooksLoader64").FirstOrDefault();
-                    hooksLoader?.Kill();
-                    hooksLoader?.Dispose();
-                }
-                catch (Exception)
-                {
-                    // Ignored
+                    instance.Kill();
                 }
             }
+            catch (Exception exception)
+            {
+                Logger.Write(exception);
+            }
+            finally
+            {
+                instance?.Dispose();
+            }
+
+            KillHelperProcesses();
         }
 
         #endregion
 
         #region Helpers
 
-        private static void WaitForRTSSStartup()
+        private static bool IsOurInstanceAlive()
         {
-            const int maxWaitTime = 5000;
-            const int checkInterval = 500;
-
-            for (var waited = 0; waited < maxWaitTime; waited += checkInterval)
+            try
             {
-                if (IsRTSSRunning)
-                {
-                    return;
-                }
-
-                Thread.Sleep(checkInterval);
+                return _rtssInstance != null && !_rtssInstance.HasExited;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
-        private static void RunOSD()
+        private static void KillHelperProcesses()
         {
-            if (_osd == null)
+            foreach (var name in RtssHelperProcessNames)
             {
                 try
                 {
-                    _osd = new OSD("YAKDOSD");
+                    foreach (var process in Process.GetProcessesByName(name))
+                    {
+                        try
+                        {
+                            if (!process.HasExited)
+                            {
+                                process.Kill();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // Ignored
+                        }
+                        finally
+                        {
+                            process.Dispose();
+                        }
+                    }
                 }
-                catch (Exception exc)
+                catch (Exception)
                 {
-                    MessageBox.Show(exc.Message, "Could not start the OSD", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Ignored
                 }
             }
         }
 
-        private static string SanitizeTextForRTSS(string text)
+        private static void RunOsd()
+        {
+            if (_osd != null)
+            {
+                return;
+            }
+
+            if (!IsSharedMemoryAvailable())
+            {
+                return;
+            }
+
+            try
+            {
+                _osd = new OSD(OsdEntryName);
+            }
+            catch (Exception exception)
+            {
+                Logger.Write(exception);
+
+                MessageBox.Show(exception.Message, "Could not start the OSD", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private static void DisposeOsd()
+        {
+            if (_osd == null)
+            {
+                return;
+            }
+
+            try
+            {
+                _osd.Dispose();
+            }
+            catch (Exception exception)
+            {
+                Logger.Write(exception);
+            }
+            finally
+            {
+                _osd = null;
+            }
+        }
+
+        private static bool WaitForSharedMemory()
+        {
+            for (var waited = 0; waited < SharedMemoryWaitTimeout; waited += SharedMemoryCheckInterval)
+            {
+                if (IsRtssRunning && IsSharedMemoryAvailable())
+                {
+                    return true;
+                }
+
+                Thread.Sleep(SharedMemoryCheckInterval);
+            }
+
+            return IsRtssRunning && IsSharedMemoryAvailable();
+        }
+
+        private static string ResolveRtssPath()
+        {
+            try
+            {
+                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+                {
+                    using (var rtssKey = baseKey.OpenSubKey(@"SOFTWARE\Unwinder\RTSS"))
+                    {
+                        if (rtssKey?.GetValue("InstallPath") is string installPath && !string.IsNullOrWhiteSpace(installPath) && File.Exists(installPath))
+                        {
+                            return installPath;
+                        }
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Write(exception);
+            }
+
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "RivaTuner Statistics Server", "RTSS.exe");
+        }
+
+        private static bool IsSharedMemoryAvailable()
+        {
+            var handle = OpenFileMapping(FileMapAllAccess, false, RtssSharedMemoryName);
+            if (handle == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            CloseHandle(handle);
+
+            return true;
+        }
+
+        private static string SanitizeTextForRtss(string text)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -202,6 +345,17 @@ namespace YAKD.Helpers
 
             return sanitizedText;
         }
+
+        #endregion
+
+        #region Native methods
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern IntPtr OpenFileMapping(uint dwDesiredAccess, bool bInheritHandle, string lpName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CloseHandle(IntPtr hObject);
 
         #endregion
     }

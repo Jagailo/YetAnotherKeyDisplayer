@@ -4,6 +4,36 @@
 #define TICKS_PER_MICROSECOND 10
 #define RTSS_VERSION(x, y) ((x << 16) + y)
 
+// Native helper: the _interlockedbittestandset intrinsic forces native compilation.
+#pragma managed(push, off)
+namespace
+{
+    void writeOSDText(LPRTSS_SHARED_MEMORY pMem, RTSS_SHARED_MEMORY::LPRTSS_SHARED_MEMORY_OSD_ENTRY pEntry, LPCSTR lpText)
+    {
+        if (pMem->dwVersion >= RTSS_VERSION(2, 7))
+        {
+            if (pMem->dwVersion >= RTSS_VERSION(2, 14))
+            {
+                // v2.14+ OSD lock: skip the write while RTSS' renderer holds dwBusy bit 0.
+                if (!_interlockedbittestandset(&pMem->dwBusy, 0))
+                {
+                    strncpy_s(pEntry->szOSDEx, lpText, sizeof pEntry->szOSDEx - 1);
+                    pMem->dwBusy = 0;
+                }
+            }
+            else
+            {
+                strncpy_s(pEntry->szOSDEx, lpText, sizeof pEntry->szOSDEx - 1);
+            }
+        }
+        else
+        {
+            strncpy_s(pEntry->szOSD, lpText, sizeof pEntry->szOSD - 1);
+        }
+    }
+}
+#pragma managed(pop)
+
 namespace RTSSSharedMemoryNET {
 
     /// <param name="entryName">The name of the OSD entry. Should be unique and not more than 255 chars once converted to ANSI</param>
@@ -15,19 +45,14 @@ namespace RTSSSharedMemoryNET {
         }
         
         m_entryName = static_cast<LPCSTR>(Marshal::StringToHGlobalAnsi(entryName).ToPointer());
+        m_disposed = false;
+
         if (strlen(m_entryName) > 255)
         {
+            Marshal::FreeHGlobal(IntPtr(LPVOID(m_entryName)));
+            m_entryName = nullptr;
             throw gcnew ArgumentException("Entry name exceeds max length of 255 when converted to ANSI", "entryName");
         }
-        
-        // Just open / close to make sure RTSS is working
-        HANDLE hMapFile = nullptr;
-        LPRTSS_SHARED_MEMORY pMem = nullptr;
-        openSharedMemory(&hMapFile, &pMem);
-        closeSharedMemory(hMapFile, pMem);
-
-        m_osdSlot = 0;
-        m_disposed = false;
     }
 
     OSD::~OSD()
@@ -45,30 +70,41 @@ namespace RTSSSharedMemoryNET {
     {
         HANDLE hMapFile = nullptr;
         LPRTSS_SHARED_MEMORY pMem = nullptr;
-        openSharedMemory(&hMapFile, &pMem);
 
-        // Find entries and zero them out
-        for (DWORD i = 1; i < pMem -> dwOSDArrSize; i++)
+        if (m_entryName && tryOpenSharedMemory(&hMapFile, &pMem))
         {
-            // Calc offset of entry
-            auto pEntry = reinterpret_cast<RTSS_SHARED_MEMORY::LPRTSS_SHARED_MEMORY_OSD_ENTRY>(reinterpret_cast<LPBYTE>(pMem) + pMem -> dwOSDArrOffset + i * pMem -> dwOSDEntrySize);
-
-            if (STRMATCHES(strcmp(pEntry -> szOSDOwner, m_entryName)))
+            // Find entries and zero them out
+            for (DWORD i = 1; i < pMem -> dwOSDArrSize; i++)
             {
-                SecureZeroMemory(pEntry, pMem -> dwOSDEntrySize); // Won't get optimized away
-                pMem -> dwOSDFrame++; // Forces OSD update
+                // Calc offset of entry
+                auto pEntry = reinterpret_cast<RTSS_SHARED_MEMORY::LPRTSS_SHARED_MEMORY_OSD_ENTRY>(reinterpret_cast<LPBYTE>(pMem) + pMem -> dwOSDArrOffset + i * pMem -> dwOSDEntrySize);
+
+                if (STRMATCHES(strcmp(pEntry -> szOSDOwner, m_entryName)))
+                {
+                    SecureZeroMemory(pEntry, pMem -> dwOSDEntrySize); // Won't get optimized away
+                    pMem -> dwOSDFrame++; // Forces OSD update
+                }
             }
+
+            closeSharedMemory(hMapFile, pMem);
         }
 
-        closeSharedMemory(hMapFile, pMem);
-        Marshal::FreeHGlobal(IntPtr(LPVOID(m_entryName)));
+        if (m_entryName)
+        {
+            Marshal::FreeHGlobal(IntPtr(LPVOID(m_entryName)));
+            m_entryName = nullptr;
+        }
     }
 
     Version^ OSD::Version::get()
     {
         HANDLE hMapFile = nullptr;
         LPRTSS_SHARED_MEMORY pMem = nullptr;
-        openSharedMemory(&hMapFile, &pMem);
+
+        if (!tryOpenSharedMemory(&hMapFile, &pMem))
+        {
+            return nullptr;
+        }
 
         const auto ver = gcnew System::Version(pMem -> dwVersion >> 16, pMem -> dwVersion & 0xFFFF);
 
@@ -78,8 +114,9 @@ namespace RTSSSharedMemoryNET {
 
     /// <summary>
     /// Text should be no longer than 4095 chars once converted to ANSI. Lower case looks awful.
+    /// Returns true if the text was forwarded to RTSS, false if RTSS shared memory is unavailable.
     /// </summary>
-    void OSD::Update(String^ text)
+    bool OSD::Update(String^ text)
     {
         if (text == nullptr)
         {
@@ -87,63 +124,66 @@ namespace RTSSSharedMemoryNET {
         }
 
         const LPCSTR lpText = static_cast<LPCSTR>(Marshal::StringToHGlobalAnsi(text).ToPointer());
-        if (strlen(lpText) > 4095)
+        try
         {
-            throw gcnew ArgumentException("Text exceeds max length of 4095 when converted to ANSI", "text");
-        }
-        
-        HANDLE hMapFile = nullptr;
-        LPRTSS_SHARED_MEMORY pMem = nullptr;
-        openSharedMemory(&hMapFile, &pMem);
-
-        // Start at either our previously used slot, or the top
-        for (DWORD i = m_osdSlot == 0 ? 1 : m_osdSlot; i < pMem -> dwOSDArrSize; i++)
-        {
-            auto pEntry = reinterpret_cast<RTSS_SHARED_MEMORY::LPRTSS_SHARED_MEMORY_OSD_ENTRY>(reinterpret_cast<LPBYTE>(pMem) + pMem -> dwOSDArrOffset + i * pMem -> dwOSDEntrySize);
-
-            // If we need a new slot and this one is unused, claim it
-            if (m_osdSlot == 0 && !strlen(pEntry -> szOSDOwner))
+            if (strlen(lpText) > 4095)
             {
-                m_osdSlot = i;
-                strcpy_s(pEntry -> szOSDOwner, m_entryName);
+                throw gcnew ArgumentException("Text exceeds max length of 4095 when converted to ANSI", "text");
             }
 
-            // If this is our slot
-            if (STRMATCHES(strcmp(pEntry -> szOSDOwner, m_entryName)))
+            HANDLE hMapFile = nullptr;
+            LPRTSS_SHARED_MEMORY pMem = nullptr;
+
+            if (!tryOpenSharedMemory(&hMapFile, &pMem))
             {
-                // Use extended text slot for v2.7 and higher shared memory, it allows displaying 4096 symbols instead of 256 for regular text slot
-                if (pMem -> dwVersion >= RTSS_VERSION(2, 7))
+                return false;
+            }
+
+            bool result = false;
+
+            // pass 0: reuse our slot; pass 1: claim a free one. Slot 0 is left to Afterburner/Precision.
+            for (DWORD pass = 0; pass < 2 && !result; pass++)
+            {
+                for (DWORD i = 1; i < pMem -> dwOSDArrSize; i++)
                 {
-                    strncpy_s(pEntry -> szOSDEx, lpText, sizeof pEntry -> szOSDEx - 1);
-                }                    
-                else
-                {
-                    strncpy_s(pEntry -> szOSD, lpText, sizeof pEntry -> szOSD - 1);
+                    auto pEntry = reinterpret_cast<RTSS_SHARED_MEMORY::LPRTSS_SHARED_MEMORY_OSD_ENTRY>(reinterpret_cast<LPBYTE>(pMem) + pMem -> dwOSDArrOffset + i * pMem -> dwOSDEntrySize);
+
+                    if (pass && !strlen(pEntry -> szOSDOwner))
+                    {
+                        strcpy_s(pEntry -> szOSDOwner, m_entryName);
+                    }
+
+                    if (STRMATCHES(strcmp(pEntry -> szOSDOwner, m_entryName)))
+                    {
+                        writeOSDText(pMem, pEntry, lpText);
+
+                        pMem -> dwOSDFrame++; // Forces OSD update
+                        result = true;
+                        break;
+                    }
                 }
-                
-                pMem -> dwOSDFrame++; // Forces OSD update
-                break;
             }
 
-            // In case we lost our previously used slot or something, let's start over
-            if (m_osdSlot != 0)
-            {
-                m_osdSlot = 0;
-                i = 1;
-            }
+            closeSharedMemory(hMapFile, pMem);
+            return result;
         }
-
-        closeSharedMemory(hMapFile, pMem);
-        Marshal::FreeHGlobal(IntPtr(LPVOID(lpText)));
+        finally
+        {
+            Marshal::FreeHGlobal(IntPtr(LPVOID(lpText)));
+        }
     }
 
     array<OSDEntry^>^ OSD::GetOSDEntries()
     {
         HANDLE hMapFile = nullptr;
         LPRTSS_SHARED_MEMORY pMem = nullptr;
-        openSharedMemory(&hMapFile, &pMem);
 
         auto list = gcnew List<OSDEntry^>;
+
+        if (!tryOpenSharedMemory(&hMapFile, &pMem))
+        {
+            return list -> ToArray();
+        }
 
         // Include all slots
         for (DWORD i = 0; i < pMem -> dwOSDArrSize; i++)
@@ -175,9 +215,13 @@ namespace RTSSSharedMemoryNET {
     {
         HANDLE hMapFile = nullptr;
         LPRTSS_SHARED_MEMORY pMem = nullptr;
-        openSharedMemory(&hMapFile, &pMem);
 
         auto list = gcnew List<AppEntry^>;
+
+        if (!tryOpenSharedMemory(&hMapFile, &pMem))
+        {
+            return list -> ToArray();
+        }
 
         // Include all slots
         for (DWORD i = 0; i < pMem -> dwAppArrSize; i++)
@@ -195,6 +239,7 @@ namespace RTSSSharedMemoryNET {
                 // Instantaneous framerate fields
                 entry -> InstantaneousTimeStart = timeFromTickCount(pEntry -> dwTime0);
                 entry -> InstantaneousTimeEnd = timeFromTickCount(pEntry -> dwTime1);
+                entry -> InstantaneousTimeEndTickCount = pEntry -> dwTime1;
                 entry -> InstantaneousFrames = pEntry -> dwFrames;
                 entry -> InstantaneousFrameTime = TimeSpan::FromTicks(pEntry -> dwFrameTime * TICKS_PER_MICROSECOND);
 
@@ -285,37 +330,33 @@ namespace RTSSSharedMemoryNET {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void OSD::openSharedMemory(HANDLE* phMapFile, LPRTSS_SHARED_MEMORY* ppMem)
+    bool OSD::tryOpenSharedMemory(HANDLE* phMapFile, LPRTSS_SHARED_MEMORY* ppMem)
     {
-        HANDLE hMapFile = nullptr;
-        LPRTSS_SHARED_MEMORY pMem = nullptr;
-        try
+        *phMapFile = nullptr;
+        *ppMem = nullptr;
+
+        HANDLE hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, L"RTSSSharedMemoryV2");
+        if (!hMapFile)
         {
-            hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, L"RTSSSharedMemoryV2");
-            if (!hMapFile)
-            {
-                THROW_LAST_ERROR();
-            }
-
-            pMem = static_cast<LPRTSS_SHARED_MEMORY>(MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0));
-            if (!pMem)
-            {
-                THROW_LAST_ERROR();
-            }
-
-            if (!(pMem -> dwSignature == 'RTSS' && pMem -> dwVersion >= RTSS_VERSION(2, 0)))
-            {
-                throw gcnew IO::InvalidDataException("Failed to validate RTSS Shared Memory structure");
-            }
-
-            *phMapFile = hMapFile;
-            *ppMem = pMem;
+            return false;
         }
-        catch (...)
+
+        LPRTSS_SHARED_MEMORY pMem = static_cast<LPRTSS_SHARED_MEMORY>(MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0));
+        if (!pMem)
+        {
+            closeSharedMemory(hMapFile, nullptr);
+            return false;
+        }
+
+        if (!(pMem -> dwSignature == 'RTSS' && pMem -> dwVersion >= RTSS_VERSION(2, 0)))
         {
             closeSharedMemory(hMapFile, pMem);
-            throw;
+            return false;
         }
+
+        *phMapFile = hMapFile;
+        *ppMem = pMem;
+        return true;
     }
 
     void OSD::closeSharedMemory(HANDLE hMapFile, LPRTSS_SHARED_MEMORY pMem)
