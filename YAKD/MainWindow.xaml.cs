@@ -29,7 +29,7 @@ using MessageBoxResult = System.Windows.Forms.DialogResult;
 namespace YAKD
 {
     /// <summary>
-    /// Main window
+    /// Main window.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -58,7 +58,7 @@ namespace YAKD
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of MainWindow class
+        /// Initializes a new instance of MainWindow class.
         /// </summary>
         public MainWindow()
         {
@@ -92,20 +92,20 @@ namespace YAKD
             RTSSRadioButton.IsChecked = true;
             e.Handled = true;
             _isRtssEnabled = true;
-            RTSSHandler.RunRTSS();
+            RtssHandler.RunRtss();
 
-            if (RTSSHandler.IsRTSSRunning)
+            if (RtssHandler.IsRtssRunning)
             {
                 InitializeKeyboardHook();
                 EnableMouseHook();
             }
             else
             {
-                var rtssWindow = new RTSSWindow(RTSSHandler.RTSSPath);
+                var rtssWindow = new RTSSWindow(RtssHandler.RtssPath);
                 rtssWindow.ShowDialog();
                 if (TransferModel.RTSSPath != null)
                 {
-                    RTSSHandler.RTSSPath = TransferModel.RTSSPath;
+                    RtssHandler.RtssPath = TransferModel.RTSSPath;
                 }
 
                 WindowRadioButton.IsChecked = true;
@@ -131,7 +131,7 @@ namespace YAKD
             }
 
             _isRtssEnabled = false;
-            RTSSHandler.KillRTSS();
+            RtssHandler.ReleaseOsd();
 
             EnableControls(true);
         }
@@ -176,6 +176,12 @@ namespace YAKD
         private void IgnoreLeftRightCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _keysSettings.IgnoreLeftRight = IgnoreLeftRightCheckBox.IsChecked == true;
+            DemoKeysCheckBox_Click(sender, e);
+        }
+
+        private void UseArrowIconsCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _keysSettings.UseArrowIcons = UseArrowIconsCheckBox.IsChecked == true;
             DemoKeysCheckBox_Click(sender, e);
         }
 
@@ -363,7 +369,7 @@ namespace YAKD
             {
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+                ShowHideWindowButton.Content = "Hide YAKD window";
             }
         }
 
@@ -382,7 +388,7 @@ namespace YAKD
                 _keyDisplayerForm.Close();
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+                ShowHideWindowButton.Content = "Hide YAKD window";
                 InitializeMainWindow();
             }
         }
@@ -415,19 +421,18 @@ namespace YAKD
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             Title += " [Saving ...]";
+
+            RtssHandler.Shutdown();
+
             _keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
-            if (RTSSHandler.IsRTSSRunning)
-            {
-                RTSSHandler.KillRTSS();
-            }
 
             _notifyIcon.Dispose();
         }
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)
         {
-            ShowHideWindowButton.Content = "Show";
+            ShowHideWindowButton.Content = "Show YAKD window";
         }
 
         private void KeyDisplayerForm_LocationChanged(object sender, EventArgs e)
@@ -472,6 +477,7 @@ namespace YAKD
         private void InitializeNotifyIcon()
         {
             _notifyIcon = new System.Windows.Forms.NotifyIcon();
+            _notifyIcon.Text = "Yet Another Key Displayer";
             _notifyIcon.Click += (s, args) =>
             {
                 Show();
@@ -523,6 +529,7 @@ namespace YAKD
             ResizeCheckBox.IsChecked = _settings.CanResize;
             SetActiveButtonForKeysAlignment(_settings.KeysAlignment);
             ShortNameForNumpadCheckBox.IsChecked = _keysSettings.ShortNameForNumpad;
+            UseArrowIconsCheckBox.IsChecked = _keysSettings.UseArrowIcons;
         }
 
         private void InitializeKeyboardHook()
@@ -553,6 +560,7 @@ namespace YAKD
                     _keysSettings.IgnoreLeftRight = fileSettings.IgnoreLeftRight;
                     _keysSettings.IsMouseEnabled = fileSettings.MouseEnabled;
                     _keysSettings.ShortNameForNumpad = fileSettings.ShortNameForNumpad;
+                    _keysSettings.UseArrowIcons = fileSettings.UseArrowIcons;
 
                     _settings.AddFontFamily(fileSettings.FontFamily);
                     _settings.BackgroundColor = fileSettings.BackgroundColor;
@@ -570,7 +578,7 @@ namespace YAKD
                     _settings.Width = fileSettings.Width;
                     _settings.WindowFixing(fileSettings.FixWindow);
 
-                    RTSSHandler.RTSSPath = fileSettings.RTSSPath;
+                    RtssHandler.RtssPath = fileSettings.RTSSPath;
                     _isRtssEnabled = fileSettings.RTSSEnabled;
 
                     if (!fileSettings.FirstLaunchStatistic)
@@ -578,9 +586,9 @@ namespace YAKD
                         SendStatisticAsync();
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // Ignored
+                    Logger.Write(exception);
                 }
             }
             else
@@ -625,15 +633,16 @@ namespace YAKD
                 fileSettings.KeysAlignment = _settings.KeysAlignment;
                 fileSettings.MouseEnabled = _keysSettings.IsMouseEnabled;
                 fileSettings.RTSSEnabled = _isRtssEnabled;
-                fileSettings.RTSSPath = RTSSHandler.RTSSPath;
+                fileSettings.RTSSPath = RtssHandler.RtssPath;
                 fileSettings.ShortNameForNumpad = _keysSettings.ShortNameForNumpad;
+                fileSettings.UseArrowIcons = _keysSettings.UseArrowIcons;
                 fileSettings.Width = _settings.Width;
 
                 fileSettings.Created = true;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // Ignored
+                Logger.Write(exception);
             }
 
             fileSettings.Save();
@@ -675,7 +684,7 @@ namespace YAKD
             {
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide (Alt + F4)";
+                ShowHideWindowButton.Content = "Hide YAKD window";
             }
             else if (!state && _keyDisplayerForm.IsVisible)
             {
@@ -686,14 +695,16 @@ namespace YAKD
         private void SendKeysToRtss()
         {
             _keys.Sort((a, b) => b.DisplayName.Length.CompareTo(a.DisplayName.Length));
-            var keysString = _keys.Any() ? $" {string.Join(" + ", _keys.Select(x => x.DisplayName).Distinct())} " : string.Empty;
+            var keysString = _keys.Any() ? string.Join(" + ", _keys.Select(x => x.DisplayName).Distinct()) : string.Empty;
 
             try
             {
-                RTSSHandler.Print(keysString);
+                RtssHandler.Print(keysString);
             }
             catch (Exception exception)
             {
+                Logger.Write(exception);
+
                 MessageBox.Show(exception.Message, exception.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -781,6 +792,7 @@ namespace YAKD
             }
         }
 
+        // ReSharper disable once AsyncVoidMethod
         private async void CheckForUpdatesAsync()
         {
             await Task.Run(() =>
@@ -795,13 +807,14 @@ namespace YAKD
                         Application.Current.Dispatcher.Invoke(() => { AboutTextBlock.Text = "a new version is available"; });
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // Ignored
+                    Logger.Write(exception);
                 }
             });
         }
 
+        // ReSharper disable once AsyncVoidMethod
         private static async void SendStatisticAsync()
         {
 #if DEBUG
@@ -825,6 +838,7 @@ namespace YAKD
                         ContractResolver = new CamelCasePropertyNamesContractResolver(),
                         Converters = new List<JsonConverter> { new StringEnumConverter() }
                     };
+
                     var json = JsonConvert.SerializeObject(statistic, serializerSettings);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 

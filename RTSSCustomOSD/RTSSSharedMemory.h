@@ -327,6 +327,9 @@ typedef struct RTSS_SHARED_MEMORY
     // Global OSD frame ID. Increment it to force the server to update OSD for all currently active 3D applications
     DWORD dwOSDFrame;
 
+    // Next field is valid for v2.14 and newer shared memory format only.
+    LONG dwBusy; // OSD update lock (v2.14+): set bit 0 while writing, reset when done.
+
     // OSD slot descriptor structure
     typedef struct RTSS_SHARED_MEMORY_OSD_ENTRY
     {

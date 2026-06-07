@@ -4,14 +4,14 @@ using YAKD.Enums;
 namespace YAKD.Helpers
 {
     /// <summary>
-    /// Converts button names to more understandable and simple ones
+    /// Converts mouse button names to more readable and simpler ones.
     /// </summary>
     public static class MouseButtonsConverter
     {
         #region Fields
 
         /// <summary>
-        /// List of beautiful named buttons
+        /// List of nicely formatted mouse button names.
         /// </summary>
         private static readonly Dictionary<MouseMessage, string> Buttons;
 
@@ -20,7 +20,7 @@ namespace YAKD.Helpers
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of MouseButtonsConverter class
+        /// Initializes a new instance of MouseButtonsConverter class.
         /// </summary>
         static MouseButtonsConverter()
         {
@@ -47,10 +47,10 @@ namespace YAKD.Helpers
         #region Methods
 
         /// <summary>
-        /// Returns button name
+        /// Returns button name.
         /// </summary>
-        /// <param name="mouseMessages">Name of button from WinApi hook</param>
-        /// <returns>Button name</returns>
+        /// <param name="mouseMessages">Name of button from WinApi hook.</param>
+        /// <returns>Button name.</returns>
         public static string GetButtonName(MouseMessage mouseMessages)
         {
             return Buttons.TryGetValue(mouseMessages, out var buttonName) ? buttonName : mouseMessages.ToString();

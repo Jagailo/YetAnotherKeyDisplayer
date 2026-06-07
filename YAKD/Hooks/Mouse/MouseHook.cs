@@ -44,6 +44,7 @@ namespace YAKD.Hooks.Mouse
         public delegate void HookEventHandler(object sender, MouseHookEventArgs e);
 
         public event HookEventHandler KeyDown;
+
         public event HookEventHandler KeyUp;
 
         public MouseHook()

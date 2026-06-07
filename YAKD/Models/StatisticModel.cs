@@ -3,21 +3,21 @@
 namespace YAKD.Models
 {
     /// <summary>
-    /// Statistic model
+    /// Statistic model.
     /// </summary>
     public class StatisticModel
     {
         #region Properties
 
         /// <summary>
-        /// Version
+        /// Version.
         /// </summary>
         public string Version { get; set; }
 
         /// <summary>
-        /// Statistic type
+        /// Statistic type.
         /// </summary>
-        /// <value>0 - Installation</value>
+        /// <value>0 - Installation.</value>
         public StatisticType Type { get; set; }
 
         #endregion

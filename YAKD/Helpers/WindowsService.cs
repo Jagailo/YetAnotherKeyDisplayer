@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace YAKD.Helpers
 {
+    /// <summary>
+    /// Provides utility methods for interacting with Windows services and modifying window properties.
+    /// </summary>
     public static class WindowsService
     {
         #region Fields
@@ -16,9 +19,9 @@ namespace YAKD.Helpers
         #region Methods
 
         /// <summary>
-        /// Sets the transparency bit for the specified window
+        /// Sets the transparency bit for the specified window.
         /// </summary>
-        /// <param name="hwnd">Window handle</param>
+        /// <param name="hwnd">Window handle.</param>
         public static void SetWindowTransparent(IntPtr hwnd)
         {
             var currentWindowStyles = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -26,9 +29,9 @@ namespace YAKD.Helpers
         }
 
         /// <summary>
-        /// Removes the transparency bit for the specified window
+        /// Removes the transparency bit for the specified window.
         /// </summary>
-        /// <param name="hwnd">Window handle</param>
+        /// <param name="hwnd">Window handle.</param>
         public static void SetWindowNotTransparent(IntPtr hwnd)
         {
             var currentWindowStyles = GetWindowLong(hwnd, GWL_EXSTYLE);

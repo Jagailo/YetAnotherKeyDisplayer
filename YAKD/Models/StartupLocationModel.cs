@@ -1,18 +1,22 @@
 ﻿namespace YAKD.Models
 {
     /// <summary>
-    /// Entity which represents window location settings
+    /// Represents window location settings.
     /// </summary>
     public class StartupLocationModel
     {
+        #region Properties
+
         /// <summary>
-        /// Point from top of the screen
+        /// Distance from the top of the screen.
         /// </summary>
         public double Top { get; set; }
 
         /// <summary>
-        /// Point from left of the screen
+        /// Distance from the left of the screen.
         /// </summary>
         public double Left { get; set; }
+
+        #endregion
     }
 }

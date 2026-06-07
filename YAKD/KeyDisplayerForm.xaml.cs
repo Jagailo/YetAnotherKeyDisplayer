@@ -14,16 +14,14 @@ using YAKD.Models;
 namespace YAKD
 {
     /// <summary>
-    /// Key displayer window
+    /// Key displayer window.
     /// </summary>
     public partial class KeyDisplayerForm : Window
     {
         #region Fields
 
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly KeyboardHook _keyboardHook;
 
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private MouseHook _mouseHook;
 
         // For demo keys only
@@ -40,16 +38,18 @@ namespace YAKD
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the KeyDisplayerForm class
+        /// Initializes a new instance of the KeyDisplayerForm class.
         /// </summary>
-        /// <param name="settings">Displaying settings</param>
-        /// <param name="keysSettings">Keys settings</param>
+        /// <param name="settings">Displaying settings.</param>
+        /// <param name="keysSettings">Keys settings.</param>
         public KeyDisplayerForm(KeyDisplayerSettings settings, KeysSettings keysSettings)
         {
             _keys = new List<KeyModel>();
             _settings = settings ?? new KeyDisplayerSettings();
 
             InitializeComponent();
+            ShowInTaskbar = false;
+
             InitializeSettings(settings);
 
             _keyboardHook = new KeyboardHook(keysSettings);
@@ -61,6 +61,10 @@ namespace YAKD
 
         #region Methods
 
+        /// <summary>
+        /// Initializes settings.
+        /// </summary>
+        /// <param name="settings">Settings.</param>
         public void InitializeSettings(KeyDisplayerSettings settings)
         {
             KeysTextBlock.FontFamily = settings.FontFamily;
@@ -186,14 +190,21 @@ namespace YAKD
 
         private async void RemoveKeyAsync(KeyModel key)
         {
-            _keys.RemoveAll(x => x.Name == key.Name);
-
-            if (_settings.DisplayDelay != 0)
+            try
             {
-                await Task.Delay(_settings.DisplayDelay);
-            }
+                _keys.RemoveAll(x => x.Name == key.Name);
 
-            ShowKeys();
+                if (_settings.DisplayDelay != 0)
+                {
+                    await Task.Delay(_settings.DisplayDelay);
+                }
+
+                ShowKeys();
+            }
+            catch
+            {
+                // Ignored
+            }
         }
 
         private void ApplyClickThroughWindowSetting()

@@ -5,13 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
-        Height="640"
-        Width="480"
+        Height="660"
+        Width="510"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E"
         FontFamily="{StaticResource RobotoRegular}"
         FontSize="14"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="ClearType"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
         ResizeMode="CanMinimize">
@@ -44,7 +48,7 @@
     <Grid Margin="9,0,9,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*" />
-            <RowDefinition Height="9*" />
+            <RowDefinition Height="11*" />
             <RowDefinition Height="14*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="Auto" />
@@ -62,14 +66,14 @@
                              Grid.Row="0"
                              Content="RivaTuner Statistics Server (for fullscreen games)"
                              GroupName="KeyDisplayerMode"
-                             Padding="3,-2,0,0"
+                             Padding="3,0,0,0"
                              VerticalContentAlignment="Center"
                              Checked="RTSSRadioButton_Checked" />
                 <RadioButton x:Name="WindowRadioButton"
                              Grid.Row="1"
                              Content="YAKD window"
                              GroupName="KeyDisplayerMode"
-                             Padding="3,-2,0,0"
+                             Padding="3,0,0,0"
                              VerticalContentAlignment="Center"
                              Checked="WindowRadioButton_Checked" />
             </Grid>
@@ -78,6 +82,7 @@
         <GroupBox Grid.Row="1" Header=" Keys " Margin="0,9">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -101,14 +106,20 @@
                           VerticalContentAlignment="Center"
                           Click="IgnoreLeftRightCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
+                <CheckBox x:Name="UseArrowIconsCheckBox"
+                          Grid.Row="3"
+                          Content="Use arrow symbols instead of key names (not available for RTSS)"
+                          VerticalContentAlignment="Center"
+                          Click="UseArrowIconsCheckBox_Click"
+                          PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
 
         <GroupBox Grid.Row="2" Header=" YAKD window " Margin="0,9">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="7*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -127,7 +138,7 @@
                             Grid.Column="1"
                             Click="BackgroundColorRectangle_Click"
                             Margin="0"
-                            Height="19"
+                            Height="23"
                             Width="Auto"
                             Background="#000000"
                             Style="{StaticResource ColorPickerButtonStyle}" />
@@ -150,11 +161,11 @@
                             ValueChanged="OpacitySlider_ValueChanged"
                             SmallChange="1"
                             VerticalAlignment="Center"
-                            Margin="2,2,2,0" />
+                            Margin="3,1,3,0" />
                     <TextBox x:Name="OpacityTextBox"
                              Grid.Column="2"
-                             Width="50"
-                             Height="22"
+                             Width="60"
+                             Height="23"
                              Style="{StaticResource VisualStudioTextBoxStyle}"
                              HorizontalContentAlignment="Center"
                              MaxLength="4"
@@ -164,13 +175,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Delay:" VerticalAlignment="Center" />
                     <Slider x:Name="DisplayDelaySlider"
                             Grid.Column="1"
                             LargeChange="100"
-                            Maximum="500"
+                            Maximum="5000"
                             Minimum="0"
                             IsSnapToTickEnabled="True"
                             TickFrequency="50"
@@ -178,7 +189,7 @@
                             ValueChanged="DisplayDelaySlider_ValueChanged"
                             SmallChange="50"
                             VerticalAlignment="Center"
-                            Margin="2,2,2,0" />
+                            Margin="3,0,3,0" />
                     <TextBlock x:Name="DisplayDelayTextBlock"
                                Grid.Column="2"
                                Text="0 ms"
@@ -197,7 +208,7 @@
                 <CheckBox x:Name="ResizeCheckBox"
                           Grid.Column="1"
                           Grid.Row="1"
-                          Content="Changing the size"
+                          Content="Allow resizing"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -206,7 +217,7 @@
                 <CheckBox x:Name="FixWindowCheckBox"
                           Grid.Column="1"
                           Grid.Row="2"
-                          Content="Fix the window"
+                          Content="Lock window position"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -224,7 +235,7 @@
                 <CheckBox x:Name="DisplayOnKeyPressedOnlyCheckBox"
                           Grid.Column="1"
                           Grid.Row="4"
-                          Content="Display on key pressed only"
+                          Content="Display only when a key is pressed"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -256,6 +267,7 @@
                               IsSynchronizedWithCurrentItem="True"
                               VirtualizingPanel.IsVirtualizing="True"
                               VirtualizingPanel.VirtualizationMode="Recycling"
+                              Height="23"
                               SelectionChanged="FontComboBox_SelectionChanged">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="MyFonts" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
@@ -321,10 +333,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Font color:" Padding="0,0,8,0" />
+                    <TextBlock Grid.Column="0" Text="Font color:" Padding="0,3,8,0" />
                     <Button x:Name="FontColorRectangle"
                             Grid.Column="1"
-                            Height="19"
+                            Height="23"
                             Width="Auto"
                             Margin="0"
                             Background="#EEEEEE"
@@ -339,26 +351,29 @@
                     <TextBlock Grid.Column="0" Text="Text alignment:" VerticalAlignment="Center" Padding="0,0,8,0" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button x:Name="LeftAlignmentButton"
-                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                                 Tag="0"
                                 Style="{StaticResource VisualStudioIconButtonStyle}"
                                 Click="LeftAlignmentButton_Click">
-                            <svgc:SvgViewbox Source="/Images/Icons/text-left-alignment.svg" />
+                            <Viewbox>
+                                <Path Fill="#424242" Data="M915 62H70a70,70 0 1 0 0 140h845a70,70 0 1 0 0-140zM985 613c0-39-31-70-70-70H70a70,70 0 1 0 0 140h845c39 0 70-32 70-70zM70 442h695a70,70 0 1 0 0-140H70a70,70 0 1 0 0 140zM592 853c0-38-31-70-70-70H70a70,70 0 1 0 0 140h452c39 0 70-31 70-70z" />
+                            </Viewbox>
                         </Button>
                         <Button x:Name="CenterAlignmentButton"
-                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                                 Tag="1"
                                 Style="{StaticResource VisualStudioIconButtonStyle}"
                                 Margin="4,0"
                                 Click="CenterAlignmentButton_Click">
-                            <svgc:SvgViewbox Source="/Images/Icons/text-center-alignment.svg" />
+                            <Viewbox>
+                                <Path Fill="#424242" Data="M921 65H70a70,70 0 1 0 0 140h851a70,70 0 1 0 0-140zM921 546H70a70,70 0 1 0 0 140h851a70,70 0 1 0 0-140zM804 445a70,70 0 1 0 0-140H187a70,70 0 1 0 0 140h617zM683 926a70,70 0 1 0 0-140H308a70,70 0 1 0 0 140h375z" />
+                            </Viewbox>
                         </Button>
                         <Button x:Name="RightAlignmentButton"
-                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                                 Tag="0"
                                 Style="{StaticResource VisualStudioIconButtonStyle}"
                                 Click="RightAlignmentButton_Click">
-                            <svgc:SvgViewbox Source="/Images/Icons/text-right-alignment-button.svg" />
+                            <Viewbox>
+                                <Path Fill="#424242" Data="M70 202h845a70,70 0 1 0 0-140H70a70,70 0 1 0 0 140zM915 543H70a70,70 0 1 0 0 140h845a70,70 0 1 0 0-140zM915 302H220a70,70 0 1 0 0 140h695a70,70 0 1 0 0-140zM915 783H463a70,70 0 1 0 0 140h452a70,70 0 1 0 0-140z" />
+                            </Viewbox>
                         </Button>
                     </StackPanel>
                 </Grid>
@@ -375,7 +390,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="ShowHideWindowButton"
                     Grid.Column="0"
-                    Content="Hide (Alt + F4)"
+                    Content="Hide YAKD window"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="ShowHideWindowButton_Click"
                     Margin="1,5,5,5" />
@@ -387,7 +402,7 @@
                     Margin="5" />
             <Button x:Name="DefaultSettingsButton"
                     Grid.Column="2"
-                    Content="Default settings"
+                    Content="Reset settings"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="DefaultSettingsButton_Click"
                     Margin="5,5,1,5" />
@@ -399,7 +414,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,5,1,2">
             <TextBlock HorizontalAlignment="Left"
-                       Text="YAKD v.1.4 by Jagailo - "
+                       Text="YAKD v.1.5 by Jagailo - "
                        VerticalAlignment="Top"
                        FontSize="11" />
             <TextBlock x:Name="AboutTextBlock"

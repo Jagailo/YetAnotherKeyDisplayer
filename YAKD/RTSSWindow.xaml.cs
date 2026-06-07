@@ -11,7 +11,7 @@ using MessageBoxResult = System.Windows.Forms.DialogResult;
 namespace YAKD
 {
     /// <summary>
-    /// Windows with RTSS error
+    /// RTSS error window.
     /// </summary>
     public partial class RTSSWindow : Window
     {
@@ -21,22 +21,23 @@ namespace YAKD
 
         #endregion
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the RTSSWindow class
+        /// Initializes a new instance of the RTSSWindow class.
         /// </summary>
-        /// <param name="RTSSPath">Path to RTSS applications</param>
+        /// <param name="RTSSPath">Path to the RTSS application.</param>
         public RTSSWindow(string RTSSPath)
         {
             InitializeComponent();
             _dialog = new FolderBrowserDialog
             {
-                Description = "Specify the directory with the 'RTSS.exe' file.",
+                Description = "Select the directory containing 'RTSS.exe'.",
                 RootFolder = System.Environment.SpecialFolder.ProgramFilesX86,
                 ShowNewFolderButton = false
             };
-            RTSSPathTextBlock.Text = $"In the directory \"{RTSSPath.Remove(RTSSPath.LastIndexOf('\\'), RTSSPath.Length - RTSSPath.LastIndexOf('\\'))}\" could not find RTSS.exe.";
+
+            RTSSPathTextBlock.Text = $"RTSS.exe could not be found in the directory \"{Path.GetDirectoryName(RTSSPath)}\".";
         }
 
         #endregion
@@ -45,7 +46,7 @@ namespace YAKD
 
         private void DownloadRTSSButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://www.guru3d.com/files-details/rtss-rivatuner-statistics-server-download.html");
+            Process.Start("https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download");
             Close();
         }
 
@@ -61,7 +62,7 @@ namespace YAKD
                 }
                 else
                 {
-                    MessageBox.Show("There is no RTSS.exe file in this directory", "RTSS.exe not found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("There is no RTSS.exe file in this directory.", "RTSS.exe not found", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

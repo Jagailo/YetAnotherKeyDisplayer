@@ -3,14 +3,14 @@
 namespace YAKD.Helpers
 {
     /// <summary>
-    /// Converts key names to more understandable and simple ones
+    /// Converts key names to more readable and simpler ones.
     /// </summary>
     public static class KeyboardListConverter
     {
         #region Fields
 
         /// <summary>
-        /// List of beautiful named keys
+        /// List of nicely formatted key names.
         /// </summary>
         private static readonly Dictionary<string, string> Keys;
 
@@ -87,10 +87,10 @@ namespace YAKD.Helpers
         #region Methods
 
         /// <summary>
-        /// Returns key name
+        /// Returns key name.
         /// </summary>
-        /// <param name="winApiKeyName">Name of key from WinApi hook</param>
-        /// <returns>Key name</returns>
+        /// <param name="winApiKeyName">Name of key from WinApi hook.</param>
+        /// <returns>Key name.</returns>
         public static string GetKeyName(string winApiKeyName)
         {
             return Keys.TryGetValue(winApiKeyName.ToLower(), out var keyName) ? keyName : winApiKeyName;

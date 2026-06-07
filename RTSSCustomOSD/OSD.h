@@ -11,7 +11,6 @@ namespace RTSSSharedMemoryNET
     public ref class OSD
     {
         LPCSTR m_entryName;
-        DWORD m_osdSlot;
         bool m_disposed;
 
     public:
@@ -24,12 +23,14 @@ namespace RTSSSharedMemoryNET
             System::Version^ get();
         }
 
-        void Update(String^ text);
+        // Returns true if the OSD text was sent to RTSS, false if RTSS shared memory is unavailable.
+        bool Update(String^ text);
         static array<OSDEntry^>^ GetOSDEntries();
         static array<AppEntry^>^ GetAppEntries();
 
     private:
-        static void openSharedMemory(HANDLE* phMapFile, LPRTSS_SHARED_MEMORY* ppMem);
+        // Non-throwing: false when the shared memory is unavailable (RTSS not running).
+        static bool tryOpenSharedMemory(HANDLE* phMapFile, LPRTSS_SHARED_MEMORY* ppMem);
         static void closeSharedMemory(HANDLE hMapFile, LPRTSS_SHARED_MEMORY pMem);
         static DateTime timeFromTickCount(DWORD ticks);
     };
