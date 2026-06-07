@@ -1,16 +1,20 @@
 ![YAKD](https://i.imgur.com/urXDS4X.png)
 ### YAKD - Yet Another Key Displayer
-The program for displaying the pressed keys of the keyboard and mouse. RTSS Rivatuner Statistics Server is supported.
+A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statistics Server) is supported.
 
-#### 💻 12000+ installs ❤
+[![Latest release](https://img.shields.io/github/v/release/Jagailo/YetAnotherKeyDisplayer)](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Jagailo/YetAnotherKeyDisplayer/total)](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
+[![License](https://img.shields.io/github/license/Jagailo/YetAnotherKeyDisplayer)](LICENSE)
+
+#### 💻 19000+ installs ❤
 #### Download installer: [YAKD v.1.4 [1.57 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.4/YAKD_1.4_installer.exe)
 
 ## Key features
 * Capture keyboard and mouse;
 * 2 displaying modes are available: display keys in a window or send them to RTSS for display in fullscreen games;
-* Ability to change the keys font, size, color and background;
-* Auto-save of all styles settings;
-* Not annoying notification of a new version;
+* Ability to change the keys' font, size, color and background;
+* Auto-save of all style settings;
+* Unobtrusive notification about new versions;
 * Free software without ads and donations;
 * Key Displayer as a window can be captured in OBS (use the chroma key filter to make the window transparent).
 
@@ -36,10 +40,13 @@ The program for displaying the pressed keys of the keyboard and mouse. RTSS Riva
 * [@Barnacle](https://github.com/Barnacle) added mouse support.
 * Text alignment icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [flaticon](https://www.flaticon.com/).
 
+## License
+YAKD is free software released under the [MIT License](LICENSE) — no ads, no donations.
+
+Additionally, selling this software or charging a fee for downloading it is prohibited. Using the program to create commercial content (videos, courses, streams) is fully permitted and encouraged.
+
 ## YAKD on other sites
-* [Softpedia.com](https://www.softpedia.com/get/Others/Miscellaneous/YAKD-Yet-Another-Key-Displayer.shtml)
-* [Sonraid.ru](http://sonraid.ru/yakd-yet-another-key-displayer/)
-* [Ilovefreesoftware.com](https://www.ilovefreesoftware.com/21/windows/show-keystrokes-on-screen-set-font-background-color-to-display-keys.html)
-* [Filecroco.com](https://www.filecroco.com/download-yet-another-key-displayer)
-* [Updov.com](https://updov.com/download-yet-another-key-displayer/)
 * [AlternativeTo.net](https://alternativeto.net/software/yakd/about/)
+* [Softpedia.com](https://www.softpedia.com/get/Others/Miscellaneous/YAKD-Yet-Another-Key-Displayer.shtml)
+* [Ilovefreesoftware.com](https://www.ilovefreesoftware.com/21/windows/show-keystrokes-on-screen-set-font-background-color-to-display-keys.html)
+* [Fzxz.com](https://www.fzxz.com/jianpanshubiao/506.html)

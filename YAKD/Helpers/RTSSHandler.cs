@@ -134,7 +134,7 @@ namespace YAKD.Helpers
             {
                 Logger.Write(exception);
 
-                MessageBox.Show(exception.Message, "Could not start the RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, "Could not start RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -253,7 +253,7 @@ namespace YAKD.Helpers
             {
                 Logger.Write(exception);
 
-                MessageBox.Show(exception.Message, "Could not start the OSD", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, "Could not start OSD", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

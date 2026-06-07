@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock TextWrapping="Wrap"
-                       Text="RivaTuner Statistics Server (RTSS) is a program that allows you to display pressed keys directly in the game with minimal performance loss. This program is developed by a third party, Guru3D.com."
+                       Text="RivaTuner Statistics Server (RTSS) is a program that allows you to display pressed keys directly in-game with minimal performance loss. This program is developed by a third party, Guru3D.com."
                        Margin="10" />
             <TextBlock x:Name="RTSSPathTextBlock"
                        TextWrapping="Wrap"

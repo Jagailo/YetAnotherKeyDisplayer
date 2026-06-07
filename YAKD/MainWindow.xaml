@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
         Height="660"
-        Width="500"
+        Width="510"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E"
@@ -108,7 +108,7 @@
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
                 <CheckBox x:Name="UseArrowIconsCheckBox"
                           Grid.Row="3"
-                          Content="Use arrow symbols instead of key names (not for RTSS)"
+                          Content="Use arrow symbols instead of key names (not available for RTSS)"
                           VerticalContentAlignment="Center"
                           Click="UseArrowIconsCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
@@ -118,8 +118,8 @@
         <GroupBox Grid.Row="2" Header=" YAKD window " Margin="0,9">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="7*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -235,7 +235,7 @@
                 <CheckBox x:Name="DisplayOnKeyPressedOnlyCheckBox"
                           Grid.Column="1"
                           Grid.Row="4"
-                          Content="Display on key pressed only"
+                          Content="Display only when a key is pressed"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -402,7 +402,7 @@
                     Margin="5" />
             <Button x:Name="DefaultSettingsButton"
                     Grid.Column="2"
-                    Content="Default settings"
+                    Content="Reset settings"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="DefaultSettingsButton_Click"
                     Margin="5,5,1,5" />
