@@ -351,26 +351,29 @@
                     <TextBlock Grid.Column="0" Text="Text alignment:" VerticalAlignment="Center" Padding="0,0,8,0" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button x:Name="LeftAlignmentButton"
-                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                                 Tag="0"
                                 Style="{StaticResource VisualStudioIconButtonStyle}"
                                 Click="LeftAlignmentButton_Click">
-                            <svgc:SvgViewbox Source="/Images/Icons/text-left-alignment.svg" />
+                            <Viewbox>
+                                <Path Fill="#424242" Data="M915 62H70a70,70 0 1 0 0 140h845a70,70 0 1 0 0-140zM985 613c0-39-31-70-70-70H70a70,70 0 1 0 0 140h845c39 0 70-32 70-70zM70 442h695a70,70 0 1 0 0-140H70a70,70 0 1 0 0 140zM592 853c0-38-31-70-70-70H70a70,70 0 1 0 0 140h452c39 0 70-31 70-70z" />
+                            </Viewbox>
                         </Button>
                         <Button x:Name="CenterAlignmentButton"
-                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                                 Tag="1"
                                 Style="{StaticResource VisualStudioIconButtonStyle}"
                                 Margin="4,0"
                                 Click="CenterAlignmentButton_Click">
-                            <svgc:SvgViewbox Source="/Images/Icons/text-center-alignment.svg" />
+                            <Viewbox>
+                                <Path Fill="#424242" Data="M921 65H70a70,70 0 1 0 0 140h851a70,70 0 1 0 0-140zM921 546H70a70,70 0 1 0 0 140h851a70,70 0 1 0 0-140zM804 445a70,70 0 1 0 0-140H187a70,70 0 1 0 0 140h617zM683 926a70,70 0 1 0 0-140H308a70,70 0 1 0 0 140h375z" />
+                            </Viewbox>
                         </Button>
                         <Button x:Name="RightAlignmentButton"
-                                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
                                 Tag="0"
                                 Style="{StaticResource VisualStudioIconButtonStyle}"
                                 Click="RightAlignmentButton_Click">
-                            <svgc:SvgViewbox Source="/Images/Icons/text-right-alignment-button.svg" />
+                            <Viewbox>
+                                <Path Fill="#424242" Data="M70 202h845a70,70 0 1 0 0-140H70a70,70 0 1 0 0 140zM915 543H70a70,70 0 1 0 0 140h845a70,70 0 1 0 0-140zM915 302H220a70,70 0 1 0 0 140h695a70,70 0 1 0 0-140zM915 783H463a70,70 0 1 0 0 140h452a70,70 0 1 0 0-140z" />
+                            </Viewbox>
                         </Button>
                     </StackPanel>
                 </Grid>
