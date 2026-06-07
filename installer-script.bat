@@ -37,11 +37,11 @@ SetDatablockOptimize On
 # SFX Definitions
 # -------------------------------------------------------------------
 
-!define SFX_AppID "{8FAB6A39-YAKD-49A0-BFBC-2675716E90E0}"; a unique ID for your SFX (It's real GUID)
+!define SFX_AppID "{00A267B0-8858-4C17-812B-1903AF25C494}"; a unique ID for your SFX (It's real GUID)
 !define SFX_BaseDir "C:\Program Files (x86)\MuldeR's Freeware\SFX Tool v1.01"; the SFX Tool install folder - do NOT edit!
 !define SFX_Title "Yet Another Key Displayer"; the installer title
 !define SFX_InstallDir "$PROGRAMFILES\Yet Another Key Displayer"; the *default* destination directory
-!define SFX_OutFile "C:\Users\Jagailo\Desktop\YAKD 1.4 installer.exe"; the file to save the installer EXE to
+!define SFX_OutFile "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD 1.5 installer.exe"; the file to save the installer EXE to
 !define SFX_IconFile "WinXP"; the installer icon
 !define SFX_HeaderImage "Win"; the herader image
 !define SFX_WizardImage "NSIS"; the wizard image
@@ -133,30 +133,30 @@ InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SFX
 
 Section
   SetOutPath "$INSTDIR"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\de\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\es\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\fr\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\hu\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\it\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\ja-JP\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Newtonsoft.Json.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Newtonsoft.Json.xml"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\nl-BE\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\pt-BR\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\ro\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\RTSSSharedMemoryNET.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\RTSSSharedMemoryNET.xml"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\ru\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\sv\Xceed.Wpf.AvalonDock.resources.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Xceed.Wpf.AvalonDock.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Xceed.Wpf.AvalonDock.Themes.Aero.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Xceed.Wpf.AvalonDock.Themes.Metro.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Xceed.Wpf.AvalonDock.Themes.VS2010.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\Xceed.Wpf.Toolkit.dll"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\YAKD.exe"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\YAKD.exe.config"
-  File /r "C:\Users\Jagailo\Desktop\YAKD 1.4\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\de\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\es\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\fr\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\hu\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\it\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\ja-JP\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Newtonsoft.Json.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Newtonsoft.Json.xml"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\nl-BE\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\pt-BR\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\ro\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\RTSSSharedMemoryNET.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\RTSSSharedMemoryNET.xml"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\ru\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\sv\Xceed.Wpf.AvalonDock.resources.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Xceed.Wpf.AvalonDock.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Xceed.Wpf.AvalonDock.Themes.Aero.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Xceed.Wpf.AvalonDock.Themes.Metro.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Xceed.Wpf.AvalonDock.Themes.VS2010.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\Xceed.Wpf.Toolkit.dll"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\YAKD.exe"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\YAKD.exe.config"
+  File /r "C:\Users\Jagailo\Documents\YetAnotherKeyDisplayer\YAKD\bin\Release\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll"
 SectionEnd
 
 
