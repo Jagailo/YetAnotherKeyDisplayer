@@ -6,7 +6,7 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 [![Downloads](https://img.shields.io/github/downloads/Jagailo/YetAnotherKeyDisplayer/total)](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
 [![License](https://img.shields.io/github/license/Jagailo/YetAnotherKeyDisplayer)](LICENSE)
 
-#### 💻 19000+ installs ❤
+#### 💻 19000+ installs 💖
 #### Download installer: [YAKD v.1.5 [986 KB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.5/YAKD_1.5_installer.exe)
 
 ## Key features
@@ -20,10 +20,10 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/Jagailo/YetAnotherKeyDisplayer/assets/10468120/7a8682c6-d615-4b51-a535-fa7fd46a57e6" alt="Yet Another Key Displayer" />
+  <img src="https://github.com/user-attachments/assets/25150917-867d-42fc-969a-3573322d6b7c" alt="Yet Another Key Displayer" />
 </p>
 <p align="center">
-  <img src="https://github.com/Jagailo/YetAnotherKeyDisplayer/assets/10468120/e1d6d704-e496-42fe-8fac-a9c4bb7787fc" alt="Yet Another Key Displayer" />
+  <img src="https://github.com/user-attachments/assets/8c140e01-ba99-4f0f-8a3d-9e80f76c86ae" alt="Yet Another Key Displayer" />
 </p>
 <p align="center">
   <img src="https://imgur.com/kMhUvHF.png" alt="Yet Another Key Displayer" />
@@ -39,6 +39,9 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 * Used [RTSS shared memory](https://github.com/spencerhakim/RTSSSharedMemoryNET) library written by [@spencerhakim](https://github.com/spencerhakim).
 * [@Barnacle](https://github.com/Barnacle) added mouse support.
 * Text alignment icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [flaticon](https://www.flaticon.com/).
+
+## Special Thanks 💖
+I am incredibly proud and grateful that this project is used by [Wube Software](https://factorio.com/game/about), the developers behind Factorio - one of my favorite games. Seeing my app in action in their dev diary ([Friday Facts #412](https://factorio.com/blog/post/fff-412)) was a huge surprise and an absolute honor!
 
 ## License
 YAKD is free software released under the [MIT License](LICENSE) — no ads, no donations.
