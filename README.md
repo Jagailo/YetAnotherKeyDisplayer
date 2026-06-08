@@ -31,6 +31,9 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 <p align="center">
   <img src="https://imgur.com/pbwBa4A.png" alt="Yet Another Key Displayer" />
 </p>
+<p align="center">
+  <img width="420" height="300" alt="YAKD for Factorio" src="https://github.com/user-attachments/assets/f126e345-f705-4a8b-ae70-109155b33b8f" />
+</p>
 
 ## Как использовать (russian tutorial)
 [![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
@@ -44,9 +47,9 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 I am incredibly proud and grateful that this project is used by [Wube Software](https://factorio.com/game/about), the developers behind Factorio - one of my favorite games. Seeing my app in action in their dev diary ([Friday Facts #412](https://factorio.com/blog/post/fff-412)) was a huge surprise and an absolute honor!
 
 ## License
-YAKD is free software released under the [MIT License](LICENSE) — no ads, no donations.
+YAKD is free software released under the [MIT License](LICENSE) - no ads, no donations.
 
-Additionally, selling this software or charging a fee for downloading it is prohibited. Using the program to create commercial content (videos, courses, streams) is fully permitted and encouraged.
+Additionally, selling this software or charging a fee for downloading it is prohibited. Using the program to create commercial content (videos, courses, streams) is fully permitted and encouraged 👍.
 
 ## YAKD on other sites
 * [AlternativeTo.net](https://alternativeto.net/software/yakd/about/)
