@@ -6,11 +6,16 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         configuration: [Debug, Release]
+        platform: [x64, x86]
 
     runs-on: windows-latest
 
@@ -33,12 +38,13 @@ jobs:
       run: nuget restore $env:Solution_Name
 
     - name: Build solution
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform="Any CPU" /m
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:RunCodeAnalysis=false /m
       env:
         Configuration: ${{ matrix.configuration }}
+        Platform: ${{ matrix.platform }}
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: YAKD-${{ matrix.configuration }}
+        name: YAKD-${{ matrix.configuration }}-${{ matrix.platform }}
         path: YAKD\bin\${{ matrix.configuration }}
