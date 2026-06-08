@@ -7,7 +7,7 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 [![License](https://img.shields.io/github/license/Jagailo/YetAnotherKeyDisplayer)](LICENSE)
 
 #### 💻 19000+ installs ❤
-#### Download installer: [YAKD v.1.5 [1.57 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.5/YAKD_1.5_installer.exe)
+#### Download installer: [YAKD v.1.5 [986 KB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.5/YAKD_1.5_installer.exe)
 
 ## Key features
 * Capture keyboard and mouse;
