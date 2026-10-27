@@ -138,6 +138,13 @@
             <Setter Property="Padding" Value="2" />
             <Setter Property="BorderBrush" Value="#FFACACAC" />
             <Setter Property="Background" Value="#FFF2F2F2" />
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="4,0" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="HoverUnderlineStyle">
@@ -146,6 +153,31 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="TextBlock.TextDecorations" Value="Underline" />
                     <Setter Property="TextBlock.Foreground" Value="#FFFF0000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="FlatIconButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#FF424242" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#FF3399FF" />
+                </Trigger>
+                <Trigger Property="Tag" Value="1">
+                    <Setter Property="Foreground" Value="#FF3399FF" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Foreground" Value="#FF007ACC" />
                 </Trigger>
             </Style.Triggers>
         </Style>

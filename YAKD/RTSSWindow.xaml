@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:loc="clr-namespace:YAKD.Localization"
         mc:Ignorable="d"
-        Title="Error: RivaTuner Statistics Server not found"
+        Title="{loc:Localize RtssWindow_Title}"
         Height="250"
         Width="450"
         WindowStartupLocation="CenterScreen"
@@ -24,7 +25,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock TextWrapping="Wrap"
-                       Text="RivaTuner Statistics Server (RTSS) is a program that allows you to display pressed keys directly in-game with minimal performance loss. This program is developed by a third party, Guru3D.com."
+                       Text="{loc:Localize RtssWindow_Description}"
                        Margin="10" />
             <TextBlock x:Name="RTSSPathTextBlock"
                        TextWrapping="Wrap"
@@ -34,17 +35,17 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button x:Name="DownloadRTSSButton"
-                    Content="Download RTSS"
+                    Content="{loc:Localize RtssWindow_DownloadButton}"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Margin="0,5,5,5"
                     Click="DownloadRTSSButton_Click" />
             <Button x:Name="FindRTSSButton"
-                    Content="Specify the path to RTSS.exe"
+                    Content="{loc:Localize RtssWindow_SpecifyPathButton}"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Margin="0,5,5,5"
                     Click="FindRTSSButton_Click" />
             <Button x:Name="CancelButton"
-                    Content="Cancel"
+                    Content="{loc:Localize Common_Cancel}"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Margin="0,5,5,5"
                     Click="CancelButton_Click" />

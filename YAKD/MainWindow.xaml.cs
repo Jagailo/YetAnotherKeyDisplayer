@@ -14,12 +14,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using YAKD.Enums;
 using YAKD.Helpers;
 using YAKD.Hooks.Keyboard;
 using YAKD.Hooks.Mouse;
+using YAKD.Localization;
 using YAKD.Models;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
@@ -53,6 +56,10 @@ namespace YAKD
 
         private System.Windows.Forms.NotifyIcon _notifyIcon;
 
+        private string _language;
+
+        private bool _isNewVersionAvailable;
+
         #endregion
 
         #region Constructor
@@ -69,6 +76,7 @@ namespace YAKD
             _isRtssEnabled = false;
             _keys = new List<KeyModel>();
             InitializeSettingsFromFile(Properties.Settings.Default);
+            LocalizationManager.Instance.Initialize(_language);
             _isFirstRun = true;
             InitializeComponent();
             InitializeNotifyIcon();
@@ -77,6 +85,8 @@ namespace YAKD
             InitializeMainWindow();
             InitializeKeyDisplayerForm();
             _keyDisplayerForm.Show();
+            RefreshLocalizedTexts();
+            LocalizationManager.Instance.LanguageChanged += LocalizationManager_LanguageChanged;
             Focus();
         }
 
@@ -221,7 +231,7 @@ namespace YAKD
 
         private void DisplayDelaySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            DisplayDelayTextBlock.Text = $"{DisplayDelaySlider.Value.ToString(CultureInfo.InvariantCulture)} ms";
+            UpdateDisplayDelayTextBlock();
             _settings.DisplayDelay = Convert.ToInt32(DisplayDelaySlider.Value);
             UpdateKeyDisplayerForm();
         }
@@ -369,7 +379,7 @@ namespace YAKD
             {
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide YAKD window";
+                UpdateShowHideWindowButton();
             }
         }
 
@@ -381,14 +391,14 @@ namespace YAKD
 
         private void DefaultSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to reset your settings?", "YAKD - Default settings", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show(Strings.MainWindow_ResetSettingsMessage, Strings.MainWindow_ResetSettingsCaption, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 _keysSettings = new KeysSettings();
                 _settings = new KeyDisplayerSettings { MouseEnabled = _keysSettings.IsMouseEnabled };
                 _keyDisplayerForm.Close();
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide YAKD window";
+                UpdateShowHideWindowButton();
                 InitializeMainWindow();
             }
         }
@@ -396,6 +406,41 @@ namespace YAKD
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Process.Start("https://github.com/Jagailo/YetAnotherKeyDisplayer/releases");
+        }
+
+        private void LanguageButton_Click(object sender, RoutedEventArgs e)
+        {
+            var menu = new ContextMenu { PlacementTarget = LanguageButton, Placement = PlacementMode.Top };
+            foreach (var language in LocalizationManager.Instance.SupportedLanguages)
+            {
+                var menuItem = new MenuItem { Header = language.NativeName, Tag = language, IsChecked = language == LocalizationManager.Instance.CurrentLanguage };
+                menuItem.Click += LanguageMenuItem_Click;
+                menu.Items.Add(menuItem);
+            }
+
+            // While the menu is open, a click on the button must only close the menu instead of reopening it.
+            menu.Opened += (s, args) =>
+            {
+                LanguageButton.IsHitTestVisible = false;
+                LanguageButton.Tag = "1";
+            };
+            menu.Closed += (s, args) =>
+            {
+                LanguageButton.Tag = "0";
+                Dispatcher.InvokeAsync(() =>
+                {
+                    LanguageButton.IsHitTestVisible = true;
+                    Mouse.Synchronize();
+                }, DispatcherPriority.Input);
+            };
+            menu.IsOpen = true;
+        }
+
+        private void LanguageMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var language = (LanguageModel)((MenuItem)sender).Tag;
+            _language = language.CultureName;
+            LocalizationManager.Instance.SetLanguage(language);
         }
 
         #endregion
@@ -420,7 +465,7 @@ namespace YAKD
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Title += " [Saving ...]";
+            Title = $"{Title} {Strings.MainWindow_SavingTitleSuffix}";
 
             RtssHandler.Shutdown();
 
@@ -432,7 +477,7 @@ namespace YAKD
 
         private void KeyDisplayerForm_Closed(object sender, EventArgs e)
         {
-            ShowHideWindowButton.Content = "Show YAKD window";
+            UpdateShowHideWindowButton();
         }
 
         private void KeyDisplayerForm_LocationChanged(object sender, EventArgs e)
@@ -469,6 +514,8 @@ namespace YAKD
         private void MouseHook_KeyDown(object sender, MouseHookEventArgs e) => AddKey(e.Key);
 
         private void MouseHook_KeyUp(object sender, MouseHookEventArgs e) => RemoveKey(e.Key);
+
+        private void LocalizationManager_LanguageChanged(object sender, EventArgs e) => RefreshLocalizedTexts();
 
         #endregion
 
@@ -509,6 +556,31 @@ namespace YAKD
             }
         }
 
+        private void RefreshLocalizedTexts()
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            VersionTextBlock.Text = string.Format(Strings.MainWindow_VersionFormat, $"{version.Major}.{version.Minor}");
+
+            UpdateShowHideWindowButton();
+            UpdateDisplayDelayTextBlock();
+            UpdateAboutTextBlock();
+        }
+
+        private void UpdateShowHideWindowButton()
+        {
+            ShowHideWindowButton.Content = _keyDisplayerForm != null && _keyDisplayerForm.IsVisible ? Strings.MainWindow_HideWindowButton : Strings.MainWindow_ShowWindowButton;
+        }
+
+        private void UpdateDisplayDelayTextBlock()
+        {
+            DisplayDelayTextBlock.Text = string.Format(Strings.MainWindow_DelayFormat, DisplayDelaySlider.Value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private void UpdateAboutTextBlock()
+        {
+            AboutTextBlock.Text = _isNewVersionAvailable ? Strings.MainWindow_NewVersionLink : Strings.MainWindow_AboutLink;
+        }
+
         private void InitializeMainWindow()
         {
             var font = FontComboBox.Items.Cast<FontFamily>().FirstOrDefault(x => x.ToString() == _settings.FontFamily.Source);
@@ -517,7 +589,7 @@ namespace YAKD
             ClickThroughWindowCheckBox.IsChecked = _settings.ClickThroughWindow;
             DemoKeysCheckBox.IsChecked = !string.IsNullOrEmpty(_settings.DemoKeys);
             DisplayDelaySlider.Value = _settings.DisplayDelay;
-            DisplayDelayTextBlock.Text = $"{_settings.DisplayDelay.ToString(CultureInfo.InvariantCulture)} ms";
+            UpdateDisplayDelayTextBlock();
             DisplayOnKeyPressedOnlyCheckBox.IsChecked = _settings.DisplayOnKeyPressedOnly;
             FixWindowCheckBox.IsChecked = _settings.FixWindow;
             FontColorRectangle.Background = new SolidColorBrush(_settings.Color);
@@ -580,6 +652,7 @@ namespace YAKD
 
                     RtssHandler.RtssPath = fileSettings.RTSSPath;
                     _isRtssEnabled = fileSettings.RTSSEnabled;
+                    _language = fileSettings.Language;
 
                     if (!fileSettings.FirstLaunchStatistic)
                     {
@@ -631,6 +704,7 @@ namespace YAKD
                 fileSettings.Height = _settings.Height;
                 fileSettings.IgnoreLeftRight = _keysSettings.IgnoreLeftRight;
                 fileSettings.KeysAlignment = _settings.KeysAlignment;
+                fileSettings.Language = _language;
                 fileSettings.MouseEnabled = _keysSettings.IsMouseEnabled;
                 fileSettings.RTSSEnabled = _isRtssEnabled;
                 fileSettings.RTSSPath = RtssHandler.RtssPath;
@@ -684,7 +758,7 @@ namespace YAKD
             {
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
-                ShowHideWindowButton.Content = "Hide YAKD window";
+                UpdateShowHideWindowButton();
             }
             else if (!state && _keyDisplayerForm.IsVisible)
             {
@@ -804,7 +878,11 @@ namespace YAKD
                     var cloudVersion = JsonConvert.DeserializeObject<VersionModel>(json);
                     if (version < cloudVersion.Version)
                     {
-                        Application.Current.Dispatcher.Invoke(() => { AboutTextBlock.Text = "a new version is available"; });
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _isNewVersionAvailable = true;
+                            UpdateAboutTextBlock();
+                        });
                     }
                 }
                 catch (Exception exception)

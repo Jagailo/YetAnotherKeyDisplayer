@@ -41,6 +41,7 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 * Used [RTSS shared memory](https://github.com/spencerhakim/RTSSSharedMemoryNET) library written by [@spencerhakim](https://github.com/spencerhakim).
 * [@Barnacle](https://github.com/Barnacle) added mouse support.
 * Text alignment icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [flaticon](https://www.flaticon.com/).
+* Language icon from [Material Design Icons](https://pictogrammers.com/library/mdi/) (Apache License 2.0).
 
 ## Special Thanks 💖
 I am incredibly proud and grateful that this project is used by [Wube Software](https://factorio.com/game/about), the developers behind Factorio - one of my favorite games. Seeing my app in action in their dev diary ([Friday Facts #412](https://factorio.com/blog/post/fff-412)) was a huge surprise and an absolute honor!

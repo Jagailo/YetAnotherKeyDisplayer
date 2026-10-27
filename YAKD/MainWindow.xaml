@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:loc="clr-namespace:YAKD.Localization"
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
         Height="660"
@@ -56,7 +57,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header=" Key Displayer " Margin="0,9">
+        <GroupBox Grid.Row="0" Header="{loc:Localize MainWindow_KeyDisplayerGroup}" Margin="0,9">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -64,14 +65,14 @@
                 </Grid.RowDefinitions>
                 <RadioButton x:Name="RTSSRadioButton"
                              Grid.Row="0"
-                             Content="RivaTuner Statistics Server (for fullscreen games)"
+                             Content="{loc:Localize MainWindow_RtssRadioButton}"
                              GroupName="KeyDisplayerMode"
                              Padding="3,0,0,0"
                              VerticalContentAlignment="Center"
                              Checked="RTSSRadioButton_Checked" />
                 <RadioButton x:Name="WindowRadioButton"
                              Grid.Row="1"
-                             Content="YAKD window"
+                             Content="{loc:Localize MainWindow_WindowRadioButton}"
                              GroupName="KeyDisplayerMode"
                              Padding="3,0,0,0"
                              VerticalContentAlignment="Center"
@@ -79,7 +80,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="1" Header=" Keys " Margin="0,9">
+        <GroupBox Grid.Row="1" Header="{loc:Localize MainWindow_KeysGroup}" Margin="0,9">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -89,33 +90,33 @@
                 </Grid.RowDefinitions>
                 <CheckBox x:Name="MouseHookCheckBox"
                           Grid.Row="0"
-                          Content="Track mouse"
+                          Content="{loc:Localize MainWindow_TrackMouseCheckBox}"
                           VerticalContentAlignment="Center"
                           Checked="MouseHookCheckBox_Checked"
                           Unchecked="MouseHookCheckBox_Unchecked"
                           PreviewKeyDown="CheckBox_PreviewKeyDown"/>
                 <CheckBox x:Name="ShortNameForNumpadCheckBox"
                           Grid.Row="1"
-                          Content="Short name for Numpad"
+                          Content="{loc:Localize MainWindow_ShortNameForNumpadCheckBox}"
                           VerticalContentAlignment="Center"
                           Click="ShortNameForNumpadCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
                 <CheckBox x:Name="IgnoreLeftRightCheckBox"
                           Grid.Row="2"
-                          Content="Ignore Left (L) and Right (R) prefixes"
+                          Content="{loc:Localize MainWindow_IgnoreLeftRightCheckBox}"
                           VerticalContentAlignment="Center"
                           Click="IgnoreLeftRightCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
                 <CheckBox x:Name="UseArrowIconsCheckBox"
                           Grid.Row="3"
-                          Content="Use arrow symbols instead of key names (not available for RTSS)"
+                          Content="{loc:Localize MainWindow_UseArrowIconsCheckBox}"
                           VerticalContentAlignment="Center"
                           Click="UseArrowIconsCheckBox_Click"
                           PreviewKeyDown="CheckBox_PreviewKeyDown" />
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="2" Header=" YAKD window " Margin="0,9">
+        <GroupBox Grid.Row="2" Header="{loc:Localize MainWindow_WindowGroup}" Margin="0,9">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="6*" />
@@ -133,7 +134,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Background color:" Margin="0,0,8,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_BackgroundColorLabel}" Margin="0,0,8,0" VerticalAlignment="Center" />
                     <Button x:Name="BackgroundColorRectangle"
                             Grid.Column="1"
                             Click="BackgroundColorRectangle_Click"
@@ -149,7 +150,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Opacity:" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_OpacityLabel}" VerticalAlignment="Center" />
                     <Slider x:Name="OpacitySlider"
                             Grid.Column="1"
                             LargeChange="10"
@@ -177,7 +178,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Delay:" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_DelayLabel}" VerticalAlignment="Center" />
                     <Slider x:Name="DisplayDelaySlider"
                             Grid.Column="1"
                             LargeChange="100"
@@ -192,14 +193,13 @@
                             Margin="3,0,3,0" />
                     <TextBlock x:Name="DisplayDelayTextBlock"
                                Grid.Column="2"
-                               Text="0 ms"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center" />
                 </Grid>
                 <CheckBox x:Name="DemoKeysCheckBox"
                           Grid.Column="1"
                           Grid.Row="0"
-                          Content="Show demo keys"
+                          Content="{loc:Localize MainWindow_DemoKeysCheckBox}"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -208,7 +208,7 @@
                 <CheckBox x:Name="ResizeCheckBox"
                           Grid.Column="1"
                           Grid.Row="1"
-                          Content="Allow resizing"
+                          Content="{loc:Localize MainWindow_ResizeCheckBox}"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -217,7 +217,7 @@
                 <CheckBox x:Name="FixWindowCheckBox"
                           Grid.Column="1"
                           Grid.Row="2"
-                          Content="Lock window position"
+                          Content="{loc:Localize MainWindow_FixWindowCheckBox}"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -226,7 +226,7 @@
                 <CheckBox x:Name="ClickThroughWindowCheckBox"
                           Grid.Column="1"
                           Grid.Row="3"
-                          Content="Click-through window"
+                          Content="{loc:Localize MainWindow_ClickThroughWindowCheckBox}"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -235,7 +235,7 @@
                 <CheckBox x:Name="DisplayOnKeyPressedOnlyCheckBox"
                           Grid.Column="1"
                           Grid.Row="4"
-                          Content="Display only when a key is pressed"
+                          Content="{loc:Localize MainWindow_DisplayOnKeyPressedOnlyCheckBox}"
                           VerticalAlignment="Center"
                           Margin="9,5,0,5"
                           VerticalContentAlignment="Center"
@@ -244,7 +244,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="3" Header=" YAKD window keys " Margin="0,9">
+        <GroupBox Grid.Row="3" Header="{loc:Localize MainWindow_WindowKeysGroup}" Margin="0,9">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -260,7 +260,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>                    
-                    <TextBlock Grid.Column="0" Text="Font:" VerticalAlignment="Center" Padding="0,0,8,0" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_FontLabel}" VerticalAlignment="Center" Padding="0,0,8,0" />
                     <ComboBox x:Name="FontComboBox" Grid.Column="1"
                               xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                               ItemTemplate="{DynamicResource FontTemplate}"
@@ -307,7 +307,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="27" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Font size:" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_FontSizeLabel}" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <RepeatButton x:Name="DecreaseFontSizeRepeatButton"
                             Grid.Column="1"
                             Content="-"
@@ -333,7 +333,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Font color:" Padding="0,3,8,0" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_FontColorLabel}" Padding="0,3,8,0" />
                     <Button x:Name="FontColorRectangle"
                             Grid.Column="1"
                             Height="23"
@@ -348,7 +348,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Text alignment:" VerticalAlignment="Center" Padding="0,0,8,0" />
+                    <TextBlock Grid.Column="0" Text="{loc:Localize MainWindow_TextAlignmentLabel}" VerticalAlignment="Center" Padding="0,0,8,0" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <Button x:Name="LeftAlignmentButton"
                                 Tag="0"
@@ -390,41 +390,47 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="ShowHideWindowButton"
                     Grid.Column="0"
-                    Content="Hide YAKD window"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="ShowHideWindowButton_Click"
                     Margin="1,5,5,5" />
             <Button x:Name="MinimizeToTrayButton"
                     Grid.Column="1"
-                    Content="Minimize to tray"
+                    Content="{loc:Localize MainWindow_MinimizeToTrayButton}"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="MinimizeToTrayButton_Click"
                     Margin="5" />
             <Button x:Name="DefaultSettingsButton"
                     Grid.Column="2"
-                    Content="Reset settings"
+                    Content="{loc:Localize MainWindow_ResetSettingsButton}"
                     Style="{StaticResource VisualStudioButtonStyle}"
                     Click="DefaultSettingsButton_Click"
                     Margin="5,5,1,5" />
         </Grid>
 
-        <StackPanel Grid.Row="6"
-                    Orientation="Horizontal"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Margin="0,5,1,2">
-            <TextBlock HorizontalAlignment="Left"
-                       Text="YAKD v.1.5 by Jagailo - "
-                       VerticalAlignment="Top"
-                       FontSize="11" />
-            <TextBlock x:Name="AboutTextBlock"
-                       HorizontalAlignment="Left"
-                       Text="about"
-                       VerticalAlignment="Top"
-                       FontSize="11"
-                       Cursor="Hand"
-                       MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
-                       Style="{StaticResource HoverUnderlineStyle}" />
-        </StackPanel>
+        <Grid Grid.Row="6" VerticalAlignment="Bottom" Margin="0,4,2,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="LanguageButton"
+                    Grid.Column="0"
+                    Style="{StaticResource FlatIconButtonStyle}"
+                    ToolTip="{loc:Localize MainWindow_LanguageButtonToolTip}"
+                    Click="LanguageButton_Click">
+                <Viewbox Width="14" Height="14">
+                    <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M16.36,14C16.44,13.34 16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.19,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59,19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.91C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                </Viewbox>
+            </Button>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,0">
+                <TextBlock x:Name="VersionTextBlock" VerticalAlignment="Top" FontSize="11" />
+                <TextBlock x:Name="AboutTextBlock"
+                           Margin="3,0,0,0"
+                           VerticalAlignment="Top"
+                           FontSize="11"
+                           Cursor="Hand"
+                           MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"
+                           Style="{StaticResource HoverUnderlineStyle}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

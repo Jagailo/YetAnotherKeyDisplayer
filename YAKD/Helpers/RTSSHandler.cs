@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using YAKD.Localization;
 using MessageBox = System.Windows.Forms.MessageBox;
 using MessageBoxButton = System.Windows.Forms.MessageBoxButtons;
 using MessageBoxImage = System.Windows.Forms.MessageBoxIcon;
@@ -134,7 +135,7 @@ namespace YAKD.Helpers
             {
                 Logger.Write(exception);
 
-                MessageBox.Show(exception.Message, "Could not start RTSS", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, Strings.Rtss_StartErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -253,7 +254,7 @@ namespace YAKD.Helpers
             {
                 Logger.Write(exception);
 
-                MessageBox.Show(exception.Message, "Could not start OSD", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exception.Message, Strings.Rtss_OsdErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
