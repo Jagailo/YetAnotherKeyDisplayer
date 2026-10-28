@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Per-Monitor V2 DPI awareness.
 
 ### Changed
+- Maximum display delay increased to 7 seconds.
 - New Inno Setup installer with a modern wizard, localized pages, a .NET Framework 4.8.1 check and complete "Apps & features" information.
 - The project has been migrated to the SDK-style project format and the `.slnx` solution format.
 - The license is now the standard MIT License without additional terms.

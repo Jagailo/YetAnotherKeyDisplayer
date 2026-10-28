@@ -182,7 +182,7 @@
                     <Slider x:Name="DisplayDelaySlider"
                             Grid.Column="1"
                             LargeChange="100"
-                            Maximum="5000"
+                            Maximum="7000"
                             Minimum="0"
                             IsSnapToTickEnabled="True"
                             TickFrequency="50"
