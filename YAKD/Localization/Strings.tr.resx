@@ -117,4 +117,145 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ColorPickerWindow_Title" xml:space="preserve">
+    <value>Bir renk seçin</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="MainWindow_AboutLink" xml:space="preserve">
+    <value>daha fazla bilgi</value>
+  </data>
+  <data name="MainWindow_BackgroundColorLabel" xml:space="preserve">
+    <value>Arka plan rengi:</value>
+  </data>
+  <data name="MainWindow_ClickThroughWindowCheckBox" xml:space="preserve">
+    <value>Tıklamaları geçiren pencere</value>
+  </data>
+  <data name="MainWindow_DelayFormat" xml:space="preserve">
+    <value>{0} ms</value>
+  </data>
+  <data name="MainWindow_DelayLabel" xml:space="preserve">
+    <value>Gecikme:</value>
+  </data>
+  <data name="MainWindow_DemoKeysCheckBox" xml:space="preserve">
+    <value>Demo tuşlarını göster</value>
+  </data>
+  <data name="MainWindow_DisplayOnKeyPressedOnlyCheckBox" xml:space="preserve">
+    <value>Yalnızca bir tuşa basıldığında göster</value>
+  </data>
+  <data name="MainWindow_FixWindowCheckBox" xml:space="preserve">
+    <value>Pencere konumunu kilitle</value>
+  </data>
+  <data name="MainWindow_FontColorLabel" xml:space="preserve">
+    <value>Yazı tipi rengi:</value>
+  </data>
+  <data name="MainWindow_FontLabel" xml:space="preserve">
+    <value>Yazı tipi:</value>
+  </data>
+  <data name="MainWindow_FontSizeLabel" xml:space="preserve">
+    <value>Yazı tipi boyutu:</value>
+  </data>
+  <data name="MainWindow_HideWindowButton" xml:space="preserve">
+    <value>YAKD'yi gizle</value>
+  </data>
+  <data name="MainWindow_IgnoreLeftRightCheckBox" xml:space="preserve">
+    <value>Sol (L) ve Sağ (R) öneklerini yok say</value>
+  </data>
+  <data name="MainWindow_KeyDisplayerGroup" xml:space="preserve">
+    <value>Tuş Göstergesi</value>
+  </data>
+  <data name="MainWindow_KeysGroup" xml:space="preserve">
+    <value>Tuşlar</value>
+  </data>
+  <data name="MainWindow_LanguageButtonToolTip" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="MainWindow_MinimizeToTrayButton" xml:space="preserve">
+    <value>Sistem tepsisine küçült</value>
+  </data>
+  <data name="MainWindow_NewVersionLink" xml:space="preserve">
+    <value>yeni bir sürüm mevcut</value>
+  </data>
+  <data name="MainWindow_OpacityLabel" xml:space="preserve">
+    <value>Opaklık:</value>
+  </data>
+  <data name="MainWindow_ResetSettingsButton" xml:space="preserve">
+    <value>Ayarları sıfırla</value>
+  </data>
+  <data name="MainWindow_ResetSettingsCaption" xml:space="preserve">
+    <value>YAKD - Varsayılan ayarlar</value>
+  </data>
+  <data name="MainWindow_ResetSettingsMessage" xml:space="preserve">
+    <value>Ayarlarınızı sıfırlamak istediğinizden emin misiniz?</value>
+  </data>
+  <data name="MainWindow_ResizeCheckBox" xml:space="preserve">
+    <value>Yeniden boyutlandırmaya izin ver</value>
+  </data>
+  <data name="MainWindow_RtssRadioButton" xml:space="preserve">
+    <value>RivaTuner Statistics Server (tam ekran oyunlar için)</value>
+  </data>
+  <data name="MainWindow_SavingTitleSuffix" xml:space="preserve">
+    <value>[Kaydediliyor ...]</value>
+  </data>
+  <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
+    <value>Numpad için kısa ad</value>
+  </data>
+  <data name="MainWindow_ShowWindowButton" xml:space="preserve">
+    <value>YAKD'yi göster</value>
+  </data>
+  <data name="MainWindow_TextAlignmentLabel" xml:space="preserve">
+    <value>Metin hizalaması:</value>
+  </data>
+  <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
+    <value>Fareyi izle</value>
+  </data>
+  <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
+    <value>Tuş adları yerine ok sembolleri kullan (RTSS için kullanılamaz)</value>
+  </data>
+  <data name="MainWindow_VersionFormat" xml:space="preserve">
+    <value>YAKD v.{0}, Jagailo tarafından -</value>
+  </data>
+  <data name="MainWindow_WindowGroup" xml:space="preserve">
+    <value>YAKD penceresi</value>
+  </data>
+  <data name="MainWindow_WindowKeysGroup" xml:space="preserve">
+    <value>YAKD penceresi tuşları</value>
+  </data>
+  <data name="MainWindow_WindowRadioButton" xml:space="preserve">
+    <value>YAKD penceresi</value>
+  </data>
+  <data name="Rtss_OsdErrorCaption" xml:space="preserve">
+    <value>OSD başlatılamadı</value>
+  </data>
+  <data name="Rtss_StartErrorCaption" xml:space="preserve">
+    <value>RTSS başlatılamadı</value>
+  </data>
+  <data name="RtssWindow_Description" xml:space="preserve">
+    <value>RivaTuner Statistics Server (RTSS), basılan tuşları minimum performans kaybıyla doğrudan oyun içinde görüntülemenizi sağlayan bir programdır. Bu program üçüncü taraf bir geliştirici olan Guru3D.com tarafından geliştirilmektedir.</value>
+  </data>
+  <data name="RtssWindow_DownloadButton" xml:space="preserve">
+    <value>RTSS'yi indir</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundCaption" xml:space="preserve">
+    <value>RTSS.exe bulunamadı</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundMessage" xml:space="preserve">
+    <value>Bu dizinde RTSS.exe dosyası yok.</value>
+  </data>
+  <data name="RtssWindow_FolderDialogDescription" xml:space="preserve">
+    <value>'RTSS.exe' dosyasını içeren dizini seçin.</value>
+  </data>
+  <data name="RtssWindow_NotFoundInDirectoryFormat" xml:space="preserve">
+    <value>"{0}" dizininde RTSS.exe bulunamadı.</value>
+  </data>
+  <data name="RtssWindow_SpecifyPathButton" xml:space="preserve">
+    <value>RTSS.exe yolunu belirtin</value>
+  </data>
+  <data name="RtssWindow_Title" xml:space="preserve">
+    <value>Hata: RivaTuner Statistics Server bulunamadı</value>
+  </data>
 </root>

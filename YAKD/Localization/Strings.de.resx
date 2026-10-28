@@ -117,4 +117,145 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ColorPickerWindow_Title" xml:space="preserve">
+    <value>Farbe auswählen</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MainWindow_AboutLink" xml:space="preserve">
+    <value>mehr erfahren</value>
+  </data>
+  <data name="MainWindow_BackgroundColorLabel" xml:space="preserve">
+    <value>Hintergrundfarbe:</value>
+  </data>
+  <data name="MainWindow_ClickThroughWindowCheckBox" xml:space="preserve">
+    <value>Klicks durchlassen</value>
+  </data>
+  <data name="MainWindow_DelayFormat" xml:space="preserve">
+    <value>{0} ms</value>
+  </data>
+  <data name="MainWindow_DelayLabel" xml:space="preserve">
+    <value>Verzögerung:</value>
+  </data>
+  <data name="MainWindow_DemoKeysCheckBox" xml:space="preserve">
+    <value>Demo-Tasten anzeigen</value>
+  </data>
+  <data name="MainWindow_DisplayOnKeyPressedOnlyCheckBox" xml:space="preserve">
+    <value>Nur bei Tastendruck anzeigen</value>
+  </data>
+  <data name="MainWindow_FixWindowCheckBox" xml:space="preserve">
+    <value>Fensterposition sperren</value>
+  </data>
+  <data name="MainWindow_FontColorLabel" xml:space="preserve">
+    <value>Schriftfarbe:</value>
+  </data>
+  <data name="MainWindow_FontLabel" xml:space="preserve">
+    <value>Schriftart:</value>
+  </data>
+  <data name="MainWindow_FontSizeLabel" xml:space="preserve">
+    <value>Schriftgröße:</value>
+  </data>
+  <data name="MainWindow_HideWindowButton" xml:space="preserve">
+    <value>YAKD ausblenden</value>
+  </data>
+  <data name="MainWindow_IgnoreLeftRightCheckBox" xml:space="preserve">
+    <value>Präfixe Links (L) und Rechts (R) ignorieren</value>
+  </data>
+  <data name="MainWindow_KeyDisplayerGroup" xml:space="preserve">
+    <value>Tastenanzeige</value>
+  </data>
+  <data name="MainWindow_KeysGroup" xml:space="preserve">
+    <value>Tasten</value>
+  </data>
+  <data name="MainWindow_LanguageButtonToolTip" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="MainWindow_MinimizeToTrayButton" xml:space="preserve">
+    <value>Ins Tray minimieren</value>
+  </data>
+  <data name="MainWindow_NewVersionLink" xml:space="preserve">
+    <value>eine neue Version ist verfügbar</value>
+  </data>
+  <data name="MainWindow_OpacityLabel" xml:space="preserve">
+    <value>Deckkraft:</value>
+  </data>
+  <data name="MainWindow_ResetSettingsButton" xml:space="preserve">
+    <value>Alles zurücksetzen</value>
+  </data>
+  <data name="MainWindow_ResetSettingsCaption" xml:space="preserve">
+    <value>YAKD - Standardeinstellungen</value>
+  </data>
+  <data name="MainWindow_ResetSettingsMessage" xml:space="preserve">
+    <value>Möchten Sie Ihre Einstellungen wirklich zurücksetzen?</value>
+  </data>
+  <data name="MainWindow_ResizeCheckBox" xml:space="preserve">
+    <value>Größenänderung zulassen</value>
+  </data>
+  <data name="MainWindow_RtssRadioButton" xml:space="preserve">
+    <value>RivaTuner Statistics Server (für Vollbildspiele)</value>
+  </data>
+  <data name="MainWindow_SavingTitleSuffix" xml:space="preserve">
+    <value>[Speichern ...]</value>
+  </data>
+  <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
+    <value>Kurzname für Numpad</value>
+  </data>
+  <data name="MainWindow_ShowWindowButton" xml:space="preserve">
+    <value>YAKD einblenden</value>
+  </data>
+  <data name="MainWindow_TextAlignmentLabel" xml:space="preserve">
+    <value>Textausrichtung:</value>
+  </data>
+  <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
+    <value>Maus verfolgen</value>
+  </data>
+  <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
+    <value>Pfeilsymbole statt Tastennamen verwenden (nicht für RTSS verfügbar)</value>
+  </data>
+  <data name="MainWindow_VersionFormat" xml:space="preserve">
+    <value>YAKD v.{0} von Jagailo -</value>
+  </data>
+  <data name="MainWindow_WindowGroup" xml:space="preserve">
+    <value>YAKD-Fenster</value>
+  </data>
+  <data name="MainWindow_WindowKeysGroup" xml:space="preserve">
+    <value>Tasten des YAKD-Fensters</value>
+  </data>
+  <data name="MainWindow_WindowRadioButton" xml:space="preserve">
+    <value>YAKD-Fenster</value>
+  </data>
+  <data name="Rtss_OsdErrorCaption" xml:space="preserve">
+    <value>OSD konnte nicht gestartet werden</value>
+  </data>
+  <data name="Rtss_StartErrorCaption" xml:space="preserve">
+    <value>RTSS konnte nicht gestartet werden</value>
+  </data>
+  <data name="RtssWindow_Description" xml:space="preserve">
+    <value>RivaTuner Statistics Server (RTSS) ist ein Programm, mit dem gedrückte Tasten direkt im Spiel bei minimalem Leistungsverlust angezeigt werden können. Dieses Programm wird von einem Drittanbieter, Guru3D.com, entwickelt.</value>
+  </data>
+  <data name="RtssWindow_DownloadButton" xml:space="preserve">
+    <value>RTSS herunterladen</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundCaption" xml:space="preserve">
+    <value>RTSS.exe nicht gefunden</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundMessage" xml:space="preserve">
+    <value>In diesem Verzeichnis befindet sich keine RTSS.exe-Datei.</value>
+  </data>
+  <data name="RtssWindow_FolderDialogDescription" xml:space="preserve">
+    <value>Wählen Sie das Verzeichnis aus, das 'RTSS.exe' enthält.</value>
+  </data>
+  <data name="RtssWindow_NotFoundInDirectoryFormat" xml:space="preserve">
+    <value>RTSS.exe wurde im Verzeichnis "{0}" nicht gefunden.</value>
+  </data>
+  <data name="RtssWindow_SpecifyPathButton" xml:space="preserve">
+    <value>Pfad zu RTSS.exe angeben</value>
+  </data>
+  <data name="RtssWindow_Title" xml:space="preserve">
+    <value>Fehler: RivaTuner Statistics Server nicht gefunden</value>
+  </data>
 </root>

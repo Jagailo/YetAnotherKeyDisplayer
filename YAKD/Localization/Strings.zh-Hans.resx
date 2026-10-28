@@ -117,4 +117,145 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ColorPickerWindow_Title" xml:space="preserve">
+    <value>选择颜色</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="MainWindow_AboutLink" xml:space="preserve">
+    <value>了解更多</value>
+  </data>
+  <data name="MainWindow_BackgroundColorLabel" xml:space="preserve">
+    <value>背景颜色：</value>
+  </data>
+  <data name="MainWindow_ClickThroughWindowCheckBox" xml:space="preserve">
+    <value>鼠标点击穿透窗口</value>
+  </data>
+  <data name="MainWindow_DelayFormat" xml:space="preserve">
+    <value>{0} 毫秒</value>
+  </data>
+  <data name="MainWindow_DelayLabel" xml:space="preserve">
+    <value>延迟：</value>
+  </data>
+  <data name="MainWindow_DemoKeysCheckBox" xml:space="preserve">
+    <value>显示演示按键</value>
+  </data>
+  <data name="MainWindow_DisplayOnKeyPressedOnlyCheckBox" xml:space="preserve">
+    <value>仅在按下按键时显示</value>
+  </data>
+  <data name="MainWindow_FixWindowCheckBox" xml:space="preserve">
+    <value>锁定窗口位置</value>
+  </data>
+  <data name="MainWindow_FontColorLabel" xml:space="preserve">
+    <value>字体颜色：</value>
+  </data>
+  <data name="MainWindow_FontLabel" xml:space="preserve">
+    <value>字体：</value>
+  </data>
+  <data name="MainWindow_FontSizeLabel" xml:space="preserve">
+    <value>字号：</value>
+  </data>
+  <data name="MainWindow_HideWindowButton" xml:space="preserve">
+    <value>隐藏 YAKD 窗口</value>
+  </data>
+  <data name="MainWindow_IgnoreLeftRightCheckBox" xml:space="preserve">
+    <value>忽略左 (L) 和右 (R) 前缀</value>
+  </data>
+  <data name="MainWindow_KeyDisplayerGroup" xml:space="preserve">
+    <value>按键显示</value>
+  </data>
+  <data name="MainWindow_KeysGroup" xml:space="preserve">
+    <value>按键</value>
+  </data>
+  <data name="MainWindow_LanguageButtonToolTip" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="MainWindow_MinimizeToTrayButton" xml:space="preserve">
+    <value>最小化到托盘</value>
+  </data>
+  <data name="MainWindow_NewVersionLink" xml:space="preserve">
+    <value>有新版本可用</value>
+  </data>
+  <data name="MainWindow_OpacityLabel" xml:space="preserve">
+    <value>不透明度：</value>
+  </data>
+  <data name="MainWindow_ResetSettingsButton" xml:space="preserve">
+    <value>重置设置</value>
+  </data>
+  <data name="MainWindow_ResetSettingsCaption" xml:space="preserve">
+    <value>YAKD - 默认设置</value>
+  </data>
+  <data name="MainWindow_ResetSettingsMessage" xml:space="preserve">
+    <value>确定要重置设置吗？</value>
+  </data>
+  <data name="MainWindow_ResizeCheckBox" xml:space="preserve">
+    <value>允许调整大小</value>
+  </data>
+  <data name="MainWindow_RtssRadioButton" xml:space="preserve">
+    <value>RivaTuner Statistics Server（适用于全屏游戏）</value>
+  </data>
+  <data name="MainWindow_SavingTitleSuffix" xml:space="preserve">
+    <value>[正在保存...]</value>
+  </data>
+  <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
+    <value>小键盘使用简称</value>
+  </data>
+  <data name="MainWindow_ShowWindowButton" xml:space="preserve">
+    <value>显示 YAKD 窗口</value>
+  </data>
+  <data name="MainWindow_TextAlignmentLabel" xml:space="preserve">
+    <value>文本对齐：</value>
+  </data>
+  <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
+    <value>跟踪鼠标</value>
+  </data>
+  <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
+    <value>使用箭头符号代替按键名称（不适用于 RTSS）</value>
+  </data>
+  <data name="MainWindow_VersionFormat" xml:space="preserve">
+    <value>YAKD v.{0}，作者：Jagailo -</value>
+  </data>
+  <data name="MainWindow_WindowGroup" xml:space="preserve">
+    <value>YAKD 窗口</value>
+  </data>
+  <data name="MainWindow_WindowKeysGroup" xml:space="preserve">
+    <value>YAKD 窗口按键</value>
+  </data>
+  <data name="MainWindow_WindowRadioButton" xml:space="preserve">
+    <value>YAKD 窗口</value>
+  </data>
+  <data name="Rtss_OsdErrorCaption" xml:space="preserve">
+    <value>无法启动 OSD</value>
+  </data>
+  <data name="Rtss_StartErrorCaption" xml:space="preserve">
+    <value>无法启动 RTSS</value>
+  </data>
+  <data name="RtssWindow_Description" xml:space="preserve">
+    <value>RivaTuner Statistics Server (RTSS) 是一款能够以极小的性能损失直接在游戏中显示所按按键的程序。该程序由第三方 Guru3D.com 开发。</value>
+  </data>
+  <data name="RtssWindow_DownloadButton" xml:space="preserve">
+    <value>下载 RTSS</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundCaption" xml:space="preserve">
+    <value>未找到 RTSS.exe</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundMessage" xml:space="preserve">
+    <value>此目录中没有 RTSS.exe 文件。</value>
+  </data>
+  <data name="RtssWindow_FolderDialogDescription" xml:space="preserve">
+    <value>请选择包含 'RTSS.exe' 的目录。</value>
+  </data>
+  <data name="RtssWindow_NotFoundInDirectoryFormat" xml:space="preserve">
+    <value>在目录 "{0}" 中找不到 RTSS.exe。</value>
+  </data>
+  <data name="RtssWindow_SpecifyPathButton" xml:space="preserve">
+    <value>指定 RTSS.exe 的路径</value>
+  </data>
+  <data name="RtssWindow_Title" xml:space="preserve">
+    <value>错误：未找到 RivaTuner Statistics Server</value>
+  </data>
 </root>

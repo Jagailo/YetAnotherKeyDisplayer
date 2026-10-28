@@ -117,4 +117,145 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ColorPickerWindow_Title" xml:space="preserve">
+    <value>色の選択</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MainWindow_AboutLink" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="MainWindow_BackgroundColorLabel" xml:space="preserve">
+    <value>背景色:</value>
+  </data>
+  <data name="MainWindow_ClickThroughWindowCheckBox" xml:space="preserve">
+    <value>クリックをウィンドウの背後へ透過</value>
+  </data>
+  <data name="MainWindow_DelayFormat" xml:space="preserve">
+    <value>{0} ms</value>
+  </data>
+  <data name="MainWindow_DelayLabel" xml:space="preserve">
+    <value>遅延:</value>
+  </data>
+  <data name="MainWindow_DemoKeysCheckBox" xml:space="preserve">
+    <value>デモキーを表示</value>
+  </data>
+  <data name="MainWindow_DisplayOnKeyPressedOnlyCheckBox" xml:space="preserve">
+    <value>キーが押されたときのみ表示</value>
+  </data>
+  <data name="MainWindow_FixWindowCheckBox" xml:space="preserve">
+    <value>ウィンドウの位置を固定</value>
+  </data>
+  <data name="MainWindow_FontColorLabel" xml:space="preserve">
+    <value>フォントの色:</value>
+  </data>
+  <data name="MainWindow_FontLabel" xml:space="preserve">
+    <value>フォント:</value>
+  </data>
+  <data name="MainWindow_FontSizeLabel" xml:space="preserve">
+    <value>フォントサイズ:</value>
+  </data>
+  <data name="MainWindow_HideWindowButton" xml:space="preserve">
+    <value>YAKD ウィンドウを隠す</value>
+  </data>
+  <data name="MainWindow_IgnoreLeftRightCheckBox" xml:space="preserve">
+    <value>左 (L) と右 (R) の接頭辞を無視</value>
+  </data>
+  <data name="MainWindow_KeyDisplayerGroup" xml:space="preserve">
+    <value>キー表示</value>
+  </data>
+  <data name="MainWindow_KeysGroup" xml:space="preserve">
+    <value>キー</value>
+  </data>
+  <data name="MainWindow_LanguageButtonToolTip" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="MainWindow_MinimizeToTrayButton" xml:space="preserve">
+    <value>トレイに最小化</value>
+  </data>
+  <data name="MainWindow_NewVersionLink" xml:space="preserve">
+    <value>新しいバージョンがあります</value>
+  </data>
+  <data name="MainWindow_OpacityLabel" xml:space="preserve">
+    <value>不透明度:</value>
+  </data>
+  <data name="MainWindow_ResetSettingsButton" xml:space="preserve">
+    <value>設定をリセット</value>
+  </data>
+  <data name="MainWindow_ResetSettingsCaption" xml:space="preserve">
+    <value>YAKD - 既定の設定</value>
+  </data>
+  <data name="MainWindow_ResetSettingsMessage" xml:space="preserve">
+    <value>設定をリセットしてもよろしいですか?</value>
+  </data>
+  <data name="MainWindow_ResizeCheckBox" xml:space="preserve">
+    <value>サイズ変更を許可</value>
+  </data>
+  <data name="MainWindow_RtssRadioButton" xml:space="preserve">
+    <value>RivaTuner Statistics Server (フルスクリーンのゲーム用)</value>
+  </data>
+  <data name="MainWindow_SavingTitleSuffix" xml:space="preserve">
+    <value>[保存中 ...]</value>
+  </data>
+  <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
+    <value>テンキーに短い名前を使用</value>
+  </data>
+  <data name="MainWindow_ShowWindowButton" xml:space="preserve">
+    <value>YAKD ウィンドウを表示</value>
+  </data>
+  <data name="MainWindow_TextAlignmentLabel" xml:space="preserve">
+    <value>文字の配置:</value>
+  </data>
+  <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
+    <value>マウスを追跡</value>
+  </data>
+  <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
+    <value>キー名の代わりに矢印記号を使用 (RTSS では使用不可)</value>
+  </data>
+  <data name="MainWindow_VersionFormat" xml:space="preserve">
+    <value>YAKD v.{0} 作者: Jagailo -</value>
+  </data>
+  <data name="MainWindow_WindowGroup" xml:space="preserve">
+    <value>YAKD ウィンドウ</value>
+  </data>
+  <data name="MainWindow_WindowKeysGroup" xml:space="preserve">
+    <value>YAKD ウィンドウのキー</value>
+  </data>
+  <data name="MainWindow_WindowRadioButton" xml:space="preserve">
+    <value>YAKD ウィンドウ</value>
+  </data>
+  <data name="Rtss_OsdErrorCaption" xml:space="preserve">
+    <value>OSD を開始できませんでした</value>
+  </data>
+  <data name="Rtss_StartErrorCaption" xml:space="preserve">
+    <value>RTSS を起動できませんでした</value>
+  </data>
+  <data name="RtssWindow_Description" xml:space="preserve">
+    <value>RivaTuner Statistics Server (RTSS) は、パフォーマンスの低下を最小限に抑えながら、押されたキーをゲーム内に直接表示できるプログラムです。このプログラムはサードパーティである Guru3D.com によって開発されています。</value>
+  </data>
+  <data name="RtssWindow_DownloadButton" xml:space="preserve">
+    <value>RTSS をダウンロード</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundCaption" xml:space="preserve">
+    <value>RTSS.exe が見つかりません</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundMessage" xml:space="preserve">
+    <value>このディレクトリに RTSS.exe ファイルがありません。</value>
+  </data>
+  <data name="RtssWindow_FolderDialogDescription" xml:space="preserve">
+    <value>'RTSS.exe' が含まれているディレクトリを選択してください。</value>
+  </data>
+  <data name="RtssWindow_NotFoundInDirectoryFormat" xml:space="preserve">
+    <value>ディレクトリ "{0}" に RTSS.exe が見つかりませんでした。</value>
+  </data>
+  <data name="RtssWindow_SpecifyPathButton" xml:space="preserve">
+    <value>RTSS.exe のパスを指定</value>
+  </data>
+  <data name="RtssWindow_Title" xml:space="preserve">
+    <value>エラー: RivaTuner Statistics Server が見つかりません</value>
+  </data>
 </root>

@@ -117,4 +117,145 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ColorPickerWindow_Title" xml:space="preserve">
+    <value>Choisir une couleur</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MainWindow_AboutLink" xml:space="preserve">
+    <value>en savoir plus</value>
+  </data>
+  <data name="MainWindow_BackgroundColorLabel" xml:space="preserve">
+    <value>Couleur de fond :</value>
+  </data>
+  <data name="MainWindow_ClickThroughWindowCheckBox" xml:space="preserve">
+    <value>Fenêtre transparente aux clics</value>
+  </data>
+  <data name="MainWindow_DelayFormat" xml:space="preserve">
+    <value>{0} ms</value>
+  </data>
+  <data name="MainWindow_DelayLabel" xml:space="preserve">
+    <value>Délai :</value>
+  </data>
+  <data name="MainWindow_DemoKeysCheckBox" xml:space="preserve">
+    <value>Afficher des touches démo</value>
+  </data>
+  <data name="MainWindow_DisplayOnKeyPressedOnlyCheckBox" xml:space="preserve">
+    <value>Afficher à l'appui d'une touche</value>
+  </data>
+  <data name="MainWindow_FixWindowCheckBox" xml:space="preserve">
+    <value>Verrouiller la position de la fenêtre</value>
+  </data>
+  <data name="MainWindow_FontColorLabel" xml:space="preserve">
+    <value>Couleur de la police :</value>
+  </data>
+  <data name="MainWindow_FontLabel" xml:space="preserve">
+    <value>Police :</value>
+  </data>
+  <data name="MainWindow_FontSizeLabel" xml:space="preserve">
+    <value>Taille de la police :</value>
+  </data>
+  <data name="MainWindow_HideWindowButton" xml:space="preserve">
+    <value>Masquer YAKD</value>
+  </data>
+  <data name="MainWindow_IgnoreLeftRightCheckBox" xml:space="preserve">
+    <value>Ignorer les préfixes Gauche (L) et Droite (R)</value>
+  </data>
+  <data name="MainWindow_KeyDisplayerGroup" xml:space="preserve">
+    <value>Affichage des touches</value>
+  </data>
+  <data name="MainWindow_KeysGroup" xml:space="preserve">
+    <value>Touches</value>
+  </data>
+  <data name="MainWindow_LanguageButtonToolTip" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="MainWindow_MinimizeToTrayButton" xml:space="preserve">
+    <value>Réduire dans le tray</value>
+  </data>
+  <data name="MainWindow_NewVersionLink" xml:space="preserve">
+    <value>une nouvelle version est disponible</value>
+  </data>
+  <data name="MainWindow_OpacityLabel" xml:space="preserve">
+    <value>Opacité :</value>
+  </data>
+  <data name="MainWindow_ResetSettingsButton" xml:space="preserve">
+    <value>Tout réinitialiser</value>
+  </data>
+  <data name="MainWindow_ResetSettingsCaption" xml:space="preserve">
+    <value>YAKD - Paramètres par défaut</value>
+  </data>
+  <data name="MainWindow_ResetSettingsMessage" xml:space="preserve">
+    <value>Voulez-vous vraiment réinitialiser vos paramètres ?</value>
+  </data>
+  <data name="MainWindow_ResizeCheckBox" xml:space="preserve">
+    <value>Autoriser le redimensionnement</value>
+  </data>
+  <data name="MainWindow_RtssRadioButton" xml:space="preserve">
+    <value>RivaTuner Statistics Server (pour les jeux en plein écran)</value>
+  </data>
+  <data name="MainWindow_SavingTitleSuffix" xml:space="preserve">
+    <value>[Enregistrement ...]</value>
+  </data>
+  <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
+    <value>Nom court pour le pavé numérique</value>
+  </data>
+  <data name="MainWindow_ShowWindowButton" xml:space="preserve">
+    <value>Afficher YAKD</value>
+  </data>
+  <data name="MainWindow_TextAlignmentLabel" xml:space="preserve">
+    <value>Alignement du texte :</value>
+  </data>
+  <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
+    <value>Suivre la souris</value>
+  </data>
+  <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
+    <value>Afficher des flèches au lieu des noms de touches (sauf RTSS)</value>
+  </data>
+  <data name="MainWindow_VersionFormat" xml:space="preserve">
+    <value>YAKD v.{0} par Jagailo -</value>
+  </data>
+  <data name="MainWindow_WindowGroup" xml:space="preserve">
+    <value>Fenêtre YAKD</value>
+  </data>
+  <data name="MainWindow_WindowKeysGroup" xml:space="preserve">
+    <value>Touches de la fenêtre YAKD</value>
+  </data>
+  <data name="MainWindow_WindowRadioButton" xml:space="preserve">
+    <value>Fenêtre YAKD</value>
+  </data>
+  <data name="Rtss_OsdErrorCaption" xml:space="preserve">
+    <value>Impossible de démarrer l'OSD</value>
+  </data>
+  <data name="Rtss_StartErrorCaption" xml:space="preserve">
+    <value>Impossible de démarrer RTSS</value>
+  </data>
+  <data name="RtssWindow_Description" xml:space="preserve">
+    <value>RivaTuner Statistics Server (RTSS) est un programme qui permet d'afficher les touches enfoncées directement en jeu avec une perte de performances minimale. Ce programme est développé par un tiers, Guru3D.com.</value>
+  </data>
+  <data name="RtssWindow_DownloadButton" xml:space="preserve">
+    <value>Télécharger RTSS</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundCaption" xml:space="preserve">
+    <value>RTSS.exe introuvable</value>
+  </data>
+  <data name="RtssWindow_FileNotFoundMessage" xml:space="preserve">
+    <value>Ce dossier ne contient aucun fichier RTSS.exe.</value>
+  </data>
+  <data name="RtssWindow_FolderDialogDescription" xml:space="preserve">
+    <value>Sélectionnez le dossier contenant 'RTSS.exe'.</value>
+  </data>
+  <data name="RtssWindow_NotFoundInDirectoryFormat" xml:space="preserve">
+    <value>RTSS.exe est introuvable dans le dossier "{0}".</value>
+  </data>
+  <data name="RtssWindow_SpecifyPathButton" xml:space="preserve">
+    <value>Indiquer le chemin de RTSS.exe</value>
+  </data>
+  <data name="RtssWindow_Title" xml:space="preserve">
+    <value>Erreur : RivaTuner Statistics Server introuvable</value>
+  </data>
 </root>

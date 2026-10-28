@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="YAKD - Yet Another Key Displayer"
         Height="660"
-        Width="510"
+        Width="520"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         Foreground="#1E1E1E"

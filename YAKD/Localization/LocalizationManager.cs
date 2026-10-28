@@ -89,12 +89,20 @@ namespace YAKD.Localization
         #region Methods
 
         /// <summary>
-        /// Applies the saved language or, if it is not set or not supported, the language closest to the system one.
+        /// Applies the saved language or, if it is not set or not supported, the default one.
         /// </summary>
         /// <param name="cultureName">Saved culture name.</param>
         public void Initialize(string cultureName)
         {
-            SetLanguage(FindLanguage(cultureName) ?? FindSystemLanguage());
+            SetLanguage(FindLanguage(cultureName) ?? DefaultLanguage);
+        }
+
+        /// <summary>
+        /// Restores the default interface language.
+        /// </summary>
+        public void ResetLanguage()
+        {
+            SetLanguage(DefaultLanguage);
         }
 
         /// <summary>
@@ -121,15 +129,6 @@ namespace YAKD.Localization
         private LanguageModel FindLanguage(string cultureName)
         {
             return SupportedLanguages.FirstOrDefault(x => string.Equals(x.CultureName, cultureName, StringComparison.OrdinalIgnoreCase));
-        }
-
-        private LanguageModel FindSystemLanguage()
-        {
-            var systemCulture = CultureInfo.CurrentUICulture;
-
-            return FindLanguage(systemCulture.Name)
-                   ?? SupportedLanguages.FirstOrDefault(x => CultureInfo.GetCultureInfo(x.CultureName).TwoLetterISOLanguageName == systemCulture.TwoLetterISOLanguageName)
-                   ?? DefaultLanguage;
         }
 
         #endregion

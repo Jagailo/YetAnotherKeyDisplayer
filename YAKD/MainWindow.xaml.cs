@@ -395,6 +395,8 @@ namespace YAKD
             {
                 _keysSettings = new KeysSettings();
                 _settings = new KeyDisplayerSettings { MouseEnabled = _keysSettings.IsMouseEnabled };
+                _language = null;
+                LocalizationManager.Instance.ResetLanguage();
                 _keyDisplayerForm.Close();
                 InitializeKeyDisplayerForm();
                 _keyDisplayerForm.Show();
