@@ -213,6 +213,9 @@
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Rastrear o mouse</value>
   </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Sair</value>
+  </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Usar setas em vez de nomes de teclas (exceto no RTSS)</value>
   </data>

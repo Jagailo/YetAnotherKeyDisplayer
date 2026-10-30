@@ -202,7 +202,7 @@
     <value>[Kaydediliyor ...]</value>
   </data>
   <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
-    <value>Numpad için kısa ad</value>
+    <value>NumPad için kısa ad</value>
   </data>
   <data name="MainWindow_ShowWindowButton" xml:space="preserve">
     <value>YAKD'yi göster</value>
@@ -212,6 +212,9 @@
   </data>
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Fareyi izle</value>
+  </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Çıkış</value>
   </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Tuş adları yerine ok sembolleri kullan (RTSS için kullanılamaz)</value>

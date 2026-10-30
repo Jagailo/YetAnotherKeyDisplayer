@@ -213,6 +213,9 @@
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Śledź mysz</value>
   </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Zakończ</value>
+  </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Używaj symboli strzałek zamiast nazw klawiszy (niedostępne dla RTSS)</value>
   </data>

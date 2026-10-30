@@ -1,4 +1,4 @@
-; Inno Setup 6 script. Build the solution in Release|Any CPU before compiling.
+; Inno Setup 6.7+ script. Build the solution in Release|Any CPU before compiling, see BUILDING.md.
 
 #define AppExeName "YAKD.exe"
 #define BinDir SourcePath + "..\YAKD\bin\Release"
@@ -39,6 +39,8 @@ SolidCompression=yes
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
+; Not shipped with Inno Setup 6.7, taken from https://github.com/jrsoftware/issrc/tree/main/Files/Languages.
+Name: "chinesesimplified"; MessagesFile: "Languages\ChineseSimplified.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"

@@ -202,16 +202,19 @@
     <value>[Сохранение ...]</value>
   </data>
   <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
-    <value>Короткое название для Numpad</value>
+    <value>Короткое название для NumPad</value>
   </data>
   <data name="MainWindow_ShowWindowButton" xml:space="preserve">
     <value>Показать окно YAKD</value>
   </data>
   <data name="MainWindow_TextAlignmentLabel" xml:space="preserve">
-    <value>Выравнивание текста:</value>
+    <value>Выравнивание:</value>
   </data>
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Отслеживать мышь</value>
+  </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Выход</value>
   </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Показывать стрелки вместо названий клавиш (кроме RTSS)</value>

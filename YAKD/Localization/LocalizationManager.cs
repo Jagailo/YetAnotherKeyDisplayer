@@ -18,6 +18,8 @@ namespace YAKD.Localization
 
         private static readonly LanguageModel DefaultLanguage = new LanguageModel("en-US", "English");
 
+        private readonly CultureInfo _systemUiCulture;
+
         #endregion
 
         #region Properties
@@ -64,6 +66,9 @@ namespace YAKD.Localization
 
         private LocalizationManager()
         {
+            // Captured before SetLanguage overrides the UI culture of the process.
+            _systemUiCulture = CultureInfo.CurrentUICulture;
+
             // Ordered by native name: Latin script alphabetically, then Cyrillic, then CJK.
             SupportedLanguages = new[]
             {
@@ -89,20 +94,20 @@ namespace YAKD.Localization
         #region Methods
 
         /// <summary>
-        /// Applies the saved language or, if it is not set or not supported, the default one.
+        /// Applies the saved language or, if it is not set or not supported, the Windows display language or the default one.
         /// </summary>
         /// <param name="cultureName">Saved culture name.</param>
         public void Initialize(string cultureName)
         {
-            SetLanguage(FindLanguage(cultureName) ?? DefaultLanguage);
+            SetLanguage(FindLanguage(cultureName) ?? FindSystemLanguage() ?? DefaultLanguage);
         }
 
         /// <summary>
-        /// Restores the default interface language.
+        /// Restores the Windows display language or, if it is not supported, the default one.
         /// </summary>
         public void ResetLanguage()
         {
-            SetLanguage(DefaultLanguage);
+            SetLanguage(FindSystemLanguage() ?? DefaultLanguage);
         }
 
         /// <summary>
@@ -129,6 +134,22 @@ namespace YAKD.Localization
         private LanguageModel FindLanguage(string cultureName)
         {
             return SupportedLanguages.FirstOrDefault(x => string.Equals(x.CultureName, cultureName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private LanguageModel FindSystemLanguage()
+        {
+            for (var culture = _systemUiCulture; !string.IsNullOrEmpty(culture.Name); culture = culture.Parent)
+            {
+                var language = FindLanguage(culture.Name);
+                if (language != null)
+                {
+                    return language;
+                }
+            }
+
+            var languageCode = _systemUiCulture.TwoLetterISOLanguageName;
+
+            return SupportedLanguages.FirstOrDefault(x => CultureInfo.GetCultureInfo(x.CultureName).TwoLetterISOLanguageName == languageCode);
         }
 
         #endregion

@@ -213,6 +213,9 @@
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Suivre la souris</value>
   </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Afficher des flèches au lieu des noms de touches (sauf RTSS)</value>
   </data>

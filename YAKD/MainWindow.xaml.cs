@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +15,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using YAKD.Enums;
 using YAKD.Helpers;
 using YAKD.Hooks.Keyboard;
@@ -55,6 +55,8 @@ namespace YAKD
         private readonly List<KeyModel> _keys;
 
         private System.Windows.Forms.NotifyIcon _notifyIcon;
+
+        private System.Windows.Forms.ToolStripMenuItem _exitMenuItem;
 
         private string _language;
 
@@ -426,6 +428,7 @@ namespace YAKD
                 LanguageButton.IsHitTestVisible = false;
                 LanguageButton.Tag = "1";
             };
+
             menu.Closed += (s, args) =>
             {
                 LanguageButton.Tag = "0";
@@ -435,6 +438,7 @@ namespace YAKD
                     Mouse.Synchronize();
                 }, DispatcherPriority.Input);
             };
+
             menu.IsOpen = true;
         }
 
@@ -474,6 +478,7 @@ namespace YAKD
             _keyDisplayerForm.Close();
             SaveSettingsToFile(Properties.Settings.Default);
 
+            _notifyIcon.ContextMenuStrip.Dispose();
             _notifyIcon.Dispose();
         }
 
@@ -527,11 +532,20 @@ namespace YAKD
         {
             _notifyIcon = new System.Windows.Forms.NotifyIcon();
             _notifyIcon.Text = "Yet Another Key Displayer";
-            _notifyIcon.Click += (s, args) =>
+            _notifyIcon.MouseClick += (s, args) =>
             {
-                Show();
-                _notifyIcon.Visible = false;
+                if (args.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    Show();
+                    _notifyIcon.Visible = false;
+                }
             };
+
+            // The menu has to finish handling the click before Window_Closing disposes it together with the icon.
+            _exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            _exitMenuItem.Click += (s, args) => Dispatcher.BeginInvoke(new Action(Close));
+            _notifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+            _notifyIcon.ContextMenuStrip.Items.Add(_exitMenuItem);
 
             using (var iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Images/Icons/main-icon.ico"))?.Stream)
             {
@@ -562,6 +576,7 @@ namespace YAKD
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             VersionTextBlock.Text = string.Format(Strings.MainWindow_VersionFormat, $"{version.Major}.{version.Minor}");
+            _exitMenuItem.Text = Strings.MainWindow_TrayExitMenuItem;
 
             UpdateShowHideWindowButton();
             UpdateDisplayDelayTextBlock();
@@ -779,9 +794,8 @@ namespace YAKD
             }
             catch (Exception exception)
             {
+                // Called from the low-level hook callback: a modal dialog here would block system-wide input.
                 Logger.Write(exception);
-
-                MessageBox.Show(exception.Message, exception.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -875,10 +889,14 @@ namespace YAKD
             {
                 try
                 {
-                    var version = Convert.ToInt16(Assembly.GetExecutingAssembly().GetName().Version.ToString().Replace(".", string.Empty));
-                    var json = new WebClient().DownloadString("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/version.json");
+                    string json;
+                    using (var webClient = new WebClient())
+                    {
+                        json = webClient.DownloadString("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/version.json");
+                    }
+
                     var cloudVersion = JsonConvert.DeserializeObject<VersionModel>(json);
-                    if (version < cloudVersion.Version)
+                    if (Version.TryParse(cloudVersion?.LatestVersion, out var latestVersion) && Assembly.GetExecutingAssembly().GetName().Version < latestVersion)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                         {

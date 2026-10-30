@@ -202,7 +202,7 @@
     <value>[Speichern ...]</value>
   </data>
   <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
-    <value>Kurzname für Numpad</value>
+    <value>Kurzname für NumPad</value>
   </data>
   <data name="MainWindow_ShowWindowButton" xml:space="preserve">
     <value>YAKD einblenden</value>
@@ -212,6 +212,9 @@
   </data>
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Maus verfolgen</value>
+  </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Beenden</value>
   </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Pfeilsymbole statt Tastennamen verwenden (nicht für RTSS verfügbar)</value>

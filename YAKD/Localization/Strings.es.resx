@@ -213,6 +213,9 @@
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Rastrear el ratón</value>
   </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Salir</value>
+  </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Usar flechas en vez de nombres de teclas (excepto en RTSS)</value>
   </data>

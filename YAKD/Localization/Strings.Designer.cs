@@ -378,7 +378,7 @@ namespace YAKD.Localization
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Short name for Numpad.
+        ///   Looks up a localized string similar to Short name for NumPad.
         /// </summary>
         public static string MainWindow_ShortNameForNumpadCheckBox
         {
@@ -418,6 +418,17 @@ namespace YAKD.Localization
             get
             {
                 return ResourceManager.GetString("MainWindow_TrackMouseCheckBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string MainWindow_TrayExitMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("MainWindow_TrayExitMenuItem", resourceCulture);
             }
         }
         

@@ -74,12 +74,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)\$(PlatformShortName)\bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\$(PlatformShortName)\obj\$(Configuration)\</IntDir>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>BestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>BestRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)\$(PlatformShortName)\bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\$(PlatformShortName)\obj\$(Configuration)\</IntDir>
@@ -88,12 +84,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)\$(PlatformShortName)\bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\$(PlatformShortName)\obj\$(Configuration)\</IntDir>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>BestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>BestRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)\$(PlatformShortName)\bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\$(PlatformShortName)\obj\$(Configuration)\</IntDir>

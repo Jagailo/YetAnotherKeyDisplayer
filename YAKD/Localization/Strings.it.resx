@@ -213,6 +213,9 @@
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Traccia il mouse</value>
   </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Esci</value>
+  </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Usa simboli freccia invece dei nomi dei tasti (non disponibile per RTSS)</value>
   </data>

@@ -3,18 +3,30 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [1.6] - Unreleased
+## [1.6] - 2026-10-30
 
 ### Added
-- Interface language selection with support for 12 languages (translations are in progress).
+- Interface in 12 languages: English, German, Spanish, French, Italian, Polish, Portuguese (Brazil), Turkish, Russian, Japanese, Chinese (Simplified) and Korean ([#38](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/38), [#44](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/44)).
+- Language selection button. Until a language is chosen, the interface follows the Windows display language.
+- "Exit" item in the context menu of the tray icon ([#42](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/42)).
 - Version, publisher and copyright information in the file properties of all binaries.
-- Per-Monitor V2 DPI awareness.
+- Per-Monitor V2 DPI awareness for sharp rendering on high-DPI and mixed-DPI displays.
+- Build and release instructions in [BUILDING.md](BUILDING.md).
 
 ### Changed
-- Maximum display delay increased to 7 seconds.
-- New Inno Setup installer with a modern wizard, localized pages, a .NET Framework 4.8.1 check and complete "Apps & features" information.
+- Maximum display delay increased to 7 seconds ([#45](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/45)).
+- New Inno Setup installer replaces the NSIS one: modern wizard, 12 languages, .NET Framework 4.8.1 check and complete "Apps & features" information. Installing over 1.5 keeps the installation folder and removes the old uninstaller and shortcuts.
+- Punctuation keys are shown with their unshifted US layout characters (`;` `'` `,` `.` `=` `/` `` ` ``) instead of a mix of shifted and unshifted ones. The extra key next to the left Shift on ISO keyboards is shown as `\` instead of `/`.
+- Numpad keys are named "NumPad", and the short name option shows "Num 5" instead of "Pad 5".
+- The update check compares full version numbers.
 - The project has been migrated to the SDK-style project format and the `.slnx` solution format.
 - The license is now the standard MIT License without additional terms.
+
+### Fixed
+- Mouse wheel scrolling was not detected on high-resolution mice and touchpads.
+- Keyboard and mouse hooks of a hidden YAKD window stayed active, which could slow down input after the window had been shown and hidden several times.
+- An RTSS error could open a message box while a key was held down, blocking keyboard and mouse input.
+- Display delay did not work correctly: a released key disappeared early on any other key event and stayed on screen next to a newly pressed key. Now a released key is shown for the whole delay or until the next key press.
 
 ## [1.5] - 2026-06-08
 
@@ -85,7 +97,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - First release.
 
-[1.6]: https://github.com/Jagailo/YetAnotherKeyDisplayer/compare/1.5...dev
+[1.6]: https://github.com/Jagailo/YetAnotherKeyDisplayer/compare/1.5...1.6
 [1.5]: https://github.com/Jagailo/YetAnotherKeyDisplayer/compare/1.4...1.5
 [1.4]: https://github.com/Jagailo/YetAnotherKeyDisplayer/compare/1.3...1.4
 [1.3]: https://github.com/Jagailo/YetAnotherKeyDisplayer/compare/1.2.1...1.3

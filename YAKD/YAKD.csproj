@@ -7,9 +7,8 @@
     <LangVersion>7.3</LangVersion>
     <RootNamespace>YAKD</RootNamespace>
     <AssemblyName>YAKD</AssemblyName>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <!-- RTSSSharedMemoryNET is built as x86 for Any CPU, so the process has to stay 32-bit. -->
-    <Prefer32Bit>true</Prefer32Bit>
+    <!-- RTSSSharedMemoryNET is a mixed-mode x86 assembly, so the process has to be 32-bit. -->
+    <PlatformTarget>x86</PlatformTarget>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <ApplicationIcon>Images\Icons\main-icon.ico</ApplicationIcon>
@@ -24,7 +23,7 @@
     <AssemblyTitle>Yet Another Key Displayer</AssemblyTitle>
     <Product>Yet Another Key Displayer</Product>
     <Description>Displays pressed keyboard and mouse keys in a window or in the RTSS overlay.</Description>
-    <Company>Alexey Yagelo</Company>
+    <Company>Jagailo</Company>
     <Authors>Alexey Yagelo</Authors>
     <Copyright>Copyright © 2018–2026 Alexey Yagelo</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>

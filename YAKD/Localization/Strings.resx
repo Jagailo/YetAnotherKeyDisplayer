@@ -204,7 +204,7 @@
     <comment>Appended to the window title while settings are being saved on exit.</comment>
   </data>
   <data name="MainWindow_ShortNameForNumpadCheckBox" xml:space="preserve">
-    <value>Short name for Numpad</value>
+    <value>Short name for NumPad</value>
   </data>
   <data name="MainWindow_ShowWindowButton" xml:space="preserve">
     <value>Show YAKD window</value>
@@ -214,6 +214,9 @@
   </data>
   <data name="MainWindow_TrackMouseCheckBox" xml:space="preserve">
     <value>Track mouse</value>
+  </data>
+  <data name="MainWindow_TrayExitMenuItem" xml:space="preserve">
+    <value>Exit</value>
   </data>
   <data name="MainWindow_UseArrowIconsCheckBox" xml:space="preserve">
     <value>Use arrow symbols instead of key names (not available for RTSS)</value>

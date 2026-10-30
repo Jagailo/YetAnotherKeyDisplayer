@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -18,11 +18,12 @@ namespace YAKD.Hooks.Mouse
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct MOUSEHOOKSTRUCT
+        private struct MSLLHOOKSTRUCT
         {
             private readonly Point pt;
-            public IntPtr hwnd;
-            private readonly uint wHitTestCode;
+            public readonly uint mouseData;
+            private readonly uint flags;
+            private readonly uint time;
             private readonly IntPtr dwExtraInfo;
         }
 
@@ -33,13 +34,13 @@ namespace YAKD.Hooks.Mouse
         private static extern int UnhookWindowsHookEx(IntPtr hook);
 
         [DllImport("user32.dll")]
-        private static extern int CallNextHookEx(IntPtr hook, int code, IntPtr wParam, ref MOUSEHOOKSTRUCT lParam);
+        private static extern int CallNextHookEx(IntPtr hook, int code, IntPtr wParam, ref MSLLHOOKSTRUCT lParam);
 
         private const HookType HookType = Enums.HookType.WH_MOUSE_LL;
         private IntPtr _hookHandle = IntPtr.Zero;
         private readonly HookProc _hookFunction;
 
-        private delegate int HookProc(int code, IntPtr wParam, ref MOUSEHOOKSTRUCT lParam);
+        private delegate int HookProc(int code, IntPtr wParam, ref MSLLHOOKSTRUCT lParam);
 
         public delegate void HookEventHandler(object sender, MouseHookEventArgs e);
 
@@ -63,43 +64,58 @@ namespace YAKD.Hooks.Mouse
             Uninstall();
         }
 
-        private int HookCallback(int code, IntPtr wParam, ref MOUSEHOOKSTRUCT lParam)
+        private int HookCallback(int code, IntPtr wParam, ref MSLLHOOKSTRUCT lParam)
         {
             var mouseParam = (MouseMessage)wParam;
+
+            // The high word of mouseData holds the X button number or the signed wheel delta, which is not always a multiple of WHEEL_DELTA.
+            var highWord = (short)(lParam.mouseData >> 16);
             switch (mouseParam)
             {
                 case MouseMessage.WM_LBUTTONDOWN:
                 case MouseMessage.WM_RBUTTONDOWN:
                 case MouseMessage.WM_MBUTTONDOWN:
+                {
                     KeyDown?.Invoke(this, new MouseHookEventArgs(MouseButtonsConverter.GetButtonName(mouseParam)));
+
                     break;
+                }
                 case MouseMessage.WM_LBUTTONUP:
                 case MouseMessage.WM_RBUTTONUP:
                 case MouseMessage.WM_MBUTTONUP:
+                {
                     KeyUp?.Invoke(this, new MouseHookEventArgs(MouseButtonsConverter.GetButtonName(mouseParam)));
+
                     break;
-                case MouseMessage.WM_XBUTTONDOWN when lParam.hwnd.Equals((IntPtr)0x00010000):
-                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 1"));
+                }
+                case MouseMessage.WM_XBUTTONDOWN when highWord == 1 || highWord == 2:
+                {
+                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} {highWord}"));
+
                     break;
-                case MouseMessage.WM_XBUTTONUP when lParam.hwnd.Equals((IntPtr)0x00010000):
-                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 1"));
+                }
+                case MouseMessage.WM_XBUTTONUP when highWord == 1 || highWord == 2:
+                {
+                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} {highWord}"));
+
                     break;
-                case MouseMessage.WM_XBUTTONDOWN when lParam.hwnd.Equals((IntPtr)0x00020000):
-                    KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 2"));
-                    break;
-                case MouseMessage.WM_XBUTTONUP when lParam.hwnd.Equals((IntPtr)0x00020000):
-                    KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} 2"));
-                    break;
-                case MouseMessage.WM_MOUSEWHEEL when lParam.hwnd.Equals((IntPtr)(-0x00780000)):
+                }
+                case MouseMessage.WM_MOUSEWHEEL when highWord < 0:
+                {
                     KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Up"));
                     KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Down"));
                     StopMouseWheelAsync("Down");
+
                     break;
-                case MouseMessage.WM_MOUSEWHEEL when lParam.hwnd.Equals((IntPtr)0x00780000):
+                }
+                case MouseMessage.WM_MOUSEWHEEL when highWord > 0:
+                {
                     KeyUp?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Down"));
                     KeyDown?.Invoke(this, new MouseHookEventArgs($"{MouseButtonsConverter.GetButtonName(mouseParam)} Up"));
                     StopMouseWheelAsync("Up");
+
                     break;
+                }
             }
 
             return CallNextHookEx(_hookHandle, code, wParam, ref lParam);

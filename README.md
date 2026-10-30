@@ -6,7 +6,7 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 [![Downloads](https://img.shields.io/github/downloads/Jagailo/YetAnotherKeyDisplayer/total)](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
 
 #### 💻 20000+ installs 💖
-#### Download installer: [YAKD v.1.5 [986 KB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.5/YAKD_1.5_installer.exe)
+#### Download installer: [YAKD v.1.6 [2.6 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.6/YAKD_1.6.0_installer.exe)
 
 ## Key features
 * Capture keyboard and mouse;
@@ -37,6 +37,9 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 
 ## Как использовать (russian tutorial)
 [![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
+
+## Building from source
+The required tools, build steps, installer creation and the release checklist are described in [BUILDING.md](BUILDING.md).
 
 ## Credits
 * Used [RTSS shared memory](https://github.com/spencerhakim/RTSSSharedMemoryNET) library written by [@spencerhakim](https://github.com/spencerhakim).
