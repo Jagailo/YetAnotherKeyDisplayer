@@ -3,12 +3,12 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [1.6] - 2026-10-30
+## [1.6] - 2026-11-01
 
 ### Added
 - Interface in 12 languages: English, German, Spanish, French, Italian, Polish, Portuguese (Brazil), Turkish, Russian, Japanese, Chinese (Simplified) and Korean ([#38](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/38), [#44](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/44)).
 - Language selection button. Until a language is chosen, the interface follows the Windows display language.
-- "Exit" item in the context menu of the tray icon ([#42](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/42)).
+- "Exit" item in the context menu of the tray icon ([#42](https://github.com/Jagailo/YetAnotherKeyDisplayer/issues/42)), which is opened by a right click; a left click still restores the window.
 - Version, publisher and copyright information in the file properties of all binaries.
 - Per-Monitor V2 DPI awareness for sharp rendering on high-DPI and mixed-DPI displays.
 - Build and release instructions in [BUILDING.md](BUILDING.md).
@@ -18,12 +18,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - New Inno Setup installer replaces the NSIS one: modern wizard, 12 languages, .NET Framework 4.8.1 check and complete "Apps & features" information. Installing over 1.5 keeps the installation folder and removes the old uninstaller and shortcuts.
 - Punctuation keys are shown with their unshifted US layout characters (`;` `'` `,` `.` `=` `/` `` ` ``) instead of a mix of shifted and unshifted ones. The extra key next to the left Shift on ISO keyboards is shown as `\` instead of `/`.
 - Numpad keys are named "NumPad", and the short name option shows "Num 5" instead of "Pad 5".
+- The Print Screen key is shown as `Print Screen` instead of `PtrScr`.
 - The update check compares full version numbers.
+- The interface relies on layout rounding instead of snapping to device pixels, and text in text boxes is vertically centered.
 - The project has been migrated to the SDK-style project format and the `.slnx` solution format.
 - The license is now the standard MIT License without additional terms.
 
 ### Fixed
-- Mouse wheel scrolling was not detected on high-resolution mice and touchpads.
+- Mouse wheel scrolling was not detected on high-resolution mice and touchpads. Wheel and side (X) button events are now read from the correct field of the mouse hook structure.
 - Keyboard and mouse hooks of a hidden YAKD window stayed active, which could slow down input after the window had been shown and hidden several times.
 - An RTSS error could open a message box while a key was held down, blocking keyboard and mouse input.
 - Display delay did not work correctly: a released key disappeared early on any other key event and stayed on screen next to a newly pressed key. Now a released key is shown for the whole delay or until the next key press.
