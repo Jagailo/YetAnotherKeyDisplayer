@@ -47,7 +47,7 @@ namespace YAKD
 
         private void DownloadRTSSButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download");
+            Process.Start("https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download/");
             Close();
         }
 

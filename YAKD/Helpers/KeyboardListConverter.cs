@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace YAKD.Helpers
 {
@@ -19,7 +19,7 @@ namespace YAKD.Helpers
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of KeyboardListConverter class with list of keys
+        /// Initializes a new instance of KeyboardListConverter class with list of keys.
         /// </summary>
         static KeyboardListConverter()
         {
@@ -71,7 +71,7 @@ namespace YAKD.Helpers
                 { "oemquestion", "/" },
                 { "oemtilde", "`" },
                 { "pageup", "Page Up" },
-                { "printscreen", "PtrScr" },
+                { "printscreen", "Print Screen" },
                 { "rcontrolkey", "R Ctrl" },
                 { "return", "Enter" },
                 { "rmenu", "R Alt" },
