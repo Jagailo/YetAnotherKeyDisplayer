@@ -19,17 +19,18 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 * Key Displayer as a window can be captured in OBS (use the chroma key filter to make the window transparent).
 
 ## Screenshots
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/25150917-867d-42fc-969a-3573322d6b7c" alt="Yet Another Key Displayer" />
+  <img src="https://github.com/user-attachments/assets/66cbe69c-0532-42b9-a7df-da4981bfb12a" alt="Yet Another Key Displayer" />
 </p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8c140e01-ba99-4f0f-8a3d-9e80f76c86ae" alt="Yet Another Key Displayer" />
+  <img src="https://github.com/user-attachments/assets/6636c0a3-239b-4920-84f9-751bc052627e" alt="Yet Another Key Displayer" />
 </p>
 <p align="center">
   <img src="https://imgur.com/kMhUvHF.png" alt="Yet Another Key Displayer" />
 </p>
 <p align="center">
-  <img src="https://imgur.com/pbwBa4A.png" alt="Yet Another Key Displayer" />
+  <img src="https://github.com/user-attachments/assets/5bac11b6-00d9-4812-ba5d-f178afcbbe72" alt="Yet Another Key Displayer" />
 </p>
 <p align="center">
   <img width="420" height="300" alt="YAKD for Factorio" src="https://github.com/user-attachments/assets/f126e345-f705-4a8b-ae70-109155b33b8f" />
