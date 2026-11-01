@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -29,6 +30,8 @@ namespace YAKD
 
         private readonly List<KeyModel> _keys;
 
+        private readonly Dictionary<string, CancellationTokenSource> _pendingRemovals;
+
         private IntPtr _windowHandle;
 
         private readonly KeyDisplayerSettings _settings;
@@ -45,6 +48,7 @@ namespace YAKD
         public KeyDisplayerForm(KeyDisplayerSettings settings, KeysSettings keysSettings)
         {
             _keys = new List<KeyModel>();
+            _pendingRemovals = new Dictionary<string, CancellationTokenSource>();
             _settings = settings ?? new KeyDisplayerSettings();
 
             InitializeComponent();
@@ -125,6 +129,19 @@ namespace YAKD
             ApplyClickThroughWindowSetting();
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            foreach (var keyName in _pendingRemovals.Keys.ToList())
+            {
+                CancelPendingRemoval(keyName);
+            }
+
+            _keyboardHook.Dispose();
+            _mouseHook?.Dispose();
+            _mouseHook = null;
+            base.OnClosed(e);
+        }
+
         private void KeyboardHook_KeyDown(object sender, KeyboardHookEventArgs e) => AddKey(e.Key);
 
         private void KeyboardHook_KeyUp(object sender, KeyboardHookEventArgs e) => RemoveKeyAsync(e.Key);
@@ -181,9 +198,26 @@ namespace YAKD
 
         private void AddKey(KeyModel key)
         {
+            var isChanged = false;
+
+            foreach (var releasedKeyName in _pendingRemovals.Keys.ToList())
+            {
+                CancelPendingRemoval(releasedKeyName);
+
+                if (releasedKeyName != key.Name)
+                {
+                    isChanged |= _keys.RemoveAll(x => x.Name == releasedKeyName) > 0;
+                }
+            }
+
             if (_keys.All(x => x.Name != key.Name))
             {
                 _keys.Add(key);
+                isChanged = true;
+            }
+
+            if (isChanged)
+            {
                 ShowKeys();
             }
         }
@@ -192,18 +226,47 @@ namespace YAKD
         {
             try
             {
-                _keys.RemoveAll(x => x.Name == key.Name);
-
                 if (_settings.DisplayDelay != 0)
                 {
-                    await Task.Delay(_settings.DisplayDelay);
+                    CancelPendingRemoval(key.Name);
+
+                    using (var cancellation = new CancellationTokenSource())
+                    {
+                        _pendingRemovals[key.Name] = cancellation;
+
+                        try
+                        {
+                            await Task.Delay(_settings.DisplayDelay, cancellation.Token);
+                        }
+                        catch (TaskCanceledException)
+                        {
+                            return;
+                        }
+
+                        if (cancellation.IsCancellationRequested)
+                        {
+                            return;
+                        }
+
+                        _pendingRemovals.Remove(key.Name);
+                    }
                 }
 
+                _keys.RemoveAll(x => x.Name == key.Name);
                 ShowKeys();
             }
             catch
             {
                 // Ignored
+            }
+        }
+
+        private void CancelPendingRemoval(string keyName)
+        {
+            if (_pendingRemovals.TryGetValue(keyName, out var cancellation))
+            {
+                _pendingRemovals.Remove(keyName);
+                cancellation.Cancel();
             }
         }
 

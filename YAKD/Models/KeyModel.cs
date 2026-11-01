@@ -35,7 +35,7 @@ namespace YAKD.Models
             {
                 if (settings.ShortNameForNumpad)
                 {
-                    DisplayName = DisplayName.Replace("Numpad", "Pad");
+                    DisplayName = DisplayName.Replace("NumPad", "Num");
                 }
 
                 if (settings.IgnoreLeftRight)

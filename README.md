@@ -5,14 +5,15 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 [![Latest release](https://img.shields.io/github/v/release/Jagailo/YetAnotherKeyDisplayer)](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/Jagailo/YetAnotherKeyDisplayer/total)](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases)
 
-#### 💻 19000+ installs 💖
-#### Download installer: [YAKD v.1.5 [986 KB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.5/YAKD_1.5_installer.exe)
+#### 💻 20000+ installs 💖
+#### Download installer: [YAKD v.1.6 [2.6 MB]](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases/download/1.6/YAKD_1.6.0_installer.exe)
 
 ## Key features
 * Capture keyboard and mouse;
 * 2 displaying modes are available: display keys in a window or send them to RTSS for display in fullscreen games;
 * Ability to change the keys' font, size, color and background;
 * Auto-save of all style settings;
+* Interface in 12 languages: English, German, Spanish, French, Italian, Polish, Portuguese (Brazil), Turkish, Russian, Japanese, Chinese (Simplified) and Korean;
 * Unobtrusive notification about new versions;
 * Free software without ads and donations;
 * Key Displayer as a window can be captured in OBS (use the chroma key filter to make the window transparent).
@@ -37,18 +38,24 @@ A program for displaying pressed keyboard and mouse keys. RTSS (RivaTuner Statis
 ## Как использовать (russian tutorial)
 [![video](https://i.imgur.com/Coe1apu.jpg)](https://youtu.be/M15rLqtXFzA)
 
+## Building from source
+The required tools, build steps, installer creation and the release checklist are described in [BUILDING.md](BUILDING.md).
+
 ## Credits
 * Used [RTSS shared memory](https://github.com/spencerhakim/RTSSSharedMemoryNET) library written by [@spencerhakim](https://github.com/spencerhakim).
 * [@Barnacle](https://github.com/Barnacle) added mouse support.
 * Text alignment icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [flaticon](https://www.flaticon.com/).
+* Language icon from [Material Design Icons](https://pictogrammers.com/library/mdi/) (Apache License 2.0).
 
 ## Special Thanks 💖
 I am incredibly proud and grateful that this project is used by [Wube Software](https://factorio.com/game/about), the developers behind Factorio - one of my favorite games. Seeing my app in action in their dev diary ([Friday Facts #412](https://factorio.com/blog/post/fff-412)) was a huge surprise and an absolute honor!
 
 ## License
-YAKD is free software released under the [MIT License](LICENSE) - no ads, no donations.
+YAKD is free and open-source software released under the [MIT License](LICENSE) - no ads, no donations. Using the program to create commercial content (videos, courses, streams) is fully permitted and encouraged 👍.
 
-Additionally, selling this software or charging a fee for downloading it is prohibited. Using the program to create commercial content (videos, courses, streams) is fully permitted and encouraged 👍.
+The official builds are published only on the [Releases](https://github.com/Jagailo/YetAnotherKeyDisplayer/releases) page and are always free. If someone asks you to pay for YAKD, it is not an official build.
+
+Third-party components and their licenses are listed in [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md).
 
 ## YAKD on other sites
 * [AlternativeTo.net](https://alternativeto.net/software/yakd/about/)

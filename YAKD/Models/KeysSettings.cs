@@ -13,7 +13,7 @@
         public bool IsMouseEnabled { get; set; }
 
         /// <summary>
-        /// Short name for Numpad.
+        /// Short name for NumPad.
         /// </summary>
         public bool ShortNameForNumpad { get; set; }
 

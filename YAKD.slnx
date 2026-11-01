@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+  </Configurations>
+  <Project Path="RTSSCustomOSD/RTSSSharedMemoryNET.vcxproj" Id="53939d64-d853-4b4c-a4f9-2fce48502725">
+    <Platform Solution="*|Any CPU" Project="Win32" />
+  </Project>
+  <Project Path="YAKD/YAKD.csproj" />
+</Solution>
