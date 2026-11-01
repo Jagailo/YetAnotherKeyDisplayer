@@ -1,4 +1,4 @@
-﻿<Window x:Class="YAKD.ColorPickerWindow"
+<Window x:Class="YAKD.ColorPickerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,7 +15,6 @@
         Background="#F5F5F5"
         Foreground="#1E1E1E"
         UseLayoutRounding="True"
-        SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="ClearType">
     <Grid Margin="5">

@@ -14,7 +14,6 @@
         FontFamily="{StaticResource RobotoRegular}"
         FontSize="14"
         UseLayoutRounding="True"
-        SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="ClearType"
         Loaded="Window_Loaded"
@@ -28,8 +27,7 @@
                     <ControlTemplate TargetType="Button">
                         <Border Name="border" 
                                 BorderThickness="1"
-                                BorderBrush="#FFACACAC" 
-                                SnapsToDevicePixels="True"
+                                BorderBrush="#FFACACAC"
                                 Background="{TemplateBinding Background}">
                             <ContentPresenter />
                         </Border>
