@@ -670,15 +670,16 @@ namespace YAKD
                     RtssHandler.RtssPath = fileSettings.RTSSPath;
                     _isRtssEnabled = fileSettings.RTSSEnabled;
                     _language = fileSettings.Language;
-
-                    if (!fileSettings.FirstLaunchStatistic)
-                    {
-                        SendStatisticAsync();
-                    }
                 }
                 catch (Exception exception)
                 {
                     Logger.Write(exception);
+                }
+
+                // Outside of the block above: a broken setting must not prevent the installation statistic from being sent.
+                if (!fileSettings.FirstLaunchStatistic)
+                {
+                    SendStatisticAsync();
                 }
             }
             else
@@ -946,14 +947,29 @@ namespace YAKD
                         var configJson = await configResponse.Content.ReadAsStringAsync();
                         var config = JsonConvert.DeserializeObject<ConfigModel>(configJson);
 
-                        await httpClient.PostAsync(config.StatUrl, content);
+                        var response = await httpClient.PostAsync(config.StatUrl, content);
+
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            Logger.Write(new HttpRequestException($"The installation statistic has not been stored, the server responded with HTTP {(int)response.StatusCode} {response.ReasonPhrase}."));
+
+                            return;
+                        }
                     }
 
-                    Properties.Settings.Default.FirstLaunchStatistic = true;
+                    try
+                    {
+                        Properties.Settings.Default.FirstLaunchStatistic = true;
+                        Properties.Settings.Default.Save();
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.Write(exception);
+                    }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    Properties.Settings.Default.FirstLaunchStatistic = false;
+                    Logger.Write(exception);
                 }
             });
         }
