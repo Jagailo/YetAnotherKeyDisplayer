@@ -4,10 +4,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -886,17 +884,13 @@ namespace YAKD
         // ReSharper disable once AsyncVoidMethod
         private async void CheckForUpdatesAsync()
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
-                    string json;
-                    using (var webClient = new WebClient())
-                    {
-                        json = webClient.DownloadString("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/version.json");
-                    }
-
+                    var json = await RemoteContent.DownloadVersionAsync().ConfigureAwait(false);
                     var cloudVersion = JsonConvert.DeserializeObject<VersionModel>(json);
+
                     if (Version.TryParse(cloudVersion?.LatestVersion, out var latestVersion) && Assembly.GetExecutingAssembly().GetName().Version < latestVersion)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -917,9 +911,7 @@ namespace YAKD
         private static async void SendStatisticAsync()
         {
 #if DEBUG
-
             return;
-
 #endif
 
             await Task.Run(async () =>
@@ -939,16 +931,10 @@ namespace YAKD
                     };
 
                     var json = JsonConvert.SerializeObject(statistic, serializerSettings);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    var statUrl = await GetStatisticUrlAsync().ConfigureAwait(false);
 
-                    using (var httpClient = new HttpClient())
+                    using (var response = await RemoteContent.PostJsonAsync(statUrl, json).ConfigureAwait(false))
                     {
-                        var configResponse = await httpClient.GetAsync("https://raw.githubusercontent.com/Jagailo/YetAnotherKeyDisplayer/master/config.json");
-                        var configJson = await configResponse.Content.ReadAsStringAsync();
-                        var config = JsonConvert.DeserializeObject<ConfigModel>(configJson);
-
-                        var response = await httpClient.PostAsync(config.StatUrl, content);
-
                         if (!response.IsSuccessStatusCode)
                         {
                             Logger.Write(new HttpRequestException($"The installation statistic has not been stored, the server responded with HTTP {(int)response.StatusCode} {response.ReasonPhrase}."));
@@ -972,6 +958,28 @@ namespace YAKD
                     Logger.Write(exception);
                 }
             });
+        }
+
+        private static async Task<string> GetStatisticUrlAsync()
+        {
+            try
+            {
+                var configJson = await RemoteContent.DownloadConfigAsync().ConfigureAwait(false);
+                var config = JsonConvert.DeserializeObject<ConfigModel>(configJson);
+
+                if (Uri.TryCreate(config?.StatUrl?.Trim(), UriKind.Absolute, out var statUrl) && (statUrl.Scheme == Uri.UriSchemeHttps || statUrl.Scheme == Uri.UriSchemeHttp))
+                {
+                    return statUrl.AbsoluteUri;
+                }
+
+                Logger.Write(new FormatException("The configuration file does not contain a valid statistic address."));
+            }
+            catch (Exception exception)
+            {
+                Logger.Write(exception);
+            }
+
+            return RemoteContent.DefaultStatisticUrl;
         }
 
         #endregion

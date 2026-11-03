@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -220,7 +220,7 @@
     <value>Używaj symboli strzałek zamiast nazw klawiszy (niedostępne dla RTSS)</value>
   </data>
   <data name="MainWindow_VersionFormat" xml:space="preserve">
-    <value>YAKD v.{0} autorstwa Jagailo -</value>
+    <value>YAKD v{0} autorstwa Jagailo -</value>
   </data>
   <data name="MainWindow_WindowGroup" xml:space="preserve">
     <value>Okno YAKD</value>

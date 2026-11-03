@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -220,7 +220,7 @@
     <value>키 이름 대신 화살표 기호 사용 (RTSS에서는 사용할 수 없음)</value>
   </data>
   <data name="MainWindow_VersionFormat" xml:space="preserve">
-    <value>YAKD v.{0} 제작: Jagailo -</value>
+    <value>YAKD v{0} 제작: Jagailo -</value>
   </data>
   <data name="MainWindow_WindowGroup" xml:space="preserve">
     <value>YAKD 창</value>

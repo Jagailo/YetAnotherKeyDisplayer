@@ -444,7 +444,7 @@ namespace YAKD.Localization
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to YAKD v.{0} by Jagailo -.
+        ///   Looks up a localized string similar to YAKD v{0} by Jagailo -.
         /// </summary>
         public static string MainWindow_VersionFormat
         {

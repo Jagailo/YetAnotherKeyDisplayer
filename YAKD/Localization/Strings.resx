@@ -222,7 +222,7 @@
     <value>Use arrow symbols instead of key names (not available for RTSS)</value>
   </data>
   <data name="MainWindow_VersionFormat" xml:space="preserve">
-    <value>YAKD v.{0} by Jagailo -</value>
+    <value>YAKD v{0} by Jagailo -</value>
     <comment>{0} - program version.</comment>
   </data>
   <data name="MainWindow_WindowGroup" xml:space="preserve">
